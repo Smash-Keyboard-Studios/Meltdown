@@ -63,17 +63,16 @@ public class PlayerBasic : MonoBehaviour
 		float zFrwAxis = 0f;
 		float zBakAxis = 0f;
 
-		if (Input.GetKey(InputManager.Instance.ForwardKey))
+		if (Input.GetKey(InputManager.Instance.GetKey(InputManager.KeyType.Forward)))
 		{
 			zFrwAxis = 1f;
 		}
 
-		if (Input.GetKey(InputManager.Instance.BackwardsKey))
+		if (Input.GetKey(InputManager.Instance.GetKey(InputManager.KeyType.Backward)))
 		{
 			zBakAxis = -1f;
 		}
 
-		print(zBakAxis);
 		moveDir.z = zFrwAxis + zBakAxis;
 
 		//moveDir.z = Input.GetAxisRaw("Vertical");

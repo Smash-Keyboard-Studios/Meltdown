@@ -8,29 +8,27 @@ public class InputKey : MonoBehaviour
 {
 
 	// public unsafe KeyCode* key = null;
-	public KeyCode key;
+	public InputManager.KeyType keyType;
 	public TMP_Text text;
 	public Button KeyButton;
 
 	private delegate void OnChangeKey();
 	OnChangeKey onChangeKey;
 
-
-
 	void OnEnable()
 	{
-		KeyButton.onClick.AddListener(ChangeKey);
+		if (KeyButton != null) KeyButton.onClick.AddListener(ChangeKey);
 	}
 
 	void OnDisable()
 	{
-		KeyButton.onClick.RemoveListener(ChangeKey);
+		if (KeyButton != null) KeyButton.onClick.RemoveListener(ChangeKey);
 	}
 
 
 
 	void ChangeKey()
 	{
-
+		InputManager.Instance.ChangeThisKey(keyType);
 	}
 }
