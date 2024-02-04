@@ -120,6 +120,61 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &39453058
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 39453059}
+  - component: {fileID: 39453060}
+  m_Layer: 5
+  m_Name: Input UI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &39453059
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 39453058}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1546720151}
+  - {fileID: 765074027}
+  m_Father: {fileID: 510805843}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 83.100006, y: 0}
+  m_SizeDelta: {x: 326.2, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &39453060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 39453058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b774509b9ab546142a5379c5acd039a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Field: {fileID: 782832808}
+  Parent: {fileID: 765074027}
+  Prefab: {fileID: 8303834047485064013, guid: b4f89b19fc278cb4aa2578b939c0703c, type: 3}
+  KeyRebindUI: {fileID: 1546720150}
+  currentKeyRebind: 0
 --- !u!1 &285705950
 GameObject:
   m_ObjectHideFlags: 0
@@ -482,8 +537,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1546720151}
-  - {fileID: 765074027}
+  - {fileID: 39453059}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -635,17 +689,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 765074026}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 510805843}
+  m_Father: {fileID: 39453059}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -83.099976, y: 0}
+  m_SizeDelta: {x: 1593.8, y: 1050}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &765074028
 MonoBehaviour:
@@ -790,9 +844,9 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 795797397}
-        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
-        m_MethodName: ChangeKeyBind
+      - m_Target: {fileID: 39453060}
+        m_TargetAssemblyTypeName: BetterInputUI, Assembly-CSharp
+        m_MethodName: UpdateKeyWithNewKeyEntered
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -872,7 +926,6 @@ GameObject:
   - component: {fileID: 795797393}
   - component: {fileID: 795797392}
   - component: {fileID: 795797391}
-  - component: {fileID: 795797397}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -1212,39 +1265,13 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &795797397
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 795797390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1200f8ddbe96d84fb6510dd6b6939e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  field: {fileID: 782832808}
-  parent: {fileID: 765074027}
-  Prefab: {fileID: 8303834047485064013, guid: b4f89b19fc278cb4aa2578b939c0703c, type: 3}
-  KeyRebindUI: {fileID: 1546720150}
-  ForwardKey: 119
-  BackwardsKey: 115
-  LeftStrafeKey: 97
-  RightStrafeKey: 100
-  SprintKey: 304
-  JumpKey: 32
-  CrouchKey: 99
-  ShootFireKey: 323
-  ShootIceKey: 324
-  currentKeyRebind: 0
 --- !u!43 &863951545
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh24774
+  m_Name: pb_Mesh25334
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -1580,7 +1607,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 795797397}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
         m_MethodName: RecordKeyStart
         m_Mode: 1
@@ -1630,6 +1657,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 908010104}
   m_CullTransparentMesh: 1
+--- !u!1 &1091268258
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1091268259}
+  - component: {fileID: 1091268260}
+  m_Layer: 0
+  m_Name: InputManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1091268259
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1091268258}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1297.9603, y: 714.821, z: 0.6154793}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1091268260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1091268258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1200f8ddbe96d84fb6510dd6b6939e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1546720150
 GameObject:
   m_ObjectHideFlags: 0
@@ -1653,18 +1724,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1546720150}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 782832807}
   - {fileID: 908010105}
-  m_Father: {fileID: 510805843}
+  m_Father: {fileID: 39453059}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 83.1, y: 0}
+  m_AnchoredPosition: {x: 0.000022888184, y: 0}
   m_SizeDelta: {x: 326.2, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1655886471
@@ -1888,3 +1959,4 @@ SceneRoots:
   - {fileID: 795797396}
   - {fileID: 510805843}
   - {fileID: 581715567}
+  - {fileID: 1091268259}
