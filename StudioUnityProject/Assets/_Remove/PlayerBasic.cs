@@ -59,7 +59,24 @@ public class PlayerBasic : MonoBehaviour
 		Vector3 moveDir = Vector3.zero;
 
 		moveDir.x = Input.GetAxisRaw("Horizontal");
-		moveDir.z = Input.GetAxisRaw("Vertical");
+
+		float zFrwAxis = 0f;
+		float zBakAxis = 0f;
+
+		if (Input.GetKey(InputManager.Instance.ForwardKey))
+		{
+			zFrwAxis = 1f;
+		}
+
+		if (Input.GetKey(InputManager.Instance.BackwardsKey))
+		{
+			zBakAxis = -1f;
+		}
+
+		print(zBakAxis);
+		moveDir.z = zFrwAxis + zBakAxis;
+
+		//moveDir.z = Input.GetAxisRaw("Vertical");
 
 		moveDir = transform.right * moveDir.x + transform.forward * moveDir.z;
 
