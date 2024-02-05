@@ -5,6 +5,14 @@ using TMPro;
 using System;
 using static InputActions;
 
+/// <summary>
+/// This is the better input system, You use this instad of the Keycode provided by unity
+/// so the player can change their keybinds.
+/// 
+/// To use this, use the standard Input.[key action]](InputManager.Instance.GetKey(InputActions.KeyType.[Key]))
+/// 
+/// This is very long, I will work on making it shorter.
+/// </summary>
 public class InputManager : MonoBehaviour
 {
 	// the singleton.
@@ -43,6 +51,7 @@ public class InputManager : MonoBehaviour
 		}
 	}
 
+	// TODO statics may be better. shortens the call by 1.
 	public KeyCode GetKey(KeyType type)
 	{
 		KeyData data = new();
