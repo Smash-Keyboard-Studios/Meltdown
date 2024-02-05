@@ -10,6 +10,7 @@ public class InputActions : MonoBehaviour
 	/// </summary>
 
 	// TODO Remove to replace at some point, dont forget about save system.
+	// defult keys.
 	public static KeyCode ForwardKey = KeyCode.W;
 	public static KeyCode BackwardsKey = KeyCode.S;
 	public static KeyCode LeftStrafeKey = KeyCode.A;
