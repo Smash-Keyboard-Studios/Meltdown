@@ -5,20 +5,31 @@ using TMPro;
 using System;
 using static InputActions;
 
+/// <summary>
+/// This is where the UI is managed.
+/// It converts and updates information from the UI to the InputManager.
+/// </summary>
 public class BetterInputUI : MonoBehaviour
 {
 	// TODO make this not a singleton.
 	public static BetterInputUI Instance;
 
+	[Header("UI variables")]
+
+	[Tooltip("The text box / input field for the player to enter the nee key")]
 	public TMP_InputField Field;
 
+	[Tooltip("The place where the UI elements will go under")]
 	public RectTransform Parent;
 
+	[Tooltip("The UI element with the button and the text")]
 	public GameObject Prefab;
 
+	[Tooltip("The UI to enter a new key that will be used to rebind the old key")]
 	public GameObject KeyRebindUI;
 
-	public KeyType currentKeyRebind;
+	[HideInInspector] // dont want the designers to edit this.
+	public KeyAction currentKeyToRebind;
 
 	void Awake()
 	{
@@ -36,51 +47,69 @@ public class BetterInputUI : MonoBehaviour
 	{
 		KeyRebindUI.SetActive(false);
 
+		GenerateRebindUI();
+	}
+
+
+	/// <summary>
+	/// This will create the UI elemets for each key action.
+	/// This will dynamically change automatically when you add more keys.
+	/// </summary>
+	private void GenerateRebindUI()
+	{
 		// sets up the input system per key.
-		foreach (KeyType type in Enum.GetValues(typeof(KeyType)))
+		foreach (KeyAction action in Enum.GetValues(typeof(KeyAction)))
 		{
 			InputManager.KeyData newKeyData = new();
 
-			newKeyData.KeyType = type;
-			// TODO load from save
-			newKeyData.KeyCode = GetDefultValues(newKeyData.KeyType);
+			newKeyData.KeyAction = action;
 
-			newKeyData.DisplayText = $"{newKeyData.KeyType} [{newKeyData.KeyCode}]";
-			print(newKeyData.DisplayText);
+			// TODO load from save
+			newKeyData.KeyCode = GetDefultValues(newKeyData.KeyAction);
+
+			newKeyData.DisplayText = $"{newKeyData.KeyAction} [{newKeyData.KeyCode}]";
 
 			GameObject UIElement = Instantiate(Prefab, Parent);
 
 			newKeyData.UIElement = UIElement;
 
-			// TODO make into variable not this madness
-			UIElement.GetComponent<InputKey>().KeyType = newKeyData.KeyType;
-			UIElement.GetComponent<InputKey>().Text.text = newKeyData.DisplayText;
+			InputKey inputKey = UIElement.GetComponent<InputKey>();
+			inputKey.KeyType = newKeyData.KeyAction;
+			inputKey.Text.text = newKeyData.DisplayText;
 
-			InputManager.Instance.keyValuePairs.Add(newKeyData.KeyType, newKeyData);
+			InputManager.keyValuePairs.Add(newKeyData.KeyAction, newKeyData);
 
 			// keyValuePairs.Add()
 		}
 	}
 
-
-	public void ChangeThisKey(KeyType keyType)
+	/// <summary>
+	/// This is called when the button next to the key is pressed.
+	/// This is what you call when you wamt to promt to change key.
+	/// </summary>
+	/// <param name="keyType">The key action you want to update</param>
+	public void ChangeThisKey(KeyAction keyType)
 	{
-		currentKeyRebind = keyType;
+		currentKeyToRebind = keyType;
 		RecordKeyStart();
 	}
 
-
+	/// <summary>
+	/// Enables the input field.
+	/// </summary>
 	public void RecordKeyStart()
 	{
 		KeyRebindUI.SetActive(true);
 		Field.readOnly = false;
 
 		// oof that is very long. Might rework.
-		Field.SetTextWithoutNotify(InputManager.Instance.keyValuePairs[currentKeyRebind].KeyCode.ToString());
+		Field.SetTextWithoutNotify(InputManager.keyValuePairs[currentKeyToRebind].KeyCode.ToString());
 		Field.ActivateInputField();
 	}
 
-
+	/// <summary>
+	/// This is called when the Input Field is updated with the new character.
+	/// </summary>
 	public void UpdateKeyWithNewKeyEntered()
 	{
 		object result;
@@ -93,7 +122,7 @@ public class BetterInputUI : MonoBehaviour
 			result = KeyCode.Space;
 		}
 
-		InputManager.Instance.ChangeKeyBind((KeyCode)result, currentKeyRebind);
+		InputManager.ChangeKeyBind((KeyCode)result, currentKeyToRebind);
 
 		Field.readOnly = true;
 

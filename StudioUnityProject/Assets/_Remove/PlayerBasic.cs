@@ -61,12 +61,12 @@ public class PlayerBasic : MonoBehaviour
 		float xLeftAxis = 0f;
 		float xRightAxis = 0f;
 
-		if (Input.GetKey(InputManager.Instance.GetKey(InputActions.KeyType.Left)))
+		if (Input.GetKey(InputManager.GetKey(InputActions.KeyAction.Left)))
 		{
 			xLeftAxis = -1f;
 		}
 
-		if (Input.GetKey(InputManager.Instance.GetKey(InputActions.KeyType.Right)))
+		if (Input.GetKey(InputManager.GetKey(InputActions.KeyAction.Right)))
 		{
 			xRightAxis = 1f;
 		}
@@ -74,12 +74,12 @@ public class PlayerBasic : MonoBehaviour
 		float zFrwAxis = 0f;
 		float zBakAxis = 0f;
 
-		if (Input.GetKey(InputManager.Instance.GetKey(InputActions.KeyType.Forward)))
+		if (Input.GetKey(InputManager.GetKey(InputActions.KeyAction.Forward)))
 		{
 			zFrwAxis = 1f;
 		}
 
-		if (Input.GetKey(InputManager.Instance.GetKey(InputActions.KeyType.Backward)))
+		if (Input.GetKey(InputManager.GetKey(InputActions.KeyAction.Backward)))
 		{
 			zBakAxis = -1f;
 		}

@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InputActions : MonoBehaviour
+/// <summary>
+/// The base class for input actions.
+/// </summary>
+public static class InputActions
 {
 	/// <summary>
 	/// All base input. think of it as the defult values.
@@ -28,7 +31,7 @@ public class InputActions : MonoBehaviour
 	/// <summary>
 	/// the diffet actions the player can do.
 	/// </summary>
-	public enum KeyType
+	public enum KeyAction
 	{
 		Forward,
 		Left,
@@ -48,42 +51,42 @@ public class InputActions : MonoBehaviour
 	/// Once you add a new action to the KeyType enum, you can set the defult value here.
 	/// It iterates through to see anymatches and returns the KeyCode.
 	/// </summary>
-	/// <param name="KeyType"></param>
+	/// <param name="keyAction"></param>
 	/// <returns>KeyCode</returns>
-	public static KeyCode GetDefultValues(KeyType KeyType)
+	public static KeyCode GetDefultValues(KeyAction keyAction)
 	{
 		KeyCode returnValue = KeyCode.None;
 
-		switch (KeyType)
+		switch (keyAction)
 		{
-			case KeyType.Forward:
+			case KeyAction.Forward:
 				returnValue = ForwardKey;
 				break;
-			case KeyType.Backward:
+			case KeyAction.Backward:
 				returnValue = BackwardsKey;
 				break;
-			case KeyType.Left:
+			case KeyAction.Left:
 				returnValue = LeftStrafeKey;
 				break;
-			case KeyType.Right:
+			case KeyAction.Right:
 				returnValue = RightStrafeKey;
 				break;
-			case KeyType.Sprint:
+			case KeyAction.Sprint:
 				returnValue = SprintKey;
 				break;
-			case KeyType.Jump:
+			case KeyAction.Jump:
 				returnValue = JumpKey;
 				break;
-			case KeyType.Crouch:
+			case KeyAction.Crouch:
 				returnValue = CrouchKey;
 				break;
-			case KeyType.ShootFire:
+			case KeyAction.ShootFire:
 				returnValue = ShootFireKey;
 				break;
-			case KeyType.ShootIce:
+			case KeyAction.ShootIce:
 				returnValue = ShootIceKey;
 				break;
-			case KeyType.Interact:
+			case KeyAction.Interact:
 				returnValue = InteractKey;
 				break;
 			default:

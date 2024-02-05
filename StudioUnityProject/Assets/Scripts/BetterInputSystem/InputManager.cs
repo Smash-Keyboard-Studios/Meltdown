@@ -9,70 +9,68 @@ using static InputActions;
 /// This is the better input system, You use this instad of the Keycode provided by unity
 /// so the player can change their keybinds.
 /// 
-/// To use this, use the standard Input.[key action]](InputManager.Instance.GetKey(InputActions.KeyType.[Key]))
+/// To use this, use the standard Input.[key action]](InputManager.GetKey(InputActions.KeyType.[Key]))
 /// 
 /// This is very long, I will work on making it shorter.
 /// </summary>
 public class InputManager : MonoBehaviour
 {
-	// the singleton.
-	public static InputManager Instance;
 
+	/// <summary>
+	/// This is the data for the key.
+	/// THe KeyData is used to save a keybind / load the keybind.
+	/// </summary>
 	public struct KeyData
 	{
 		public KeyCode KeyCode;
-		public KeyType KeyType;
+		public KeyAction KeyAction;
 		public String DisplayText;
 		public GameObject UIElement;
 
-		public KeyData(KeyCode keyBind, KeyType type, String displayText, GameObject uiElement)
+		public KeyData(KeyCode keyBind, KeyAction type, String displayText, GameObject uiElement)
 		{
 			this.KeyCode = keyBind;
-			this.KeyType = type;
+			this.KeyAction = type;
 			this.DisplayText = displayText;
 			this.UIElement = uiElement;
 		}
 	}
 
-	public Dictionary<KeyType, KeyData> keyValuePairs = new();
+	// This is where all the key actions with the key codes.
+	public static Dictionary<KeyAction, KeyData> keyValuePairs = new();
 
 
-	void Awake()
-	{
-		// sets the singalton.
-		if (Instance != null && Instance != this)
-		{
-			Destroy(this.gameObject);
-		}
-		else
-		{
-			Instance = this;
-			DontDestroyOnLoad(this.gameObject);
-		}
-	}
-
-	// TODO statics may be better. shortens the call by 1.
-	public KeyCode GetKey(KeyType type)
+	/// <summary>
+	/// This is how you will get the input instead of Keycode.key as
+	/// this will allow the player to change their keybind.
+	/// </summary>
+	/// <param name="keyAction">the key you want the data for</param>
+	/// <returns>data about the key</returns>
+	public static KeyCode GetKey(KeyAction keyAction)
 	{
 		KeyData data = new();
 
-		keyValuePairs.TryGetValue(type, out data);
+		keyValuePairs.TryGetValue(keyAction, out data);
 
 		return data.KeyCode;
 	}
 
-
-	public void ChangeKeyBind(KeyCode newKey, KeyType keyType)
+	/// <summary>
+	/// Use this method to redind the action with the new key.
+	/// </summary>
+	/// <param name="newKey">The new key for the action</param>
+	/// <param name="keyAction">The key action to update</param>
+	public static void ChangeKeyBind(KeyCode newKey, KeyAction keyAction)
 	{
 		KeyData data = new();
 
-		data = keyValuePairs[keyType];
+		data = keyValuePairs[keyAction];
 
 		data.KeyCode = newKey;
 
-		// should move to BetterInputUI.
-		data.UIElement.GetComponent<InputKey>().Text.text = $"{data.KeyType} [{data.KeyCode}]";
+		// should move to BetterInputUI. - nah.
+		data.UIElement.GetComponent<InputKey>().Text.text = $"{data.KeyAction} [{data.KeyCode}]";
 
-		keyValuePairs[keyType] = data;
+		keyValuePairs[keyAction] = data;
 	}
 }

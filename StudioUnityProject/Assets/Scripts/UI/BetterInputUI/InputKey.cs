@@ -5,20 +5,29 @@ using UnityEngine;
 using UnityEngine.UI;
 using static InputActions;
 
+/// <summary>
+/// This class is for the UI elements for each key.
+/// It holds what key it is. This is the UI for the player to
+/// change idividual keys.
+/// </summary>
 public class InputKey : MonoBehaviour
 {
 
-	// This is the current information for the key element on the UI.
 	// The keyType is to identify when key this will edit.
+	[HideInInspector]
+	public KeyAction KeyType;
+
+	[Header("UI variables")]
+
 	// The Button is so I can link the on click event so it will work.
-	// This object will be instantiated and will need to be coded to refrences externally to this script.
-	public KeyType KeyType;
+	[Tooltip("The button for the player to click to rebind this key")]
 	public Button KeyButton;
 
 	// This is for the display.
+	[Tooltip("The information box to indicate to the player what action this is and the current bound key")]
 	public TMP_Text Text;
 
-	// This is for event handling.
+	// This is for event handling with the button.
 	void OnEnable()
 	{
 		if (KeyButton != null) KeyButton.onClick.AddListener(ChangeKey);
@@ -31,11 +40,11 @@ public class InputKey : MonoBehaviour
 
 	/// <summary>
 	/// This is for when the player click remap key.
-	/// This calls a funtion form InputManager which is a singleton.
+	/// This calls a funtion from InputManager which is a singleton.
 	/// </summary>
 	void ChangeKey()
 	{
-		// TODO make this a get comp.
+		// TODO make this a get comp. could set the variable here when instancing this object.
 		BetterInputUI.Instance.ChangeThisKey(KeyType);
 	}
 }
