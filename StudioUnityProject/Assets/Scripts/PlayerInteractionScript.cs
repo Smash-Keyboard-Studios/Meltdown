@@ -1,8 +1,10 @@
+using Palmmedia.ReportGenerator.Core.CodeAnalysis;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using TMPro.EditorUtilities;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 
@@ -29,7 +31,7 @@ public class PlayerInteractionScript : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, InteractionDistance))
         {
-            if (hit.transform.CompareTag("InteractableObject"))
+            if (hit.transform.CompareTag("InteractableObject") || hit.transform.CompareTag("MoveableObject"))
             {
                 Crosshair.color = Color.red;
                 tutorialText.enabled = true;
@@ -40,12 +42,22 @@ public class PlayerInteractionScript : MonoBehaviour
                     {
                         objInteraction.Interact();
                     }
+                    else if (hit.collider.gameObject.TryGetComponent(out GrabObject grabbableObject))
+                    {
+                        Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                        grabbableObject.Grab(grabbableObject.transform);
+                    }
                 }
             }
             else
             {
                 Crosshair.color = Color.green;
                 tutorialText.enabled = false;
+            }
+            if (hit.transform.CompareTag("MoveableObject"))
+            {
+                Crosshair.color = Color.red;
+
             }
         }
         else
