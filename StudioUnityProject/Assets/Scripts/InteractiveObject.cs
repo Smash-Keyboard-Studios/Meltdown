@@ -8,17 +8,6 @@ public class InteractiveObject : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        Debug.Log("Object interacted with");
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Debug.Log("Object interacted with"); // Just testing debug - shows that the object has been interacted with.
     }
 }

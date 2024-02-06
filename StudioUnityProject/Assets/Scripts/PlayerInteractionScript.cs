@@ -5,66 +5,51 @@ using TMPro;
 using TMPro.EditorUtilities;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.ProBuilder.MeshOperations;
 using UnityEngine.UI;
 
 
-public interface IInteractable
+public interface IInteractable // Creates an interface so that the object can check if the player has clicked a key
 {
     public void Interact();
 }
 public class PlayerInteractionScript : MonoBehaviour
 {
 
-    public float InteractionDistance = 1.75f;
-    public KeyCode interactKeycode = KeyCode.E;
-    public Image Crosshair;
-    public TMP_Text tutorialText;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public float InteractionDistance = 1.75f; // Set distance of where the player can interact with the objects
+    public KeyCode interactKeycode = KeyCode.E; // The keycode interaction key
+    public Sprite Crosshair;
+    public Sprite Crosshair2; // Images for the crosshairs (to enlarge)
+    public Image crosshairImage;
+    public TMP_Text tutorialText; // Text that appears under the crosshair
 
-    // Update is called once per frame
     void Update()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, InteractionDistance))
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out RaycastHit hit, InteractionDistance)) // Creates an origin of the raycast from the camera, going forward from the camera, then outing the first hit object using the InteractionDistance as a limiter
         {
-            if (hit.transform.CompareTag("InteractableObject") || hit.transform.CompareTag("MoveableObject"))
+            if (hit.transform.CompareTag("InteractableObject")) // Checks the object has an "InteractableObject" tag
             {
-                Crosshair.color = Color.red;
+                crosshairImage.sprite = Crosshair2;
                 tutorialText.enabled = true;
-                tutorialText.text = "Press '" + interactKeycode.ToString() + "' to interact with " + hit.transform.name + "";
+                tutorialText.text = "Press '" + interactKeycode.ToString() + "' to interact with " + hit.transform.name + ""; // Brings up the tutorial text and changes it to both the keycode assigned and what has been hit
                 if (Input.GetKeyDown(interactKeycode))
                 {
                     if (hit.collider.gameObject.TryGetComponent(out IInteractable objInteraction))
                     {
-                        objInteraction.Interact();
-                    }
-                    else if (hit.collider.gameObject.TryGetComponent(out GrabObject grabbableObject))
-                    {
-                        Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-                        grabbableObject.Grab(grabbableObject.transform);
+                        objInteraction.Interact(); // Activates the interaction script if the player uses the interact script
                     }
                 }
             }
             else
             {
-                Crosshair.color = Color.green;
+                crosshairImage.sprite = Crosshair;
                 tutorialText.enabled = false;
-            }
-            if (hit.transform.CompareTag("MoveableObject"))
-            {
-                Crosshair.color = Color.red;
-
             }
         }
         else
         {
-            Crosshair.color = Color.green;
+            crosshairImage.sprite = Crosshair;
             tutorialText.enabled = false;
-        }
-
+        }     // Just sets the crosshair sprite to the smaller one
     }
 }
