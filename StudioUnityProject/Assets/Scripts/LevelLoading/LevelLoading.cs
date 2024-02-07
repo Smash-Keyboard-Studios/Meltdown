@@ -42,7 +42,7 @@ public class LevelLoading : MonoBehaviour
 
 	private void Update()
 	{
-		if (overideAll == true) return;
+		if (overideAll) return;
 
 		isReloading = LoadingScreen.gameObject.activeSelf;
 	}
@@ -50,7 +50,7 @@ public class LevelLoading : MonoBehaviour
 	List<AsyncOperation> scenesLoading = new List<AsyncOperation>();
 	public void Loadlobby()
 	{
-		if (overideAll == true) return;
+		if (overideAll) return;
 
 		loading = true;
 		LoadingScreen.gameObject.SetActive(true);
@@ -68,7 +68,7 @@ public class LevelLoading : MonoBehaviour
 
 	public void LoadMainMenu()
 	{
-		if (overideAll == true) return;
+		if (overideAll) return;
 
 		loading = true;
 		LoadingScreen.gameObject.SetActive(true);
@@ -85,7 +85,7 @@ public class LevelLoading : MonoBehaviour
 
 	public void LoadMap(int indexNumber)
 	{
-		if (overideAll == true) return;
+		if (overideAll) return;
 
 		loading = true;
 		LoadingScreen.gameObject.SetActive(true);
@@ -103,7 +103,7 @@ public class LevelLoading : MonoBehaviour
 
 	public void LoadMapWithName(string mapName)
 	{
-		if (overideAll == true) return;
+		if (overideAll) return;
 
 		loading = true;
 		LoadingScreen.gameObject.SetActive(true);
@@ -121,7 +121,7 @@ public class LevelLoading : MonoBehaviour
 
 	public void Reload()
 	{
-		if (overideAll == true) return;
+		if (overideAll) return;
 
 		loading = true;
 		if (isReloading) return;
