@@ -24,7 +24,7 @@ public class GaugeIndicator: MonoBehaviour
 
     private void Update () 
     {
-        if (MoveToNextPoint)
+        if (MoveToNextPoint) // Determines if rotation is enabled.
         {
             IncrementGauge();
         }
@@ -32,22 +32,24 @@ public class GaugeIndicator: MonoBehaviour
 
     public void IncrementGauge ()
     {
-            if (_rotationIndex < _rotationPoint.Length) // Check that is a valid point to rotate to.
+            if (_rotationIndex < _rotationPoint.Length) // Determines if there is a valid point to rotate to.
             {
-            // Rotation to the next point.
+            
+                // Active rotation towards the next point.
+            
                 if (_rotationIncrement < _nextRotationPoint)
                 {
                     transform.Rotate(Vector3.up, _rotationSpeed * Time.deltaTime);
-                    _rotationIncrement += _rotationSpeed * Time.deltaTime;
+                    _rotationIncrement += _rotationSpeed * Time.deltaTime; 
                 }
 
-            // When the point is reached, permission to rotate is turned off and the next point to rotate to is set up.
-
-                else if (_rotationIncrement >= _nextRotationPoint) // not equal to because of imprecision.
+                // When the point is reached, rotation is disabled, and the next point (to rotate to) is assigned.
+            
+                else if (_rotationIncrement >= _nextRotationPoint) // Greater than symbol is necessary because of imprecision.
                 {
                     MoveToNextPoint = false;
 
-                    if (_rotationIndex < _rotationPoint.Length-1) // Check that it isn't the last point.
+                    if (_rotationIndex < _rotationPoint.Length-1) // Determines if the current point is not the last one.
                     {
                         _rotationIndex++;
                         _nextRotationPoint = _rotationPoint[_rotationIndex];
