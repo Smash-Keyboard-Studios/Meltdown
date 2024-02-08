@@ -24,12 +24,9 @@ public class PlayerInteractionScript : MonoBehaviour
                 crosshairImage.sprite = Crosshair2;
                 tutorialText.enabled = true;
                 tutorialText.text = "Press '" + interactKeycode.ToString() + "' to interact with " + hit.transform.name + ""; // Brings up the tutorial text and changes it to both the keycode assigned and what has been hit
-                if (Input.GetKeyDown(interactKeycode))
+                if (Input.GetKeyDown(InputManager.GetKey(InputActions.KeyAction.Interact)))
                 {
-                    if (hit.collider.gameObject.TryGetComponent(out IInteractable objInteraction))
-                    {
-                        objInteraction.Interact(); // Activates the interaction script if the player uses the interact script
-                    }
+                    hit.collider.gameObject.GetComponent<InteractiveObject>()?.Interact();
                 }
             }
             else

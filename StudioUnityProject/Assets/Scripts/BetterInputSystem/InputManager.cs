@@ -36,6 +36,29 @@ public class InputManager : MonoBehaviour
 		}
 	}
 
+	void Start()
+	{
+		foreach (KeyAction action in Enum.GetValues(typeof(KeyAction)))
+		{
+			InputManager.KeyData newKeyData = new();
+
+			newKeyData.KeyAction = action;
+
+			// TODO load from save
+			newKeyData.KeyCode = GetDefultValues(newKeyData.KeyAction);
+
+			newKeyData.DisplayText = $"{newKeyData.KeyAction} [{newKeyData.KeyCode}]";
+
+			// Put the UI elements here
+			newKeyData.UIElement = null;
+
+			InputManager.keyValuePairs.Add(newKeyData.KeyAction, newKeyData);
+
+			// keyValuePairs.Add()
+		}
+
+	}
+
 	// This is where all the key actions with the key codes.
 	public static Dictionary<KeyAction, KeyData> keyValuePairs = new();
 

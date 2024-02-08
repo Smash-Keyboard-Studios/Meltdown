@@ -14,18 +14,30 @@ public class PauseMenu : MonoBehaviour
 	{
 		PauseMenuObject.SetActive(_paused);
 		Time.timeScale = _paused ? 0 : 1;
-		MouseLockManager.Instance.MouseVisable = _paused;
+		if (MouseLockManager.Instance != null)
+			MouseLockManager.Instance.MouseVisable = _paused;
+		else
+		{
+			Cursor.lockState = _paused ? CursorLockMode.None : CursorLockMode.Locked;
+			Cursor.visible = _paused;
+		}
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.Escape))
+		if (Input.GetKeyDown(InputManager.GetKey(InputActions.KeyAction.UI)))
 		{
 			_paused = !_paused;
 			PauseMenuObject.SetActive(_paused);
 			Time.timeScale = _paused ? 0 : 1;
-			MouseLockManager.Instance.MouseVisable = _paused;
+			if (MouseLockManager.Instance != null)
+				MouseLockManager.Instance.MouseVisable = _paused;
+			else
+			{
+				Cursor.lockState = _paused ? CursorLockMode.None : CursorLockMode.Locked;
+				Cursor.visible = _paused;
+			}
 		}
 	}
 

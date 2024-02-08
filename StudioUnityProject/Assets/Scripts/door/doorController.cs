@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class doorController : MonoBehaviour
 {
-	public GameObject doorObject; 
+	public GameObject doorObject;
 	public bool isSlidingDoor;
 	public float openRotation, closeRotation, openY, openZ, speed;
 	private float closeY, closeZ; //Privated to prevent unintentional edits on Inspector
@@ -19,7 +19,7 @@ public class doorController : MonoBehaviour
 	}
 	void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.E)) { isOpening = !isOpening; } //Replace this to be triggered by the interaction system.
+		// if (Input.GetKeyDown(KeyCode.E)) { isOpening = !isOpening; } //Replace this to be triggered by the interaction system.
 		Vector3 currentRotation = transform.localEulerAngles;
 		Vector3 currentPosition = doorObject.transform.position;
 		if (isSlidingDoor == true)
@@ -27,7 +27,7 @@ public class doorController : MonoBehaviour
 			if (isOpening)
 			{
 				float distance = Vector3.Distance(transform.position, new Vector3(currentPosition.x, openY, openZ));
-				if(distance > 0.1f) { doorObject.transform.position = Vector3.Lerp(currentPosition, new Vector3(currentPosition.x, openY, openZ), speed * Time.deltaTime);}
+				if (distance > 0.1f) { doorObject.transform.position = Vector3.Lerp(currentPosition, new Vector3(currentPosition.x, openY, openZ), speed * Time.deltaTime); }
 			}
 			else
 			{
@@ -53,5 +53,10 @@ public class doorController : MonoBehaviour
 			}
 
 		}
+	}
+
+	public void ToggleDoorOpen()
+	{
+		isOpening = !isOpening;
 	}
 }

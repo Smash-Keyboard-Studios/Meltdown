@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class InteractiveObject : MonoBehaviour, IInteractable
 {
+	public UnityEvent OnInteract;
 
-    public void Interact()
-    {
-        Debug.Log("Object interacted with"); // Just testing debug - shows that the object has been interacted with.
-    }
+
+	public void Interact()
+	{
+		OnInteract.Invoke();
+	}
 }
