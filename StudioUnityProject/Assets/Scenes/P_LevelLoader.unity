@@ -367,8 +367,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1651306239}
   - component: {fileID: 1651306240}
+  - component: {fileID: 1651306241}
   m_Layer: 0
-  m_Name: LevelLoaderManager
+  m_Name: PersistantObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -404,6 +405,19 @@ MonoBehaviour:
   LoadingScreen: {fileID: 830313772}
   loading: 0
   overideAll: 0
+--- !u!114 &1651306241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1651306238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21fd99755f5da2c41816e6d90984cc01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MouseVisable: 1
 --- !u!1 &1742369105
 GameObject:
   m_ObjectHideFlags: 0
