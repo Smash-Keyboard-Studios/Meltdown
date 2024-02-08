@@ -14,7 +14,7 @@ public class Gun : MonoBehaviour
 
 	void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.Mouse0) && hasFire)
+		if (Input.GetKeyDown(InputManager.GetKey(InputActions.KeyAction.ShootFire)) && hasFire)
 		{
 			// Instantiate the bullet GameObject
 			GameObject bulletObject = Instantiate(bulletPrefableftclick, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
@@ -36,7 +36,7 @@ public class Gun : MonoBehaviour
 
 		}
 
-		if (Input.GetKeyDown(KeyCode.Mouse1) && hasIce)
+		if (Input.GetKeyDown(InputManager.GetKey(InputActions.KeyAction.ShootIce)) && hasIce)
 		{
 			// Instantiate the bullet GameObject
 			GameObject bulletObject = Instantiate(bulletPrefabrightclick, bulletSpawnPoint.position, bulletSpawnPoint.rotation);

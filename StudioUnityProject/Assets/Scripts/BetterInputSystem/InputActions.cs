@@ -28,6 +28,8 @@ public static class InputActions
 
 	public static KeyCode InteractKey = KeyCode.E;
 
+	public static KeyCode UIKey = KeyCode.Escape;
+
 	/// <summary>
 	/// the diffet actions the player can do.
 	/// </summary>
@@ -43,6 +45,7 @@ public static class InputActions
 		ShootFire,
 		ShootIce,
 		Interact,
+		UI,
 		Spare
 	}
 
@@ -88,6 +91,9 @@ public static class InputActions
 				break;
 			case KeyAction.Interact:
 				returnValue = InteractKey;
+				break;
+			case KeyAction.UI:
+				returnValue = UIKey;
 				break;
 			default:
 				returnValue = KeyCode.None;

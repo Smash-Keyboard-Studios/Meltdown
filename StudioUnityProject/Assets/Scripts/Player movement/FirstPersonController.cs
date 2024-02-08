@@ -26,14 +26,14 @@ public class FirstPersonController : MonoBehaviour
 	[SerializeField] private float upRange = 90.0f;
 	[SerializeField] private float downRange = 80.0f;
 
-	[Header("Inputs Customisation")]
-	[SerializeField] private string horizontalMoveInput = "Horizontal";
-	[SerializeField] private string verticalMoveInput = "Vertical";
-	[SerializeField] private string MouseXInput = "Mouse X";
-	[SerializeField] private string MouseYInput = "Mouse Y";
-	[SerializeField] private KeyCode sprintKey = KeyCode.LeftShift;
-	[SerializeField] private KeyCode jumpKey = KeyCode.Space;
-	[SerializeField] private KeyCode crouchKey = KeyCode.LeftControl;
+	// [Header("Inputs Customisation")]
+	// [SerializeField] private string horizontalMoveInput = "Horizontal";
+	// [SerializeField] private string verticalMoveInput = "Vertical";
+	// [SerializeField] private string MouseXInput = "Mouse X";
+	// [SerializeField] private string MouseYInput = "Mouse Y";
+	// [SerializeField] private KeyCode sprintKey = KeyCode.LeftShift;
+	// [SerializeField] private KeyCode jumpKey = KeyCode.Space;
+	// [SerializeField] private KeyCode crouchKey = KeyCode.LeftControl;
 
 	[SerializeField] private float range = 2f;
 
@@ -60,7 +60,7 @@ public class FirstPersonController : MonoBehaviour
 		RaycastHit hit;
 		bool raycastCrouch = Physics.Raycast(transform.position, Vector3.up, out hit, 0.85f / 2f);
 
-		if (Input.GetKeyDown(crouchKey) && characterController.isGrounded)
+		if (Input.GetKeyDown(InputManager.GetKey(InputActions.KeyAction.Crouch)) && characterController.isGrounded)
 		{
 			isCrouched = true;
 
@@ -75,7 +75,7 @@ public class FirstPersonController : MonoBehaviour
 			underObject = true;
 		}
 
-		if (Input.GetKeyUp(crouchKey))
+		if (Input.GetKeyUp(InputManager.GetKey(InputActions.KeyAction.Crouch)))
 		{
 			characterController.height = _yNorm;
 			transform.position = new Vector3(transform.position.x, transform.position.y + 0.425f, transform.position.z);
@@ -100,12 +100,37 @@ public class FirstPersonController : MonoBehaviour
 			sprintMultiplier = 2.0f;
 		}
 
-		float speedMultiplier = Input.GetKey(sprintKey) ? sprintMultiplier : 1f;
-		float speedDivider = Input.GetKeyDown(crouchKey) ? crouchDivider : 1f;
+		float speedMultiplier = Input.GetKey(InputManager.GetKey(InputActions.KeyAction.Sprint)) ? sprintMultiplier : 1f;
+		float speedDivider = Input.GetKeyDown(InputManager.GetKey(InputActions.KeyAction.Crouch)) ? crouchDivider : 1f;
 
+		float zFrw = 0;
+		float zBac = 0;
 
-		float verticalSpeed = Input.GetAxis(verticalMoveInput) * walkSpeed * speedMultiplier / speedDivider;
-		float horizontalSpeed = Input.GetAxis(horizontalMoveInput) * walkSpeed * speedMultiplier / speedDivider;
+		float xFrw = 0;
+		float xBac = 0;
+
+		if (Input.GetKey(InputManager.GetKey(InputActions.KeyAction.Forward)))
+		{
+			zFrw = 1;
+		}
+
+		if (Input.GetKey(InputManager.GetKey(InputActions.KeyAction.Backward)))
+		{
+			zBac = -1;
+		}
+
+		if (Input.GetKey(InputManager.GetKey(InputActions.KeyAction.Left)))
+		{
+			xBac = -1;
+		}
+
+		if (Input.GetKey(InputManager.GetKey(InputActions.KeyAction.Right)))
+		{
+			xFrw = 1;
+		}
+
+		float verticalSpeed = (zFrw + zBac) * walkSpeed * speedMultiplier / speedDivider;
+		float horizontalSpeed = (xFrw + xBac) * walkSpeed * speedMultiplier / speedDivider;
 
 		Vector3 horizontalMovement = new Vector3(horizontalSpeed, 0, verticalSpeed);
 		horizontalMovement = transform.rotation * horizontalMovement;
@@ -115,7 +140,7 @@ public class FirstPersonController : MonoBehaviour
 		currentMovement.x = horizontalMovement.x;
 		currentMovement.z = horizontalMovement.z;
 
-		characterController.Move(currentMovement * Time.deltaTime);
+		characterController.Move(currentMovement.normalized * Time.deltaTime);
 	}
 
 	void HandleGravityAndJumping()
@@ -125,7 +150,7 @@ public class FirstPersonController : MonoBehaviour
 		{
 			currentMovement.y = -0.5f;
 
-			if (Input.GetKeyDown(jumpKey))
+			if (Input.GetKeyDown(InputManager.GetKey(InputActions.KeyAction.Jump)))
 			{
 				currentMovement.y = jumpForce;
 				if (isCrouched == true)
@@ -143,10 +168,10 @@ public class FirstPersonController : MonoBehaviour
 
 	void HandleRotation()
 	{
-		float mouseXRotation = Input.GetAxis(MouseXInput) * mouseSensitivity;
+		float mouseXRotation = Input.GetAxis("Mouse X") * mouseSensitivity;
 		transform.Rotate(0, mouseXRotation, 0);
 
-		verticalRotation -= Input.GetAxis(MouseYInput) * mouseSensitivity;
+		verticalRotation -= Input.GetAxis("Mouse Y") * mouseSensitivity;
 		verticalRotation = Mathf.Clamp(verticalRotation, -downRange, upRange);
 		mainCamera.transform.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
 	}
