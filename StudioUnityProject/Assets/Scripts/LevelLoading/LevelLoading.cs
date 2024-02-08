@@ -3,19 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// This is how levels are loaded with the splash screen.
+/// You just need to callt the loadScene func to load the scene you want.
+/// </summary>
 public class LevelLoading : MonoBehaviour
 {
-
+	// Instance so other scripts can call funtions.
 	public static LevelLoading Instance;
 
+	// The loading screen UI.
 	public GameObject LoadingScreen;
 	//public ProgressBarManager ProgressBar;
+
+	// used to stop loading the level multiple times when reloading is called more than once when loading.
 	private bool isReloading = false;
 
+	// if the level is being loaded.
 	public bool loading = false;
 
+	// this prevents loading when enabled.
 	public bool overideAll = false;
 
+	// progress of loading the scene.
+	private float totalSceneProgress;
+
+	// This is used to keep track of levels being loaded.
+	List<AsyncOperation> scenesLoading = new List<AsyncOperation>();
+
+	// sets the instance
 	void Awake()
 	{
 		if (Instance != null && Instance != this)
@@ -25,9 +41,12 @@ public class LevelLoading : MonoBehaviour
 		else
 		{
 			Instance = this;
+			// prevents this of being destroyed on load.
+			DontDestroyOnLoad(this.gameObject);
 		}
 	}
 
+	// sets variables.
 	private void Start()
 	{
 		if (overideAll) return;
@@ -40,50 +59,28 @@ public class LevelLoading : MonoBehaviour
 
 	}
 
+
 	private void Update()
 	{
 		if (overideAll) return;
 
+		// stops reloading of reloading multiple times.
 		isReloading = LoadingScreen.gameObject.activeSelf;
 	}
 
-	List<AsyncOperation> scenesLoading = new List<AsyncOperation>();
-	public void Loadlobby()
-	{
-		if (overideAll) return;
-
-		loading = true;
-		LoadingScreen.gameObject.SetActive(true);
-		SceneManager.SetActiveScene(SceneManager.GetSceneAt(0));
-
-		if (SceneManager.sceneCount > 1)
-		{
-			scenesLoading.Add(SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(1)));
-		}
-
-		scenesLoading.Add(SceneManager.LoadSceneAsync(2, LoadSceneMode.Additive));
-
-		StartCoroutine(GetSceneLoadProgress());
-	}
-
+	/// <summary>
+	/// A functiuon to load scene with index of 1.
+	/// </summary>
 	public void LoadMainMenu()
 	{
-		if (overideAll) return;
-
-		loading = true;
-		LoadingScreen.gameObject.SetActive(true);
-
-		if (SceneManager.sceneCount > 1)
-		{
-			scenesLoading.Add(SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(1)));
-		}
-
-		scenesLoading.Add(SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive));
-
-		StartCoroutine(GetSceneLoadProgress());
+		LoadScene(1);
 	}
 
-	public void LoadMap(int indexNumber)
+	/// <summary>
+	/// Loads the scene with the given index async.
+	/// </summary>
+	/// <param name="indexNumber">build scene index</param>
+	public void LoadScene(int indexNumber)
 	{
 		if (overideAll) return;
 
@@ -101,7 +98,11 @@ public class LevelLoading : MonoBehaviour
 		StartCoroutine(GetSceneLoadProgress());
 	}
 
-	public void LoadMapWithName(string mapName)
+	/// <summary>
+	/// Loads the scene with the give name async.
+	/// </summary>
+	/// <param name="mapName">build scene name</param>
+	public void LoadScene(string mapName)
 	{
 		if (overideAll) return;
 
@@ -119,6 +120,9 @@ public class LevelLoading : MonoBehaviour
 		StartCoroutine(GetSceneLoadProgress());
 	}
 
+	/// <summary>
+	/// Used to reload the current scene loaded.
+	/// </summary>
 	public void Reload()
 	{
 		if (overideAll) return;
@@ -137,7 +141,10 @@ public class LevelLoading : MonoBehaviour
 		StartCoroutine(GetSceneLoadProgress());
 	}
 
-	float totalSceneProgress;
+	/// <summary>
+	/// Used to keep track of loading.
+	/// </summary>
+	/// <returns></returns>
 	public IEnumerator GetSceneLoadProgress()
 	{
 		for (int i = 0; i < scenesLoading.Count; i++)
