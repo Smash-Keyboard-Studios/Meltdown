@@ -2143,6 +2143,7 @@ GameObject:
   m_Component:
   - component: {fileID: 913294798}
   - component: {fileID: 913294797}
+  - component: {fileID: 913294799}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -2227,6 +2228,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &913294799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 913294796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1200f8ddbe96d84fb6510dd6b6939e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &921039275
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2462,7 +2475,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-78572
+  m_Name: pb_Mesh-73694
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -4116,14 +4129,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerHolder
       objectReference: {fileID: 0}
-    - target: {fileID: 8837674229624353530, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.737
-      objectReference: {fileID: 0}
-    - target: {fileID: 8837674229624353530, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 1.276
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4890,11 +4895,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1985635760968783041, guid: ef7d6aa74844d0d4f84013b8724abe64, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.053
       objectReference: {fileID: 0}
     - target: {fileID: 1985635760968783041, guid: ef7d6aa74844d0d4f84013b8724abe64, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.139
       objectReference: {fileID: 0}
     - target: {fileID: 1985635760968783041, guid: ef7d6aa74844d0d4f84013b8724abe64, type: 3}
       propertyPath: m_LocalPosition.z
