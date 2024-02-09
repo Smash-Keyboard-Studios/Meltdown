@@ -1,51 +1,69 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
 
-	public GameObject[] UIElements;
+    public GameObject[] UIElements;
 
-	// Start is called before the first frame update
-	void Start()
-	{
-		OpenUI(0);
+    public Slider SensitivitySlider;
 
-		if (LevelLoading.Instance == null) SceneManager.LoadScene(0);
+    // Start is called before the first frame update
+    void Start()
+    {
+        OpenUI(0);
+
+        if (LevelLoading.Instance == null) SceneManager.LoadScene(0);
 
 
-		MouseLockManager.Instance.MouseVisable = true;
+        MouseLockManager.Instance.MouseVisable = true;
 
-		// Cursor.lockState = CursorLockMode.None;
-		// Cursor.visible = true;
-	}
+        // Cursor.lockState = CursorLockMode.None;
+        // Cursor.visible = true;
+    }
 
-	// Update is called once per frame
-	void Update()
-	{
+    // Update is called once per frame
+    void Update()
+    {
+        print(SensitivitySlider.value);
 
-	}
+    }
 
-	public void OpenUI(int id)
-	{
-		for (int i = 0; i < UIElements.Length; i++)
-		{
-			if (i == id)
-				UIElements[i].SetActive(true);
-			else
-				UIElements[i].SetActive(false);
-		}
-	}
+    public void OpenUI(int id)
+    {
+        for (int i = 0; i < UIElements.Length; i++)
+        {
+            if (i == id)
+                UIElements[i].SetActive(true);
+            else
+                UIElements[i].SetActive(false);
+        }
+    }
 
-	public void Quit()
-	{
-		Application.Quit();
-	}
+    public void Test()
+    {
+        int sens = PlayerPrefs.GetInt("SensitivitySlider", -2);
 
-	public void LoadScene(int idex)
-	{
-		LevelLoading.Instance.LoadScene(idex);
-	}
+        if (sens == -2)
+        {
+            sens = 3;
+            PlayerPrefs.SetInt("SensitivitySlider", sens);
+            PlayerPrefs.Save();
+        }
+
+        if (sens > 100) { sens = 100; }
+    }
+
+
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
+
+    public void LoadScene(int idex)
+    {
+        LevelLoading.Instance.LoadScene(idex);
+    }
 }
