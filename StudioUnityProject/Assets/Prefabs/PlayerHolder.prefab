@@ -1327,21 +1327,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb344cf306c8a044cbe2ad1fa79d3d36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 1.5
+  walkSpeed: 3
   sprintMultiplier: 2
   crouchDivider: 2
-  jumpForce: 5
+  jumpHeight: 5
   gravity: 9.81
   mouseSensitivity: 2
   upRange: 90
   downRange: 80
-  horizontalMoveInput: Horizontal
-  verticalMoveInput: Vertical
-  MouseXInput: Mouse X
-  MouseYInput: Mouse Y
-  sprintKey: 304
-  jumpKey: 32
-  crouchKey: 306
   range: 2
 --- !u!114 &1880704876620122638
 MonoBehaviour:
