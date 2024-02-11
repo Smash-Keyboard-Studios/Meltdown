@@ -6,7 +6,7 @@ public class FreezingWater : MonoBehaviour
 {
     public GameObject IceCube;
 
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.GetComponent<Ice>() != null)
         {
