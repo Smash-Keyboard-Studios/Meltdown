@@ -12,12 +12,14 @@ public class GaugeIndicator: MonoBehaviour
 
     private float _rotationIncrement, _nextRotationPoint;
     private int _rotationIndex = 1;
+    private Quaternion _defaultRotation;
 
     // [Editor Variables]
     
     [Header("<b>Rotation Parameters</b>")]
     [Space]
     [SerializeField] private float _rotationSpeed = 40.0f;
+    [SerializeField] private float _coolOffSpeed = 5.0f;
 
     public bool MoveToNextPoint = false;
 
@@ -26,6 +28,7 @@ public class GaugeIndicator: MonoBehaviour
     private void Awake () 
     {
         _nextRotationPoint = _rotationPoint[_rotationIndex];
+        _defaultRotation = transform.rotation;
     }
 
     private void Update () 
@@ -33,6 +36,11 @@ public class GaugeIndicator: MonoBehaviour
         if (MoveToNextPoint) // Determines if rotation is enabled.
         {
             IncrementGauge();
+        }
+        else if (transform.rotation != _defaultRotation) // Cools down (reverse rotation) to origin if not.
+        {
+            transform.Rotate(Vector3.up, -_coolOffSpeed * Time.deltaTime);
+            _rotationIncrement -= _coolOffSpeed * Time.deltaTime; 
         }
     }
 
@@ -70,14 +78,12 @@ public class GaugeIndicator: MonoBehaviour
                      */           
                 }
         }
-
-
     }
 
     public void ResetGauge ()
     {
         // Reset rotation
-        transform.rotation = Quaternion.Euler(Vector3.zero);
+        transform.rotation = _defaultRotation;
 
         // Reset gauge-related variables
         _rotationIncrement = 0.0f;

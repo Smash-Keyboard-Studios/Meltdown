@@ -13,9 +13,9 @@ public class BoomEntrance : MonoBehaviour
 
     [Header("<b>Shake Parameters</b>")]
     [Space]
-    [SerializeField] private float _shakeDuration = 3.0f;
-    [SerializeField] private float _shakeHorizontal = 0.2f;
-    [SerializeField] private float _shakeVertical = 0.8f;
+    [SerializeField] private float _shakeDuration = 1.3f;
+    [SerializeField] private float _shakeHorizontal = 0.8f;
+    [SerializeField] private float _shakeVertical = 1.5f;
 
     // [Events]
 
