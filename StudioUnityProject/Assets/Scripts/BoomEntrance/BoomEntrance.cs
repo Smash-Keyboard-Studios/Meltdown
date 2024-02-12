@@ -68,7 +68,7 @@ public class BoomEntrance : MonoBehaviour
         _mainCamera.transform.position = originalPos;
     }
 
-    // Adds a temporary audio source to the camera, and plays the clips at a certain speed (pitch).
+    // Adds a temporary audio source to the camera, and plays the clips at a certain speed (pitch) and volume.
 
     private void PlayAudioClip(AudioClip audioClip, float pitch, float volume)
     {
