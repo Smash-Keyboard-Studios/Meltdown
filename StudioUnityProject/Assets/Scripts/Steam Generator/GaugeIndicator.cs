@@ -1,21 +1,27 @@
+// THIS SCRIPT CONTROLS THE MOVEMENT OF THE PIN (HAND) OF THE GAUGE AND SHOULD BE ATTACHED IT.
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GaugeIndicator: MonoBehaviour
 {
-    // Non-Editable Values
+    // [Non-Editor Variables]
+
     private float[] _rotationPoint = {0.0f, 50.0f, 100.0f, 150.0f, 200.0f, 250.0f};
 
     private float _rotationIncrement, _nextRotationPoint;
     private int _rotationIndex = 1;
 
-    // Editable Values
-    [SerializeField]
-    private float _rotationSpeed = 40.0f;
+    // [Editor Variables]
+    
+    [Header("<b>Rotation Parameters</b>")]
+    [Space]
+    [SerializeField] private float _rotationSpeed = 40.0f;
 
-    // Public Values
     public bool MoveToNextPoint = false;
+
+    // [Events]
 
     private void Awake () 
     {
@@ -29,6 +35,8 @@ public class GaugeIndicator: MonoBehaviour
             IncrementGauge();
         }
     }
+
+    // [Custom Methods]
 
     public void IncrementGauge ()
     {
