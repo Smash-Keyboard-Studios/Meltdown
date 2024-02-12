@@ -16,6 +16,8 @@ using static InputActions;
 public class InputManager : MonoBehaviour
 {
 
+	public static bool Exsiting = false;
+
 	/// <summary>
 	/// This is the data for the key.
 	/// THe KeyData is used to save a keybind / load the keybind.
@@ -56,6 +58,8 @@ public class InputManager : MonoBehaviour
 
 			// keyValuePairs.Add()
 		}
+
+		Exsiting = true;
 
 	}
 
