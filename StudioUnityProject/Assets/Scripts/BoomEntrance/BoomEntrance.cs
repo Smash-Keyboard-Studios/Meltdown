@@ -15,6 +15,17 @@ public class BoomEntrance : MonoBehaviour
 
     // [Editor Variables]
 
+    // Audio Template
+
+    [System.Serializable]
+    public struct AudioVariables
+    {
+        public string name;
+        public AudioClip audioClip;
+        public float pitch;
+        public float volume;
+    }
+
     [Header("<b>Shake Parameters (%)</b>")]
     [Space]
     [SerializeField] private float _shakeDuration = 180f;
@@ -23,18 +34,18 @@ public class BoomEntrance : MonoBehaviour
 
     [Header("<b>Audio Parameters (%)</b>")]
     [Space]
-    [SerializeField] private AudioClip _audioClip1;
-    [SerializeField] private float _pitch1 = 300f;
-    [SerializeField] private float _volume1 = 70f;
-    [SerializeField] private AudioClip _audioClip2;
-    [SerializeField] private float _pitch2 = 150f;
-    [SerializeField] private float _volume2 = 50f;
+    [SerializeField] private AudioVariables[] _audioTracks =
+    {
+        new AudioVariables { name = "Track 1", audioClip = null, pitch = 300f, volume = 70f },
+        new AudioVariables { name = "Track 2", audioClip = null, pitch = 150f, volume = 50f }
+    };
+
 
     // [Events]
 
     private void Start()
     {
-        // Automatically finds the main camera.
+        // Selects the main camera.
         _mainCamera = Camera.main;
 
         if (_mainCamera != null)
@@ -85,7 +96,9 @@ public class BoomEntrance : MonoBehaviour
 
     private void PlayAudioClips()
     {
-        PlayAudioClip(_audioClip1, _pitch1, _volume1);
-        PlayAudioClip(_audioClip2, _pitch2, _volume2);
+        foreach (var audioVar in _audioTracks)
+        {
+            PlayAudioClip(audioVar.audioClip, audioVar.pitch, audioVar.volume);
+        }
     }
 }
