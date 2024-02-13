@@ -3,51 +3,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ButtonInteraction : MonoBehaviour
+public class ButtonInteraction : MonoBehaviour, IInteractable
 {
     public doorController drController;
 
-    private bool doorOpen = false;
-    [SerializeField] private bool toggleButton = false;
-    [SerializeField] private bool timedButton = false;
-    [SerializeField] private bool onceButton = false;
+    private bool doorOpen = false; 
 
-    [SerializeField] private int waitTimer = 1;
-    [SerializeField] private bool pauseInteraction = false;
+    private bool buttonPressed = false; // Used for single use buttons
+
+    [SerializeField] private bool toggleButton = false;
+    [SerializeField] private bool timedButton = false;  // Serialised access fields for  designers to decide what button type
+
+    [SerializeField] private int waitTimer = 1; // Length of time between debounces
+    [SerializeField] private bool pauseInteraction = false; 
 
     private void Start()
     {
         drController = GetComponent<doorController>();
     }
 
-    private IEnumerator PauseDoorInteraction ()
-    {
-        pauseInteraction = true;
-        yield return new WaitForSeconds(waitTimer);
-        pauseInteraction = false;
-    }
 
+    public void Interact()
+    {
+        
+    }
     public void OpenDoor()
     {
         if (toggleButton == true)
         {
-            if (!doorOpen && !pauseInteraction)
-            {
-                drController.ToggleDoorOpen();
-                doorOpen = true;
-                StartCoroutine(PauseDoorInteraction());
-            }
-            else if (doorOpen && !pauseInteraction)
-            {
-                drController.ToggleDoorOpen();
-                doorOpen = false;
-                StartCoroutine(PauseDoorInteraction());
-            }
+          drController.ToggleDoorOpen();
+          doorOpen = !doorOpen;
         }
 
-        if (onceButton == true)
+        else if(buttonPressed == false) // Ensures the button cannot be pressed twice
         {
             drController.ToggleDoorOpen();
+            buttonPressed = true;
         }
     }
 }

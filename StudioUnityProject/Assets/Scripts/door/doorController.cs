@@ -39,14 +39,14 @@ public class doorController : MonoBehaviour
 		{
 			if (isOpening)
 			{
-				if (currentRotation.y < openRotation) //Rotates the door to the open rotation.
+				if (currentRotation.y <= openRotation) //Rotates the door to the open rotation.
 				{
 					transform.localEulerAngles = Vector3.Lerp(currentRotation, new Vector3(currentRotation.x, openRotation, currentRotation.z), speed * Time.deltaTime);
 				}
 			}
 			else
 			{
-				if (currentRotation.y > closeRotation) //Rotates the door to the closed rotation.
+				if (currentRotation.y >= closeRotation) //Rotates the door to the closed rotation.
 				{
 					transform.localEulerAngles = Vector3.Lerp(currentRotation, new Vector3(currentRotation.x, closeRotation, currentRotation.z), speed * Time.deltaTime);
 				}
