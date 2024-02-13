@@ -38,11 +38,16 @@ public class InputManager : MonoBehaviour
 		}
 	}
 
+
+	// This is where all the key actions with the key codes.
+	public static Dictionary<KeyAction, KeyData> keyValuePairs = new();
+
+
 	void Start()
 	{
 		foreach (KeyAction action in Enum.GetValues(typeof(KeyAction)))
 		{
-			InputManager.KeyData newKeyData = new();
+			KeyData newKeyData = new();
 
 			newKeyData.KeyAction = action;
 
@@ -54,7 +59,15 @@ public class InputManager : MonoBehaviour
 			// Put the UI elements here
 			newKeyData.UIElement = null;
 
-			InputManager.keyValuePairs.Add(newKeyData.KeyAction, newKeyData);
+			try
+			{
+				keyValuePairs.Add(newKeyData.KeyAction, newKeyData);
+			}
+			catch (Exception e)
+			{
+				//Debug.LogException(e, gameObject);
+				Debug.Log("Error cought");
+			}
 
 			// keyValuePairs.Add()
 		}
@@ -62,9 +75,6 @@ public class InputManager : MonoBehaviour
 		Exsiting = true;
 
 	}
-
-	// This is where all the key actions with the key codes.
-	public static Dictionary<KeyAction, KeyData> keyValuePairs = new();
 
 
 	/// <summary>

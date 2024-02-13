@@ -5,27 +5,20 @@ using UnityEngine.SceneManagement;
 
 public class BootSubsystems : MonoBehaviour
 {
-	int sceneID;
-
 	void Start()
 	{
-		if (LevelLoading.Instance == null)
+		if (InputManager.Exsiting == false && transform.tag == "BackUpBoot")
 		{
-			DontDestroyOnLoad(this.gameObject);
-			sceneID = SceneManager.GetActiveScene().buildIndex;
-			SceneManager.LoadScene(0);
+			gameObject.AddComponent<InputManager>();
+			gameObject.AddComponent<LevelLoading>();
+
+			transform.name = "BackupBoot";
+
+			Debug.LogError("Failed to find input manager");
 		}
-	}
-
-	void Update()
-	{
-		if (LevelLoading.Instance != null)
+		else if (InputManager.Exsiting == false && transform.tag != "BackUpBoot")
 		{
-			LevelLoading.Instance.overideAll = true;
-			LevelLoading.Instance.LoadScene(sceneID);
-
-			LevelLoading.Instance.overideAll = false;
-			Destroy(this.gameObject);
+			Instantiate(Resources.Load("Backup boot/BackupBoot", typeof(GameObject)));
 		}
 	}
 }
