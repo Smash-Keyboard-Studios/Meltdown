@@ -1,5 +1,5 @@
 // THIS SCRIPT SHOULD BE ATTACHED TO THE MAIN CAMERA.
-// distant-explosion should be audio clip 1 and Punch-a-rock should be audio clip 2.
+// distant-explosion is the Track 1 audio clip and Punch-a-rock is the Track 2 audio clip.
 
 
 using System.Collections;
@@ -22,17 +22,17 @@ public class BoomEntrance : MonoBehaviour
     {
         public string name;
         public AudioClip audioClip;
-        public float pitch;
-        public float volume;
+        [Range(0.0f, 1000.0f)] public float pitch;
+        [Range(1.0f, 100.0f)] public float volume;
     }
 
-    [Header("<b>Shake Parameters (%)</b>")]
+    [Header("<b>Shake Parameters (All in %)</b>")]
     [Space]
-    [SerializeField] private float _shakeDuration = 180f;
-    [SerializeField] private float _shakeHorizontal = 80f;
-    [SerializeField] private float _shakeVertical = 150f;
+    [SerializeField][Range(0.0f, 1000.0f)] private float _shakeSeconds = 180f;
+    [SerializeField][Range(0.0f, 1000.0f)] private float _shakeHorizontal = 80f;
+    [SerializeField][Range(0.0f, 1000.0f)] private float _shakeVertical = 150f;
 
-    [Header("<b>Audio Parameters (%)</b>")]
+    [Header("<b>Audio Parameters (All in %)</b>")]
     [Space]
     [SerializeField] private AudioVariables[] _audioTracks =
     {
@@ -64,7 +64,7 @@ public class BoomEntrance : MonoBehaviour
         Vector3 originalPos = _mainCamera.transform.position;
         float elapsedTime = 0f;
 
-        while (elapsedTime < _shakeDuration/100)
+        while (elapsedTime < _shakeSeconds/100)
         {
             float x = Random.Range(-1f, 1f) * _shakeHorizontal/100;
             float y = Random.Range(-1f, 1f) * _shakeVertical/100;
