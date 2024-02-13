@@ -3,21 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
+/// <summary>
+/// This creates the missing manages so you can still player teh game
+/// in the editor.
+/// </summary>
 public class BootSubsystems : MonoBehaviour
 {
 	void Start()
 	{
-		if (InputManager.Exsiting == false && transform.tag == "BackUpBoot")
+		// if the input manager does not exists, create teh back up prefab with it attached.
+		if (InputManager.Existing == false)
 		{
-			gameObject.AddComponent<InputManager>();
-			gameObject.AddComponent<LevelLoading>();
-
-			transform.name = "BackupBoot";
-
 			Debug.LogError("Failed to find input manager");
-		}
-		else if (InputManager.Exsiting == false && transform.tag != "BackUpBoot")
-		{
 			Instantiate(Resources.Load("Backup boot/BackupBoot", typeof(GameObject)));
 		}
 	}

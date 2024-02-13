@@ -16,7 +16,7 @@ using static InputActions;
 public class InputManager : MonoBehaviour
 {
 
-	public static bool Exsiting = false;
+	public static bool Existing = false;
 
 	/// <summary>
 	/// This is the data for the key.
@@ -38,16 +38,11 @@ public class InputManager : MonoBehaviour
 		}
 	}
 
-
-	// This is where all the key actions with the key codes.
-	public static Dictionary<KeyAction, KeyData> keyValuePairs = new();
-
-
 	void Start()
 	{
 		foreach (KeyAction action in Enum.GetValues(typeof(KeyAction)))
 		{
-			KeyData newKeyData = new();
+			InputManager.KeyData newKeyData = new();
 
 			newKeyData.KeyAction = action;
 
@@ -59,22 +54,16 @@ public class InputManager : MonoBehaviour
 			// Put the UI elements here
 			newKeyData.UIElement = null;
 
-			try
-			{
-				keyValuePairs.Add(newKeyData.KeyAction, newKeyData);
-			}
-			catch (Exception e)
-			{
-				//Debug.LogException(e, gameObject);
-				Debug.Log("Error cought");
-			}
+			InputManager.keyValuePairs.Add(newKeyData.KeyAction, newKeyData);
 
 			// keyValuePairs.Add()
 		}
 
-		Exsiting = true;
-
+		Existing = true;
 	}
+
+	// This is where all the key actions with the key codes.
+	public static Dictionary<KeyAction, KeyData> keyValuePairs = new();
 
 
 	/// <summary>
