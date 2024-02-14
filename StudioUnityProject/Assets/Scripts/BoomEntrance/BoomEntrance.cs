@@ -1,6 +1,5 @@
-// THIS SCRIPT SHOULD BE ATTACHED TO THE MAIN CAMERA.
+// THIS SCRIPT SHOULD BE ATTACHED TO AN OBJECT IN THE RELEVANT SCENE: E.G. Main Camera.
 // distant-explosion is the Track 1 audio clip and Punch-a-rock is the Track 2 audio clip.
-
 
 using System.Collections;
 using System.Collections.Generic;
@@ -16,21 +15,20 @@ public class BoomEntrance : MonoBehaviour
     // [Editor Variables]
 
     // Audio Template
-
     [System.Serializable]
     public struct AudioVariables
     {
         public string name;
         public AudioClip audioClip;
-        [Range(0.0f, 1000.0f)] public float pitch;
-        [Range(1.0f, 100.0f)] public float volume;
+        [Range(0f, 1000f)] public float pitch;
+        [Range(1f, 100f)] public float volume;
     }
 
     [Header("<b>Shake Parameters (All in %)</b>")]
     [Space]
-    [SerializeField][Range(0.0f, 1000.0f)] private float _shakeSeconds = 180f;
-    [SerializeField][Range(0.0f, 1000.0f)] private float _shakeHorizontal = 80f;
-    [SerializeField][Range(0.0f, 1000.0f)] private float _shakeVertical = 150f;
+    [SerializeField][Range(0f, 1000f)] private float _shakeSeconds = 180f;
+    [SerializeField][Range(0f, 1000f)] private float _shakeHorizontal = 80f;
+    [SerializeField][Range(0f, 1000f)] private float _shakeVertical = 150f;
 
     [Header("<b>Audio Parameters (All in %)</b>")]
     [Space]
@@ -53,12 +51,15 @@ public class BoomEntrance : MonoBehaviour
             StartCoroutine(ShakeCamera());
             PlayAudioClips();
         }
+        else
+        {
+            Debug.Log("The Main Camera could not be found.");
+        }
     }
 
     // [Custom Methods]
 
     // ShakeCamera—saves the original position and varies x and y positions by a random offset every frame.
-
     private IEnumerator ShakeCamera()
     {
         Vector3 originalPos = _mainCamera.transform.position;
@@ -66,8 +67,8 @@ public class BoomEntrance : MonoBehaviour
 
         while (elapsedTime < _shakeSeconds/100)
         {
-            float x = Random.Range(-1f, 1f) * _shakeHorizontal/100;
-            float y = Random.Range(-1f, 1f) * _shakeVertical/100;
+            float x = Random.Range(-1f, 1f) * _shakeHorizontal / 100; // % (Percentage)
+            float y = Random.Range(-1f, 1f) * _shakeVertical / 100; // % (Percentage)
 
             _mainCamera.transform.position = originalPos + new Vector3(x, y, originalPos.z);
 
@@ -80,15 +81,14 @@ public class BoomEntrance : MonoBehaviour
     }
 
     // Adds a temporary audio source to the camera, and plays the clips at a certain speed (pitch) and volume.
-
     private void PlayAudioClip(AudioClip audioClip, float pitch, float volume)
     {
         if (audioClip != null)
         {
-            AudioSource audioSource = gameObject.AddComponent<AudioSource>();
+            AudioSource audioSource = _mainCamera.gameObject.AddComponent<AudioSource>();
             audioSource.clip = audioClip;
-            audioSource.pitch = pitch/100;
-            audioSource.volume = volume/100;
+            audioSource.pitch = pitch/100; // % (Percentage)
+            audioSource.volume = volume/100; // % (Percentage)
             audioSource.Play();
             Destroy(audioSource, audioClip.length);
         }
