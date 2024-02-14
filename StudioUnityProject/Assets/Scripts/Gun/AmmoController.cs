@@ -26,18 +26,18 @@ public class AmmoController : MonoBehaviour
         if(IceAmmo > 3){
             IceAmmo = 3;
         }
-
+        
         if(FireAmmo > 3){
             FireAmmo = 3;
         }
     }
 
-    int RefillLargePedestal(int Ammo){
+    public int RefillLargePedestal(int Ammo){
         Ammo = 3;
         return Ammo;
     }
 
-    int RefillSmallPedestal(int Ammo){
+    public int RefillSmallPedestal(int Ammo){
         if(Ammo < 1){
             Ammo = 1;
         }
