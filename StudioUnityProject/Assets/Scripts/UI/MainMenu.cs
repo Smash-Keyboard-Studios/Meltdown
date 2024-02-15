@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+
 public class MainMenu : MonoBehaviour
 {
 
@@ -23,10 +24,11 @@ public class MainMenu : MonoBehaviour
         // Cursor.visible = true;
     }
 
-    // Update is called once per frame
+    // sensitivity testing purposes
     void Update()
     {
-        print(SensitivitySlider.value);
+
+        print("sensitivity is " + SensitivitySlider.value);
 
     }
 
@@ -52,7 +54,9 @@ public class MainMenu : MonoBehaviour
             PlayerPrefs.Save();
         }
 
-        if (sens > 100) { sens = 100; }
+
+
+        if (sens > 5) { sens = 5; }
     }
 
 
