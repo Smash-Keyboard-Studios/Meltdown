@@ -13,7 +13,7 @@ public class ElevatorController : MonoBehaviour
 	[Header("What scene will be loaded")]
 
 	[Tooltip("What scene will be loaded")]
-	public int SceneBuildIndex;
+	public int SceneBuildIndex = 1;
 
 	[Header("Left Door")]
 	public Transform LeftElevatorDoor;
