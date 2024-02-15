@@ -15,7 +15,7 @@ public class BootSubsystems : MonoBehaviour
 		// if the input manager does not exists, create teh back up prefab with it attached.
 		if (InputManager.Existing == false)
 		{
-			Debug.LogError("Failed to find input manager");
+			Debug.LogWarning("Failed to find input manager");
 			Instantiate(Resources.Load("Backup boot/BackupBoot", typeof(GameObject)));
 		}
 	}

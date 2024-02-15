@@ -42,7 +42,7 @@ public class GaugeIndicator : MonoBehaviour
 		}
 		else if (transform.rotation != _defaultRotation) // Cools down (reverse rotation) to origin if not.
 		{
-			transform.Rotate(Vector3.up, -_coolOffSpeed * Time.deltaTime);
+			transform.Rotate(-Vector3.forward, -_coolOffSpeed * Time.deltaTime);
 			_rotationIncrement -= _coolOffSpeed * Time.deltaTime;
 		}
 	}
@@ -58,7 +58,7 @@ public class GaugeIndicator : MonoBehaviour
 
 			if (_rotationIncrement < _nextRotationPoint)
 			{
-				transform.Rotate(Vector3.up, _rotationSpeed * Time.deltaTime);
+				transform.Rotate(-Vector3.forward, _rotationSpeed * Time.deltaTime);
 				_rotationIncrement += _rotationSpeed * Time.deltaTime;
 			}
 
