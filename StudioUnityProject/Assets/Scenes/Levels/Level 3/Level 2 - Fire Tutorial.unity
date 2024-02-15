@@ -5365,7 +5365,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh538174
+  m_Name: pb_Mesh-317270
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -30481,6 +30481,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5754626f7880c0c4e8448de47c55b0dc, type: 3}
+--- !u!1 &759405439 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3028320514872088757, guid: 5754626f7880c0c4e8448de47c55b0dc, type: 3}
+  m_PrefabInstance: {fileID: 759405438}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &764517222
 Mesh:
   m_ObjectHideFlags: 0
@@ -45298,7 +45303,19 @@ MonoBehaviour:
   MoveToNextPoint: 0
   OnCompleate:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 759405439}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!43 &1072010081
 Mesh:
   m_ObjectHideFlags: 0
@@ -48047,7 +48064,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 186345733043365493, guid: 007461df537b0ed4d8d0ada04b04c826, type: 3}
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6455329048148267608, guid: 007461df537b0ed4d8d0ada04b04c826, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 2070946009306221692, guid: 007461df537b0ed4d8d0ada04b04c826, type: 3}
       insertIndex: -1
@@ -90126,7 +90144,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7298259984363197827, guid: 9128a8b04a411ea4eb65bfd8b8b4bb45, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.179
+      value: 1.281
       objectReference: {fileID: 0}
     - target: {fileID: 7298259984363197827, guid: 9128a8b04a411ea4eb65bfd8b8b4bb45, type: 3}
       propertyPath: m_LocalPosition.z
@@ -90134,23 +90152,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7298259984363197827, guid: 9128a8b04a411ea4eb65bfd8b8b4bb45, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.68301284
+      value: 0.0000014975665
       objectReference: {fileID: 0}
     - target: {fileID: 7298259984363197827, guid: 9128a8b04a411ea4eb65bfd8b8b4bb45, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.6830128
+      value: 0.965926
       objectReference: {fileID: 0}
     - target: {fileID: 7298259984363197827, guid: 9128a8b04a411ea4eb65bfd8b8b4bb45, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.1830124
+      value: -0.25881857
       objectReference: {fileID: 0}
     - target: {fileID: 7298259984363197827, guid: 9128a8b04a411ea4eb65bfd8b8b4bb45, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.18301237
+      value: 0.0000003390014
       objectReference: {fileID: 0}
     - target: {fileID: 7298259984363197827, guid: 9128a8b04a411ea4eb65bfd8b8b4bb45, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 90
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 7298259984363197827, guid: 9128a8b04a411ea4eb65bfd8b8b4bb45, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
