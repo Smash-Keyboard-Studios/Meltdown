@@ -9,6 +9,9 @@ public class Gun : MonoBehaviour
 	public GameObject bulletPrefabrightclick;
 	public float bulletSpeed = 10;
 
+	public bool hasFire = true;
+	public bool hasIce = true;
+
 	public AmmoController AmmoController;
 
 	void Start()
@@ -18,7 +21,7 @@ public class Gun : MonoBehaviour
 
 	void Update()
 	{
-		if (Input.GetKeyDown(InputManager.GetKey(InputActions.KeyAction.ShootFire)) && AmmoController.FireAmmo>0)
+		if (Input.GetKeyDown(InputManager.GetKey(InputActions.KeyAction.ShootFire)) && AmmoController.FireAmmo > 0)
 		{
 			//-1 fire ammo
 			AmmoController.FireAmmo -= 1;
@@ -43,7 +46,7 @@ public class Gun : MonoBehaviour
 
 		}
 
-		if (Input.GetKeyDown(InputManager.GetKey(InputActions.KeyAction.ShootIce)) && AmmoController.IceAmmo>0)
+		if (Input.GetKeyDown(InputManager.GetKey(InputActions.KeyAction.ShootIce)) && AmmoController.IceAmmo > 0)
 		{
 			//-1 ice ammo
 			AmmoController.IceAmmo -= 1;

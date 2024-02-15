@@ -6,8 +6,8 @@ public class MeltingObject : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-       
-        if (collision.gameObject.CompareTag("Fire"))  //why is this not working i want to die
+
+        if (collision.gameObject.GetComponent<Fire>() != null)  //why is this not working i want to die
         {
             // Apply the melting effect
             ApplyMeltingEffect();

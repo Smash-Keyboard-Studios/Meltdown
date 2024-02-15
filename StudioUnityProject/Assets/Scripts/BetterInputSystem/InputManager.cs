@@ -38,6 +38,11 @@ public class InputManager : MonoBehaviour
 		}
 	}
 
+	void Awake()
+	{
+		Existing = true;
+	}
+
 	void Start()
 	{
 		foreach (KeyAction action in Enum.GetValues(typeof(KeyAction)))
@@ -59,7 +64,7 @@ public class InputManager : MonoBehaviour
 			// keyValuePairs.Add()
 		}
 
-		Existing = true;
+
 	}
 
 	// This is where all the key actions with the key codes.

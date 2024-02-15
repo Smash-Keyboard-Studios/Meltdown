@@ -77,11 +77,13 @@ public class FirstPersonController : MonoBehaviour
 			characterController.height = _yNorm;
 			transform.position = new Vector3(transform.position.x, transform.position.y + 0.425f, transform.position.z);
 			underObject = false;
+			isCrouched = false;
 		}
 		else if (isCrouched == false && raycastCrouch == false)
 		{
 			characterController.height = _yNorm;
 			underObject = false;
+			isCrouched = false;
 		}
 	}
 
@@ -126,8 +128,8 @@ public class FirstPersonController : MonoBehaviour
 			xFrw = 1;
 		}
 
-		float verticalSpeed = (zFrw + zBac) * walkSpeed * speedMultiplier / speedDivider;
-		float horizontalSpeed = (xFrw + xBac) * walkSpeed * speedMultiplier / speedDivider;
+		float verticalSpeed = (zFrw + zBac);
+		float horizontalSpeed = (xFrw + xBac);
 
 		Vector3 horizontalMovement = new Vector3(horizontalSpeed, 0, verticalSpeed);
 		horizontalMovement = transform.rotation * horizontalMovement;
@@ -137,7 +139,7 @@ public class FirstPersonController : MonoBehaviour
 		currentMovement.x = horizontalMovement.x;
 		currentMovement.z = horizontalMovement.z;
 
-		characterController.Move(currentMovement.normalized * Time.deltaTime);
+		characterController.Move(currentMovement.normalized * Time.deltaTime * walkSpeed * speedMultiplier / speedDivider);
 	}
 
 	void HandleGravityAndJumping()

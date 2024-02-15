@@ -1384,7 +1384,9 @@ MonoBehaviour:
   bulletPrefableftclick: {fileID: 8493402149711268378, guid: 1d41aeaaab518fd419f6e18da1e299a2, type: 3}
   bulletPrefabrightclick: {fileID: 6405268716962760783, guid: 752c5cb5ef5665845ac8b007aa03a628, type: 3}
   bulletSpeed: 10
-  AmmoController: {fileID: 0}
+  hasFire: 1
+  hasIce: 1
+  AmmoController: {fileID: 705772530737012553}
 --- !u!114 &705772530737012553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1397,9 +1399,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6998c65ae082e745a765c0f3f7b8e1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GunScript: {fileID: 0}
+  GunScript: {fileID: 8643972227606793046}
   IceAmmo: 0
-  FireAmmo: 0
+  FireAmmo: 3
 --- !u!1 &8729410390222166334
 GameObject:
   m_ObjectHideFlags: 0
