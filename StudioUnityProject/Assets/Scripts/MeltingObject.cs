@@ -2,20 +2,33 @@ using UnityEngine;
 
 public class MeltingObject : MonoBehaviour
 {
-    public Material meltingMaterial;
+	public Material meltingMaterial;
 
-    private void OnCollisionEnter(Collision collision)
-    {
-       
-        if (collision.gameObject.CompareTag("Fire"))  //why is this not working i want to die
-        {
-            // Apply the melting effect
-            ApplyMeltingEffect();
-        }
-    }
+	public int AmmountHit = 1;
 
-    private void ApplyMeltingEffect()
-    {
-        transform.localScale *= 0.9f;
-    }
+	private Vector3 _baseScale;
+
+	private Vector3 _scaleAmmount;
+
+	void Start()
+	{
+		_baseScale = transform.localScale;
+
+		_scaleAmmount = _baseScale / AmmountHit;
+	}
+
+	private void OnCollisionEnter(Collision collision)
+	{
+
+		if (collision.gameObject.GetComponent<Fire>() != null)  //why is this not working i want to die
+		{
+			// Apply the melting effect
+			ApplyMeltingEffect();
+		}
+	}
+
+	private void ApplyMeltingEffect()
+	{
+		transform.localScale -= _scaleAmmount;
+	}
 }
