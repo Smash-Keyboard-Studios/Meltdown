@@ -9,13 +9,20 @@ public class Gun : MonoBehaviour
 	public GameObject bulletPrefabrightclick;
 	public float bulletSpeed = 10;
 
-	public bool hasFire = false;
-	public bool hasIce = false;
+	public AmmoController AmmoController;
+
+	void Start()
+	{
+		AmmoController = gameObject.GetComponent<AmmoController>();
+	}
 
 	void Update()
 	{
-		if (Input.GetKeyDown(InputManager.GetKey(InputActions.KeyAction.ShootFire)) && hasFire)
+		if (Input.GetKeyDown(InputManager.GetKey(InputActions.KeyAction.ShootFire)) && AmmoController.FireAmmo>0)
 		{
+			//-1 fire ammo
+			AmmoController.FireAmmo -= 1;
+
 			// Instantiate the bullet GameObject
 			GameObject bulletObject = Instantiate(bulletPrefableftclick, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
 
@@ -36,8 +43,11 @@ public class Gun : MonoBehaviour
 
 		}
 
-		if (Input.GetKeyDown(InputManager.GetKey(InputActions.KeyAction.ShootIce)) && hasIce)
+		if (Input.GetKeyDown(InputManager.GetKey(InputActions.KeyAction.ShootIce)) && AmmoController.IceAmmo>0)
 		{
+			//-1 ice ammo
+			AmmoController.IceAmmo -= 1;
+
 			// Instantiate the bullet GameObject
 			GameObject bulletObject = Instantiate(bulletPrefabrightclick, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
 
