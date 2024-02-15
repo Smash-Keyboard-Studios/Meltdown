@@ -1,25 +1,34 @@
+// THIS SCRIPT CONTROLS THE MOVEMENT OF THE PIN (HAND) OF THE GAUGE AND SHOULD BE ATTACHED IT.
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GaugeIndicator: MonoBehaviour
 {
-    // Non-Editable Values
+    // [Non-Editor Variables]
+
     private float[] _rotationPoint = {0.0f, 50.0f, 100.0f, 150.0f, 200.0f, 250.0f};
 
     private float _rotationIncrement, _nextRotationPoint;
     private int _rotationIndex = 1;
+    private Quaternion _defaultRotation;
 
-    // Editable Values
-    [SerializeField]
-    private float _rotationSpeed = 40.0f;
+    // [Editor Variables]
+    
+    [Header("<b>Rotation Parameters</b>")]
+    [Space]
+    [SerializeField] private float _rotationSpeed = 40.0f;
+    [SerializeField] private float _coolOffSpeed = 5.0f;
 
-    // Public Values
     public bool MoveToNextPoint = false;
+
+    // [Events]
 
     private void Awake () 
     {
         _nextRotationPoint = _rotationPoint[_rotationIndex];
+        _defaultRotation = transform.rotation;
     }
 
     private void Update () 
@@ -28,7 +37,14 @@ public class GaugeIndicator: MonoBehaviour
         {
             IncrementGauge();
         }
+        else if (transform.rotation != _defaultRotation) // Cools down (reverse rotation) to origin if not.
+        {
+            transform.Rotate(Vector3.up, -_coolOffSpeed * Time.deltaTime);
+            _rotationIncrement -= _coolOffSpeed * Time.deltaTime; 
+        }
     }
+
+    // [Custom Methods]
 
     public void IncrementGauge ()
     {
@@ -62,14 +78,12 @@ public class GaugeIndicator: MonoBehaviour
                      */           
                 }
         }
-
-
     }
 
     public void ResetGauge ()
     {
         // Reset rotation
-        transform.rotation = Quaternion.Euler(Vector3.zero);
+        transform.rotation = _defaultRotation;
 
         // Reset gauge-related variables
         _rotationIncrement = 0.0f;
