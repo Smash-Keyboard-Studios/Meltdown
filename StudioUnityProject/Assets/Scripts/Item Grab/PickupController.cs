@@ -1,9 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
+//How the code works
+//If there isn't one already create a empty gameobject and call it "HoldArea"
+//Attach the created gameobject to mainCamera parent
+//Place the Hold Area gameobject away from the camera but still close to the player (X = 0, Y = 0.5, Z = between 2 and 3)
+//Make sure the mainCamera has the PickupController code attacked to the camera
+//Assign the HoldArea gameobject to the Hold Area Variable on the script component
+//Make sure the object you are having the player pick up has a Rigitbody component
+//Make sure the gun object is attached to the variable on the script component
+//Make sure the player is attached to the player variable on the script component
 public class PickupController : MonoBehaviour
 {
+
     [Header("Pickup Settings")]
     [SerializeField] Transform holdArea;
     private GameObject heldObj;
