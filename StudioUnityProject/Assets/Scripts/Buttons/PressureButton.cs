@@ -8,7 +8,7 @@ public class PressureButton : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if(collision.gameObject.GetComponent<Rigidbody>() != null || collision.gameObject.GetComponent<CharacterController>() != null)
+        if(collision.gameObject.GetComponent<Rigidbody>() != null)
         {
             buttonActive = true;
         }
@@ -16,7 +16,7 @@ public class PressureButton : MonoBehaviour
 
     private void OnTriggerStay(Collider collision)
     {
-        if (collision.gameObject.GetComponent<Rigidbody>() != null || collision.gameObject.GetComponent<CharacterController>() != null)
+        if (collision.gameObject.GetComponent<Rigidbody>() != null)
         {
             buttonActive = true;
         }
