@@ -9,7 +9,7 @@ public class GaugeIndicator : MonoBehaviour
 {
 	// [Non-Editor Variables]
 
-	private float[] _rotationPoint = { 0.0f, 50.0f, 100.0f, 150.0f, 200.0f, 250.0f };
+	private float[] _rotationPoint = { 0.0f, 35.0f, 70.0f, 105.0f, 140.0f, 175.0f };
 
 	private float _rotationIncrement, _nextRotationPoint;
 	private int _rotationIndex = 1;
@@ -19,12 +19,14 @@ public class GaugeIndicator : MonoBehaviour
 
 	[Header("<b>Rotation Parameters</b>")]
 	[Space]
-	[SerializeField] private float _rotationSpeed = 40.0f;
-	[SerializeField] private float _coolOffSpeed = 5.0f;
+	[SerializeField][Range(0.0f, 100.0f)] private float _rotationSpeed = 40.0f;
+	[SerializeField][Range(0.0f, 100.0f)] private float _coolOffSpeed = 5.0f;
+	[SerializeField][Range(0.0f, 100.0f)] private float _coolOffDelay = 2.0f;
 
 	public bool MoveToNextPoint = false;
+	public bool DisableCoolOff = false;
 
-	public UnityEvent OnCompleate;
+	public UnityEvent OnComplete;
 
 	// [Events]
 
@@ -40,11 +42,10 @@ public class GaugeIndicator : MonoBehaviour
 		{
 			IncrementGauge();
 		}
-		else if (transform.rotation != _defaultRotation) // Cools down (reverse rotation) to origin if not.
+		else if (!DisableCoolOff && transform.rotation != _defaultRotation) // Cools down (reverse rotation) to origin if not.
 		{
-			transform.Rotate(-Vector3.forward, -_coolOffSpeed * Time.deltaTime);
-			_rotationIncrement -= _coolOffSpeed * Time.deltaTime;
-		}
+			DecrementGauge();
+        }
 	}
 
 	// [Custom Methods]
@@ -53,7 +54,6 @@ public class GaugeIndicator : MonoBehaviour
 	{
 		if (_rotationIndex < _rotationPoint.Length) // Determines if there is a valid point to rotate to.
 		{
-
 			// Active rotation towards the next point.
 
 			if (_rotationIncrement < _nextRotationPoint)
@@ -68,17 +68,42 @@ public class GaugeIndicator : MonoBehaviour
 			{
 				MoveToNextPoint = false;
 
-				if (_rotationIndex < _rotationPoint.Length - 1) // Determines if the current point is not the last one.
+                if (_rotationIndex < _rotationPoint.Length - 1) // Determines if the current point is not the last one.
 				{
 					_rotationIndex++;
 					_nextRotationPoint = _rotationPoint[_rotationIndex];
-				}
+                    DisableCoolOff = true;
+					Invoke("awakenCoolDown", _coolOffDelay);
+                }
 				else
 				{
-					OnCompleate.Invoke();
+					DisableCoolOff = true;
+                    OnComplete.Invoke();
 				}
 
 			}
+		}
+	}
+
+	public void DecrementGauge()
+	{
+		transform.Rotate(-Vector3.forward, -_coolOffSpeed * Time.deltaTime);
+		_rotationIncrement -= _coolOffSpeed * Time.deltaTime;
+
+		// If the cooling takes it back below a previous rotation point, that will then become the next point to reach.
+
+		if (_rotationIndex > 1 && _rotationIncrement < _rotationPoint[_rotationIndex - 1])
+		{
+			_rotationIndex--;
+			_nextRotationPoint = _rotationPoint[_rotationIndex];
+		}
+	}
+
+	public void awakenCoolDown()
+	{
+		if (!MoveToNextPoint && _rotationIndex < _rotationPoint.Length - 1) // if rotation is disabled and isn't last point.
+		{
+			DisableCoolOff = false;
 		}
 	}
 
