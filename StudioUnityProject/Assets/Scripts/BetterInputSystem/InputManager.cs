@@ -38,37 +38,50 @@ public class InputManager : MonoBehaviour
 		}
 	}
 
+	// This is where all the key actions with the key codes.
+	public static Dictionary<KeyAction, KeyData> keyValuePairs = new();
+
 	void Awake()
 	{
-		Existing = true;
+		if (!Existing)
+		{
+			keyValuePairs.Clear();
+			Existing = true;
+		}
 	}
 
 	void Start()
 	{
 		foreach (KeyAction action in Enum.GetValues(typeof(KeyAction)))
 		{
-			InputManager.KeyData newKeyData = new();
+			try
+			{
+				InputManager.KeyData newKeyData = new();
 
-			newKeyData.KeyAction = action;
+				newKeyData.KeyAction = action;
 
-			// TODO load from save
-			newKeyData.KeyCode = GetDefultValues(newKeyData.KeyAction);
+				// TODO load from save
+				newKeyData.KeyCode = GetDefultValues(newKeyData.KeyAction);
 
-			newKeyData.DisplayText = $"{newKeyData.KeyAction} [{newKeyData.KeyCode}]";
+				newKeyData.DisplayText = $"{newKeyData.KeyAction} [{newKeyData.KeyCode}]";
 
-			// Put the UI elements here
-			newKeyData.UIElement = null;
+				// Put the UI elements here
+				newKeyData.UIElement = null;
 
-			InputManager.keyValuePairs.Add(newKeyData.KeyAction, newKeyData);
+				InputManager.keyValuePairs.Add(newKeyData.KeyAction, newKeyData);
 
-			// keyValuePairs.Add()
+				// keyValuePairs.Add()
+			}
+			catch
+			{
+				print("Oopsies");
+			}
 		}
 
 
 	}
 
-	// This is where all the key actions with the key codes.
-	public static Dictionary<KeyAction, KeyData> keyValuePairs = new();
+
 
 
 	/// <summary>
