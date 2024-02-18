@@ -1407,10 +1407,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Locked: 0
-  Speed: 5
+  WalkSpeed: 5
   SprintSpeed: 10
   Gravity: -9.81
-  JumpHeight: 1.4
+  JumpHeight: 4
+  AirMovementMultiplyer: 0.5
 --- !u!114 &1880704876620122638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1759,13 +1760,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1b3c644ff5d0de246902d005743994a0, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1b3c644ff5d0de246902d005743994a0, type: 3}
       propertyPath: m_Name
       value: 23_ElementGun_V1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1b3c644ff5d0de246902d005743994a0, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
