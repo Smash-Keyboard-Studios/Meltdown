@@ -3189,7 +3189,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh69786
+  m_Name: pb_Mesh30808
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -23347,6 +23347,18 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 2874830188577350306, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
+      propertyPath: Gravity
+      value: 9.81
+      objectReference: {fileID: 0}
+    - target: {fileID: 2874830188577350306, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
+      propertyPath: AirResistance
+      value: 0.005
+      objectReference: {fileID: 0}
+    - target: {fileID: 2874830188577350306, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
+      propertyPath: AirMovementMultiplyer
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3408559061371864064, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -23362,6 +23374,14 @@ PrefabInstance:
     - target: {fileID: 5174642110754004160, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5405001806582342393, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
+      propertyPath: m_StepOffset
+      value: 0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 5405001806582342393, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
+      propertyPath: m_MinMoveDistance
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 6067497010342986816, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
       propertyPath: m_Layer

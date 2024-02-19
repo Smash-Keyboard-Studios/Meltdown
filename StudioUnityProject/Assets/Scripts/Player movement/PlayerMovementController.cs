@@ -12,7 +12,7 @@ public class PlayerMovementController : MonoBehaviour
 	public float WalkSpeed = 5f;
 	public float SprintSpeed = 10f;
 
-	public float Gravity = -9.81f;
+	public float Gravity = 9.81f;
 
 	public float JumpHeight = 1.4f;
 
@@ -21,9 +21,14 @@ public class PlayerMovementController : MonoBehaviour
 	public float GroundResistance = 0.2f;
 	public float AirResistance = 0f;
 
+	public float Mass = 72.5f;
+
 
 	private CharacterController _characterContoller;
 
+	private Vector3 _moveVelocity;
+	private Vector3 _gravityVelocity;
+	private Vector3 _verticalVelocity;
 	private Vector3 _velocity;
 
 	private float _speed = 0;
@@ -49,9 +54,6 @@ public class PlayerMovementController : MonoBehaviour
 
 	private float _resistance = 0;
 
-	private bool _isOnSlope = false;
-	RaycastHit slopeHit;
-
 
 	// Start is called before the first frame update
 	void Start()
@@ -68,12 +70,10 @@ public class PlayerMovementController : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		HandleGravity();
 
 		if (Locked) return; // Stops movement
 		HandleGroundCheck();
 
-		_isOnSlope = IsOnSlope();
 
 
 		HandleMovement();
@@ -81,10 +81,21 @@ public class PlayerMovementController : MonoBehaviour
 
 		HandleCrouching();
 
+		HandleGravity();
 
 		HandleResistance();
 
+		Vector3 _targVelocity = _moveVelocity + _gravityVelocity + _verticalVelocity;
+
+		_velocity += _targVelocity;
+
 		_characterContoller.Move(_velocity * Time.deltaTime);
+
+		if (_characterContoller.velocity.y <= 0 && _velocity.y > _characterContoller.velocity.y)
+		{
+			// may change later
+			_velocity.y = _characterContoller.velocity.y;
+		}
 
 	}
 
@@ -117,78 +128,82 @@ public class PlayerMovementController : MonoBehaviour
 			_speed = WalkSpeed;
 		}
 
-		if (_isOnSlope)
+
+		Vector3 wishDir = moveDirection * _speed * _crouchSpeedScale;
+
+		_moveVelocity += wishDir - _moveVelocity * Time.deltaTime;
+
+		if (!_isGrounded)
 		{
-			moveDirection = Vector3.ProjectOnPlane(moveDirection, slopeHit.normal);
+			_moveVelocity = _moveVelocity * (_isGrounded ? 1 : AirMovementMultiplyer);
 		}
 
-		_velocity += moveDirection * (_isGrounded ? 1 : AirMovementMultiplyer) * _speed * _crouchSpeedScale;
 
-		float yVel = _velocity.y;
-		_velocity.y = 0;
 
-		if (_velocity.magnitude > _speed)
-		{
-			_velocity = _velocity.normalized * _speed;
-		}
 
-		_velocity.y = yVel;
+		// float yVel = _velocity.y;
+		// _velocity.y = 0;
+
+		// if (_velocity.magnitude > _speed)
+		// {
+		// 	_velocity = _velocity.normalized * _speed;
+		// }
+
+		// _velocity.y = yVel;
 	}
 
 	private void HandleResistance()
 	{
 		// can reduce
-		if (_isGrounded && !_isOnSlope)
+		if (_isGrounded)
 		{
 			_resistance = GroundResistance;
-			_velocity += -_velocity * _resistance;
+			_moveVelocity += -_moveVelocity * _resistance;
 		}
-		else if (!_isGrounded && !_isOnSlope)
+		else
 		{
 			_resistance = AirResistance;
-			_velocity += -_velocity * _resistance;
-		}
-		else if (_isOnSlope)
-		{
-			_resistance = GroundResistance;
-			// print(Vector3.ProjectOnPlane(_velocity, slopeHit.normal));
-			_velocity += -_velocity * _resistance;
+			_moveVelocity += -_moveVelocity * _resistance;
 		}
 
 
 	}
 
+
 	private void HandleGravity()
 	{
-		if (_isGrounded && !_isOnSlope && _velocity.y <= 0)
-		{
-			_velocity.y = -2f;
-		}
-		else if (!_isOnSlope)
-		{
-			_velocity.y += Gravity * Time.deltaTime;
-		}
+		// if (_isGrounded && _velocity.y <= 0)
+		// {
+		// 	_gravityVelocity.y += -2f - _gravityVelocity.y;
+		// }
+		// else
+		// {
+		// 	_gravityVelocity.y += -Gravity * Mass * Time.deltaTime;
+		// }
 
-		_characterContoller.Move(_velocity * Time.deltaTime);
+		_gravityVelocity.y = -Gravity;
 
-		if (_characterContoller.velocity.y <= 0 && _velocity.y > _characterContoller.velocity.y)
-		{
-			// may change later
-			_velocity.y = _characterContoller.velocity.y;
-		}
+		//_characterContoller.Move(_moveVelocity * Time.deltaTime);
 	}
 
 	private void HandleJumping()
 	{
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			if (_isGrounded && !_isOnSlope)
+			if (_isGrounded)
 			{
-				_velocity.y = Mathf.Sqrt(JumpHeight * -2f * Gravity * _resistance);
+				_verticalVelocity.y = Mathf.Sqrt(JumpHeight * -2f * -Gravity * Mass);
 			}
-			else if (_isOnSlope)
+		}
+		else
+		{
+			if (_verticalVelocity != Vector3.zero && _verticalVelocity.y > 0)
 			{
-				_velocity += (transform.up + slopeHit.normal) * Mathf.Sqrt(JumpHeight * -2f * Gravity * _resistance);
+				_verticalVelocity += Vector3.zero - _verticalVelocity * Time.deltaTime * Gravity;
+			}
+			else if (_verticalVelocity != Vector3.zero && _verticalVelocity.y < 0)
+			{
+				_verticalVelocity = Vector3.zero;
 			}
 		}
 	}
@@ -237,22 +252,6 @@ public class PlayerMovementController : MonoBehaviour
 	private void MoveCamY(float y)
 	{
 		_cameraHolderTransform.localPosition = new Vector3(0, y, 0);
-	}
-
-	private bool IsOnSlope()
-	{
-		if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, _characterContoller.height)) // might need to make this value scale with player later
-		{
-			if (slopeHit.normal != Vector3.up)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-		return false;
 	}
 
 	private void HandleGroundCheck()
