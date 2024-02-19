@@ -31,18 +31,10 @@ public class PlayerMovementController : MonoBehaviour
 	private Vector3 _gravityVelocity;
 	private Vector3 _verticalVelocity;
 	private Vector3 _velocity;
-
-	private Vector3 _gravityVector;
+	private Vector3 _ResistanceVelocity;
 
 	private Vector3 moveDirection;
 
-	private Vector3 airRis;
-
-	private Vector3 finalVector;
-
-	private Vector3 acc;
-
-	private Vector3 drag;
 
 	private float _speed = 0;
 
@@ -98,7 +90,7 @@ public class PlayerMovementController : MonoBehaviour
 
 		HandleResistance();
 
-		Vector3 _targVelocity = _moveVelocity + _gravityVelocity + _verticalVelocity;
+		Vector3 _targVelocity = _moveVelocity + _ResistanceVelocity + _gravityVelocity + _verticalVelocity;
 
 		_velocity += _targVelocity;
 
@@ -171,15 +163,14 @@ public class PlayerMovementController : MonoBehaviour
 		if (_isGrounded)
 		{
 			_resistance = GroundResistance;
-			_moveVelocity += -_moveVelocity * _resistance;
+			_ResistanceVelocity += -_moveVelocity * _resistance;
 		}
 		else
 		{
 			_resistance = AirResistance;
-			_moveVelocity += -_moveVelocity * _resistance;
+			_ResistanceVelocity += -_moveVelocity * _resistance;
 		}
 
-		drag = -_velocity * Mass * Drag;
 
 		// // can reduce
 		// if (_isGrounded && !_isOnSlope)
@@ -217,21 +208,6 @@ public class PlayerMovementController : MonoBehaviour
 		_gravityVelocity.y = -Gravity;
 
 		//_characterContoller.Move(_moveVelocity * Time.deltaTime);
-	}
-
-	private void Force(Vector3 dir)
-	{
-		_velocity += dir / Mass;
-	}
-
-	private void Accelerate(Vector3 dir)
-	{
-		_velocity += (dir * Mass) * Time.deltaTime;
-	}
-
-	private void SetVelocity(Vector3 vel)
-	{
-		_velocity = vel;
 	}
 
 	private void HandleJumping()
