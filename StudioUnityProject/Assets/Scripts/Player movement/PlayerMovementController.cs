@@ -20,6 +20,7 @@ public class PlayerMovementController : MonoBehaviour
 
 	public float GroundResistance = 0.2f;
 	public float AirResistance = 0f;
+	public float Drag = 2f;
 
 	public float Mass = 72.5f;
 
@@ -30,6 +31,18 @@ public class PlayerMovementController : MonoBehaviour
 	private Vector3 _gravityVelocity;
 	private Vector3 _verticalVelocity;
 	private Vector3 _velocity;
+
+	private Vector3 _gravityVector;
+
+	private Vector3 moveDirection;
+
+	private Vector3 airRis;
+
+	private Vector3 finalVector;
+
+	private Vector3 acc;
+
+	private Vector3 drag;
 
 	private float _speed = 0;
 
@@ -76,7 +89,7 @@ public class PlayerMovementController : MonoBehaviour
 
 
 
-		HandleMovement();
+		HandleMovementDir();
 		HandleJumping();
 
 		HandleCrouching();
@@ -99,13 +112,13 @@ public class PlayerMovementController : MonoBehaviour
 
 	}
 
-	private void HandleMovement()
+	private void HandleMovementDir()
 	{
 		// redo with new input system.
 		float xAxis = Input.GetAxisRaw("Horizontal");
 		float zAxis = Input.GetAxisRaw("Vertical");
 
-		Vector3 moveDirection = transform.right * xAxis + transform.forward * zAxis;
+		moveDirection = -transform.right * xAxis + -transform.forward * zAxis;
 
 		moveDirection.Normalize();
 
@@ -166,6 +179,26 @@ public class PlayerMovementController : MonoBehaviour
 			_moveVelocity += -_moveVelocity * _resistance;
 		}
 
+		drag = -_velocity * Mass * Drag;
+
+		// // can reduce
+		// if (_isGrounded && !_isOnSlope)
+		// {
+		// 	_resistance = GroundResistance;
+		// 	_velocity += -_velocity * _resistance;
+		// }
+		// else if (!_isGrounded && !_isOnSlope)
+		// {
+		// 	_resistance = AirResistance;
+		// 	_velocity += -_velocity * _resistance;
+		// }
+		// else if (_isOnSlope)
+		// {
+		// 	_resistance = GroundResistance;
+		// 	// print(Vector3.ProjectOnPlane(_velocity, slopeHit.normal));
+		// 	_velocity += -_velocity * _resistance;
+		// }
+
 
 	}
 
@@ -184,6 +217,21 @@ public class PlayerMovementController : MonoBehaviour
 		_gravityVelocity.y = -Gravity;
 
 		//_characterContoller.Move(_moveVelocity * Time.deltaTime);
+	}
+
+	private void Force(Vector3 dir)
+	{
+		_velocity += dir / Mass;
+	}
+
+	private void Accelerate(Vector3 dir)
+	{
+		_velocity += (dir * Mass) * Time.deltaTime;
+	}
+
+	private void SetVelocity(Vector3 vel)
+	{
+		_velocity = vel;
 	}
 
 	private void HandleJumping()
