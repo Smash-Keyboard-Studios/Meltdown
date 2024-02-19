@@ -90,7 +90,7 @@ public class PlayerMovementController : MonoBehaviour
 
 		HandleResistance();
 
-		Vector3 _targVelocity = _moveVelocity + _ResistanceVelocity + _gravityVelocity + _verticalVelocity;
+		Vector3 _targVelocity = _moveVelocity + _gravityVelocity + _verticalVelocity;
 
 		_velocity += _targVelocity;
 
@@ -163,12 +163,12 @@ public class PlayerMovementController : MonoBehaviour
 		if (_isGrounded)
 		{
 			_resistance = GroundResistance;
-			_ResistanceVelocity += -_moveVelocity * _resistance;
+			_moveVelocity += -_moveVelocity * _resistance;
 		}
 		else
 		{
 			_resistance = AirResistance;
-			_ResistanceVelocity += -_moveVelocity * _resistance;
+			_moveVelocity += -_moveVelocity * _resistance;
 		}
 
 
