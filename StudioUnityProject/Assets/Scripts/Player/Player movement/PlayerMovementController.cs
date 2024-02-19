@@ -13,10 +13,11 @@ public class PlayerMovementController : MonoBehaviour
 	public float SprintSpeed = 10f;
 
 	public float Gravity = 9.81f;
+	public float IdleGravity = -4f;
 
 	public float JumpHeight = 1.4f;
 
-	public float AirMovementMultiplyer = 0.2f;
+	public float AirMovementMultiplier = 0.2f;
 
 	// public float Mass = 72.5f;
 
@@ -81,17 +82,28 @@ public class PlayerMovementController : MonoBehaviour
 	private void HandleMovement()
 	{
 		// redo with new input system.
-		// float xAxis = Input.GetAxisRaw("Horizontal");
-		// float zAxis = Input.GetAxisRaw("Vertical");
 
-		// Vector3 moveDirection = transform.right * xAxis + transform.forward * zAxis;
+		float xAxis = Input.GetAxisRaw("Horizontal");
+		float zAxis = Input.GetAxisRaw("Vertical");
 
-		Vector3 moveDirection = Vector3.zero;
+		Vector3 moveDirection = transform.right * xAxis + transform.forward * zAxis;
 
-		moveDirection.x = Input.GetAxisRaw("Horizontal");
-		moveDirection.z = Input.GetAxisRaw("Vertical");
+		// float zPos = 0;
+		// float zNeg = 0;
+		// if (Input.GetKey(InputManager.GetKey(InputActions.KeyAction.Forward))) zPos = 1f;
+		// if (Input.GetKey(InputManager.GetKey(InputActions.KeyAction.Backward))) zNeg = -1f;
 
-		moveDirection = transform.right * moveDirection.x + transform.forward * moveDirection.z;
+		// float xPos = 0;
+		// float xNeg = 0;
+		// if (Input.GetKey(InputManager.GetKey(InputActions.KeyAction.Right))) xPos = 1f;
+		// if (Input.GetKey(InputManager.GetKey(InputActions.KeyAction.Left))) xNeg = -1f;
+
+		// Vector3 moveDirection = Vector3.zero;
+
+		// moveDirection.x = xPos + xNeg;
+		// moveDirection.z = zPos + zNeg;
+
+		// moveDirection = transform.right * moveDirection.x + transform.forward * moveDirection.z;
 
 		moveDirection.Normalize();
 
@@ -105,9 +117,13 @@ public class PlayerMovementController : MonoBehaviour
 		}
 
 
-		if (_isSprinting)
+		if (_isSprinting && !_isCrouched)
 		{
 			_speed = SprintSpeed;
+		}
+		else if (_isCrouched)
+		{
+			_speed = WalkSpeed * _crouchSpeedScale;
 		}
 		else
 		{
@@ -117,13 +133,13 @@ public class PlayerMovementController : MonoBehaviour
 		if (_isGrounded)
 		{
 			finalMoveDir = moveDirection * _speed;
-			_characterContoller.Move(moveDirection * _speed * Time.deltaTime);
+			_characterContoller.Move(moveDirection * _speed * Time.deltaTime * _crouchSpeedScale);
 		}
 		else
 		{
 			float y = _velocity.y;
 			if (moveDirection != Vector3.zero)
-				_velocity += moveDirection * AirMovementMultiplyer;
+				_velocity += moveDirection * AirMovementMultiplier;
 			_velocity.y = y;
 		}
 
@@ -141,9 +157,9 @@ public class PlayerMovementController : MonoBehaviour
 
 
 
-		if (_isGrounded && _velocity.y <= 0 && !onSlope)
+		if (_isGrounded && _velocity.y <= 0)
 		{
-			_velocity.y = -2f;
+			_velocity.y = IdleGravity;
 		}
 		else
 		{
@@ -213,7 +229,6 @@ public class PlayerMovementController : MonoBehaviour
 			_isUnableToUncrouch = false;
 		}
 
-		// TODO replace with new input system
 		if (_isUnableToUncrouch)
 		{
 			_characterContoller.height = _playerCrouchingHeight;
@@ -221,7 +236,8 @@ public class PlayerMovementController : MonoBehaviour
 
 		}
 
-		if (Input.GetKey(KeyCode.C))
+		// TODO replace with new input system
+		if (Input.GetKey(InputManager.GetKey(InputActions.KeyAction.Crouch)))
 		{
 			_characterContoller.height = _playerCrouchingHeight;
 			MoveCamY(_cameraCrouchHeight);
@@ -244,7 +260,8 @@ public class PlayerMovementController : MonoBehaviour
 
 	private void HandleGroundCheck()
 	{
-		if (_characterContoller.isGrounded || Physics.Raycast(transform.position, -transform.up, (_characterContoller.height / 2f) + 0.1f))
+		//Physics.Raycast(transform.position, -transform.up, (_characterContoller.height / 2f) + 0.1f)
+		if (_characterContoller.isGrounded || Physics.CheckSphere(new Vector3(transform.position.x, transform.position.y - ((_characterContoller.height / 2f) + _characterContoller.radius / 4f), transform.position.z), _characterContoller.radius, ~(1 << 6)))
 		{
 			_isGrounded = true;
 		}

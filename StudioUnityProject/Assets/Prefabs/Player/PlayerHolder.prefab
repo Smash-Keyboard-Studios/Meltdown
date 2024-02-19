@@ -1372,10 +1372,10 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 1.75
-  m_Radius: 0.25
+  m_Height: 2
+  m_Radius: 0.5
   m_SlopeLimit: 45
-  m_StepOffset: 0.3
+  m_StepOffset: 0.45
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
@@ -1407,11 +1407,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Locked: 0
-  WalkSpeed: 5
-  SprintSpeed: 10
-  Gravity: -9.81
-  JumpHeight: 4
-  AirMovementMultiplyer: 0.5
+  WalkSpeed: 3
+  SprintSpeed: 7
+  Gravity: 9.81
+  JumpHeight: 3
+  AirMovementMultiplier: 0.35
 --- !u!114 &1880704876620122638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1770,7 +1770,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1b3c644ff5d0de246902d005743994a0, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

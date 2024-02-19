@@ -37,7 +37,7 @@ public class MouseLookController : MonoBehaviour
 		lookDirection.y = Input.GetAxisRaw("Mouse Y");
 
 		_yRotation -= lookDirection.y;
-		_yRotation = Mathf.Clamp(_yRotation, -90f, 90f);
+		_yRotation = Mathf.Clamp(_yRotation, -80f, 90f);
 
 		// could put sensitivity here, like ved2D * sens
 
