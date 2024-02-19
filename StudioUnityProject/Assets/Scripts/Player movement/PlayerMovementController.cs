@@ -18,22 +18,16 @@ public class PlayerMovementController : MonoBehaviour
 
 	public float AirMovementMultiplyer = 0.2f;
 
-	public float GroundResistance = 0.2f;
-	public float AirResistance = 0f;
-	public float Drag = 2f;
+	// public float Mass = 72.5f;
 
-	public float Mass = 72.5f;
 
 
 	private CharacterController _characterContoller;
 
-	private Vector3 _moveVelocity;
-	private Vector3 _gravityVelocity;
-	private Vector3 _verticalVelocity;
 	private Vector3 _velocity;
-	private Vector3 _ResistanceVelocity;
+	private Vector3 _jumpVector;
+	Vector3 finalMoveDir;
 
-	private Vector3 moveDirection;
 
 
 	private float _speed = 0;
@@ -57,8 +51,6 @@ public class PlayerMovementController : MonoBehaviour
 
 	private bool _isSprinting = false;
 
-	private float _resistance = 0;
-
 
 	// Start is called before the first frame update
 	void Start()
@@ -75,42 +67,31 @@ public class PlayerMovementController : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+		HandleGravity();
 
 		if (Locked) return; // Stops movement
 		HandleGroundCheck();
 
-
-
-		HandleMovementDir();
+		HandleMovement();
 		HandleJumping();
 
 		HandleCrouching();
-
-		HandleGravity();
-
-		HandleResistance();
-
-		Vector3 _targVelocity = _moveVelocity + _gravityVelocity + _verticalVelocity;
-
-		_velocity += _targVelocity;
-
-		_characterContoller.Move(_velocity * Time.deltaTime);
-
-		if (_characterContoller.velocity.y <= 0 && _velocity.y > _characterContoller.velocity.y)
-		{
-			// may change later
-			_velocity.y = _characterContoller.velocity.y;
-		}
-
 	}
 
-	private void HandleMovementDir()
+	private void HandleMovement()
 	{
 		// redo with new input system.
-		float xAxis = Input.GetAxisRaw("Horizontal");
-		float zAxis = Input.GetAxisRaw("Vertical");
+		// float xAxis = Input.GetAxisRaw("Horizontal");
+		// float zAxis = Input.GetAxisRaw("Vertical");
 
-		moveDirection = -transform.right * xAxis + -transform.forward * zAxis;
+		// Vector3 moveDirection = transform.right * xAxis + transform.forward * zAxis;
+
+		Vector3 moveDirection = Vector3.zero;
+
+		moveDirection.x = Input.GetAxisRaw("Horizontal");
+		moveDirection.z = Input.GetAxisRaw("Vertical");
+
+		moveDirection = transform.right * moveDirection.x + transform.forward * moveDirection.z;
 
 		moveDirection.Normalize();
 
@@ -133,62 +114,18 @@ public class PlayerMovementController : MonoBehaviour
 			_speed = WalkSpeed;
 		}
 
-
-		Vector3 wishDir = moveDirection * _speed * _crouchSpeedScale;
-
-		_moveVelocity += wishDir - _moveVelocity * Time.deltaTime;
-
-		if (!_isGrounded)
-		{
-			_moveVelocity = _moveVelocity * (_isGrounded ? 1 : AirMovementMultiplyer);
-		}
-
-
-
-
-		// float yVel = _velocity.y;
-		// _velocity.y = 0;
-
-		// if (_velocity.magnitude > _speed)
-		// {
-		// 	_velocity = _velocity.normalized * _speed;
-		// }
-
-		// _velocity.y = yVel;
-	}
-
-	private void HandleResistance()
-	{
-		// can reduce
 		if (_isGrounded)
 		{
-			_resistance = GroundResistance;
-			_moveVelocity += -_moveVelocity * _resistance;
+			finalMoveDir = moveDirection * _speed;
+			_characterContoller.Move(moveDirection * _speed * Time.deltaTime);
 		}
 		else
 		{
-			_resistance = AirResistance;
-			_moveVelocity += -_moveVelocity * _resistance;
+			float y = _velocity.y;
+			if (moveDirection != Vector3.zero)
+				_velocity += moveDirection * AirMovementMultiplyer;
+			_velocity.y = y;
 		}
-
-
-		// // can reduce
-		// if (_isGrounded && !_isOnSlope)
-		// {
-		// 	_resistance = GroundResistance;
-		// 	_velocity += -_velocity * _resistance;
-		// }
-		// else if (!_isGrounded && !_isOnSlope)
-		// {
-		// 	_resistance = AirResistance;
-		// 	_velocity += -_velocity * _resistance;
-		// }
-		// else if (_isOnSlope)
-		// {
-		// 	_resistance = GroundResistance;
-		// 	// print(Vector3.ProjectOnPlane(_velocity, slopeHit.normal));
-		// 	_velocity += -_velocity * _resistance;
-		// }
 
 
 	}
@@ -196,18 +133,46 @@ public class PlayerMovementController : MonoBehaviour
 
 	private void HandleGravity()
 	{
-		// if (_isGrounded && _velocity.y <= 0)
-		// {
-		// 	_gravityVelocity.y += -2f - _gravityVelocity.y;
-		// }
-		// else
-		// {
-		// 	_gravityVelocity.y += -Gravity * Mass * Time.deltaTime;
-		// }
+		RaycastHit hit;
 
-		_gravityVelocity.y = -Gravity;
+		Physics.Raycast(transform.position, Vector3.down, out hit, _characterContoller.height / 2f + 0.2f);
 
-		//_characterContoller.Move(_moveVelocity * Time.deltaTime);
+		bool onSlope = Vector3.Dot(hit.normal, Vector3.up) != 1 ? true : false && Physics.Raycast(transform.position, Vector3.down, _characterContoller.height / 2f + 0.5f);
+
+
+
+		if (_isGrounded && _velocity.y <= 0 && !onSlope)
+		{
+			_velocity.y = -2f;
+		}
+		else
+		{
+			_velocity.y += (-Gravity) * Time.deltaTime;
+		}
+
+		if (_isGrounded && _velocity.y <= 0)
+		{
+			// haha locked. such a pain.
+			_velocity.x = 0;
+			_velocity.z = 0;
+		}
+
+		if (Mathf.Pow(_velocity.z, 2f) + Mathf.Pow(_velocity.x, 2f) > Mathf.Pow(SprintSpeed, 2f))
+		{
+			float _ = _velocity.y;
+
+			_velocity = _velocity.normalized * SprintSpeed;
+
+			_velocity.y = _;
+		}
+
+		_characterContoller.Move(_velocity * Time.deltaTime);
+
+		if (_characterContoller.velocity.y <= 0 && _velocity.y > _characterContoller.velocity.y)
+		{
+			// may change later
+			_velocity.y = _characterContoller.velocity.y;
+		}
 	}
 
 	private void HandleJumping()
@@ -216,20 +181,19 @@ public class PlayerMovementController : MonoBehaviour
 		{
 			if (_isGrounded)
 			{
-				_verticalVelocity.y = Mathf.Sqrt(JumpHeight * -2f * -Gravity * Mass);
+				// _velocity.y = Mathf.Sqrt(JumpHeight * -2f * (-Gravity));
+				_jumpVector = new Vector3(finalMoveDir.x, Mathf.Sqrt(JumpHeight * -2f * (-Gravity)), finalMoveDir.z);
+				// _characterContoller.Move(_jumpVector);
+				_velocity += _jumpVector;
 			}
 		}
-		else
-		{
-			if (_verticalVelocity != Vector3.zero && _verticalVelocity.y > 0)
-			{
-				_verticalVelocity += Vector3.zero - _verticalVelocity * Time.deltaTime * Gravity;
-			}
-			else if (_verticalVelocity != Vector3.zero && _verticalVelocity.y < 0)
-			{
-				_verticalVelocity = Vector3.zero;
-			}
-		}
+
+		// if (!_isGrounded)
+		// {
+		// 	// _jumpVector += _velocity;
+		// 	_velocity.x = _jumpVector.x;
+		// 	_velocity.z = _jumpVector.z;
+		// }
 	}
 
 	private void HandleCrouching()
