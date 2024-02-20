@@ -1,5 +1,6 @@
 // THIS SCRIPT CONTROLS THE MOVEMENT OF THE PIN (HAND) OF THE GAUGE AND SHOULD BE ATTACHED IT.
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,7 +22,7 @@ public class GaugeIndicator : MonoBehaviour
 	[Header("<b>Rotation Parameters</b>")]
 	[Space]
 	[SerializeField][Range(0.0f, 100.0f)] private float _heatingSpeed = 40.0f;
-	[SerializeField][Range(0.0f, 100.0f)] private float _coolOffSpeed = 5.0f;
+	[SerializeField][Range(0.0f, 100.0f)] private float _coolingSpeed = 5.0f;
 	[SerializeField][Range(0.0f, 100.0f)] private float _coolOffDelay = 2.0f;
 	public bool DisableCoolOff = false;
 	public bool NoTriggerCoolOff = false;
@@ -42,10 +43,11 @@ public class GaugeIndicator : MonoBehaviour
 	{
 		// Indexes of Array
 		_startRotationIndex = 1;
-		_finalRotationIndex = _rotationPoint.Length - 1;
 		_rotationIndex = _startRotationIndex;
+		_finalRotationIndex = _rotationPoint.Length - 1;
 
 		// Elements of Array
+		_firstRotationPoint = _rotationPoint[0];
 		_nextRotationPoint = _rotationPoint[_rotationIndex];
 		_finalRotationPoint = _rotationPoint[_finalRotationIndex];
 
@@ -92,11 +94,10 @@ public class GaugeIndicator : MonoBehaviour
 				{
 					transform.Rotate(-Vector3.forward, _heatingSpeed * Time.deltaTime);
 					_rotationIncrement += _heatingSpeed * Time.deltaTime;
-				}
+				} 
 				else 
 				{
-					transform.Rotate(-Vector3.forward, _nextRotationPoint - _rotationIncrement);
-					_rotationIncrement = _nextRotationPoint;
+					JumpToNextRotationPoint();
 				}
 			}
 
@@ -104,13 +105,16 @@ public class GaugeIndicator : MonoBehaviour
 
 			else if (_rotationIncrement >= _nextRotationPoint) // Greater than symbol is necessary because of imprecision.
 			{
+				JumpToNextRotationPoint();
 				MoveToNextPoint = false;
 
                 if (_rotationIndex < _finalRotationIndex) // Determines if the current point is not the last one.
 				{
 					_rotationIndex++;
 					SetRotationPoints(_rotationIndex);
+
                     DisableCoolOff = true;
+
 					if (!NoTriggerCoolOff)
 					{
 						Invoke("AwakenCoolDown", _coolOffDelay);
@@ -119,6 +123,7 @@ public class GaugeIndicator : MonoBehaviour
 				else
 				{
 					DisableCoolOff = true;
+
                     OnComplete.Invoke();
 				}
 
@@ -132,20 +137,20 @@ public class GaugeIndicator : MonoBehaviour
 		{
 			if (!InstantRotation)
 			{
-				transform.Rotate(-Vector3.forward, -_coolOffSpeed * Time.deltaTime);
-				_rotationIncrement -= _coolOffSpeed * Time.deltaTime;
+				transform.Rotate(-Vector3.forward, -_coolingSpeed * Time.deltaTime);
+				_rotationIncrement -= _coolingSpeed * Time.deltaTime;
 			}
 			else 
 			{
-				transform.Rotate(-Vector3.forward, _prevRotationPoint - _rotationIncrement);
-				_rotationIncrement = _prevRotationPoint;
+				JumpToPrevRotationPoint();
 			}
 		}
 
 		// If the cooling takes it back below a previous rotation point, that will then become the next point to reach.
 		
 		else if (_rotationIncrement <= _prevRotationPoint)
-		{
+		{	
+			JumpToPrevRotationPoint();
 			MoveToPrevPoint = false;
 
 			if (_rotationIndex > _startRotationIndex)
@@ -195,5 +200,17 @@ public class GaugeIndicator : MonoBehaviour
 	{
 		_nextRotationPoint = _rotationPoint[i];
 		_prevRotationPoint = _rotationPoint[i-1];
+	}
+
+	private void JumpToNextRotationPoint()
+	{
+		transform.Rotate(-Vector3.forward, _nextRotationPoint - _rotationIncrement);
+		_rotationIncrement = _nextRotationPoint;
+	}
+
+	private void JumpToPrevRotationPoint()
+	{
+		transform.Rotate(-Vector3.forward, _prevRotationPoint - _rotationIncrement);
+		_rotationIncrement = _prevRotationPoint;
 	}
 }
