@@ -43,7 +43,7 @@ public class PlayerMovementController : MonoBehaviour
 
 	private bool _isCrouched = false;
 
-	private float _playerStandingHeight = 1.75f;
+	public float _playerStandingHeight = 1.75f;
 	private float _playerCrouchingHeight;
 
 	private Transform _cameraHolderTransform;
