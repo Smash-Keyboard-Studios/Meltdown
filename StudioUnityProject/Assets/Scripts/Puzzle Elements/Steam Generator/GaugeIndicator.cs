@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEditor;
 
 public class GaugeIndicator : MonoBehaviour
 {
@@ -21,10 +20,11 @@ public class GaugeIndicator : MonoBehaviour
 
 	[Header("<b>Rotation Parameters</b>")]
 	[Space]
-	[SerializeField][Range(0.0f, 100.0f)] private float _rotationSpeed = 40.0f;
+	[SerializeField][Range(0.0f, 100.0f)] private float _heatingSpeed = 40.0f;
 	[SerializeField][Range(0.0f, 100.0f)] private float _coolOffSpeed = 5.0f;
 	[SerializeField][Range(0.0f, 100.0f)] private float _coolOffDelay = 2.0f;
 	public bool DisableCoolOff = false;
+	public bool NoTriggerCoolOff = false;
 	public bool InstantRotation = false;
 
 	[Header("<b>Location Parameters</b>")]
@@ -71,7 +71,7 @@ public class GaugeIndicator : MonoBehaviour
 			MoveToPrevPoint = false;
 			IncrementGauge();
 		}
-		else if ((!DisableCoolOff && transform.rotation != _defaultRotation) || MoveToPrevPoint) // Cools down (reverse rotation) to origin if not.
+		else if ((!DisableCoolOff || MoveToPrevPoint)  && transform.rotation != _defaultRotation) // Cools down (reverse rotation) to origin if not.
 		{
 			MoveToNextPoint = false;
 			DecrementGauge();
@@ -90,15 +90,13 @@ public class GaugeIndicator : MonoBehaviour
 			{
 				if (!InstantRotation)
 				{
-					transform.Rotate(-Vector3.forward, _rotationSpeed * Time.deltaTime);
-					_rotationIncrement += _rotationSpeed * Time.deltaTime;
+					transform.Rotate(-Vector3.forward, _heatingSpeed * Time.deltaTime);
+					_rotationIncrement += _heatingSpeed * Time.deltaTime;
 				}
 				else 
 				{
 					transform.Rotate(-Vector3.forward, _nextRotationPoint - _rotationIncrement);
 					_rotationIncrement = _nextRotationPoint;
-					_rotationIndex++;
-					SetRotationPoints(_rotationIndex);
 				}
 			}
 
@@ -113,7 +111,10 @@ public class GaugeIndicator : MonoBehaviour
 					_rotationIndex++;
 					SetRotationPoints(_rotationIndex);
                     DisableCoolOff = true;
-					Invoke("awakenCoolDown", _coolOffDelay);
+					if (!NoTriggerCoolOff)
+					{
+						Invoke("AwakenCoolDown", _coolOffDelay);
+					}
                 }
 				else
 				{
@@ -127,7 +128,7 @@ public class GaugeIndicator : MonoBehaviour
 
 	public void DecrementGauge()
 	{
-		if (_rotationIncrement > _prevRotationPoint)
+		if (_rotationIncrement > _prevRotationPoint) // active rotation towards the previous point.
 		{
 			if (!InstantRotation)
 			{
@@ -147,7 +148,7 @@ public class GaugeIndicator : MonoBehaviour
 		{
 			MoveToPrevPoint = false;
 
-			if (_rotationIndex > _startRotationIndex && _rotationIncrement < _prevRotationPoint)
+			if (_rotationIndex > _startRotationIndex)
 			{
 				_rotationIndex--;
 				SetRotationPoints(_rotationIndex);
@@ -155,7 +156,7 @@ public class GaugeIndicator : MonoBehaviour
 		}
 	}
 
-	public void awakenCoolDown()
+	public void AwakenCoolDown()
 	{
 		if (!MoveToNextPoint && _rotationIndex < _finalRotationIndex) // if rotation is disabled and isn't last point.
 		{
