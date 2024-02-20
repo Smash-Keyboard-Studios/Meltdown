@@ -26,7 +26,7 @@ public class PlayerInteractionScript : MonoBehaviour
                 tutorialText.text = "Press '" + interactKeycode.ToString() + "' to interact with " + hit.transform.name + ""; // Brings up the tutorial text and changes it to both the keycode assigned and what has been hit
                 if (Input.GetKeyDown(InputManager.GetKey(InputActions.KeyAction.Interact)))
                 {
-                    hit.collider.gameObject.GetComponent<InteractiveObject>()?.Interact();
+                    hit.collider.gameObject.GetComponent<IInteractable>()?.Interact();
                 }
             }
             else
