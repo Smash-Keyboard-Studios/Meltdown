@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+
 public class PlayerMovementController : MonoBehaviour
 {
 	[HideInInspector] // no need to touch this
 	public bool Locked = false;
-
 
 	public float WalkSpeed = 5f;
 	public float SprintSpeed = 10f;
@@ -18,6 +18,7 @@ public class PlayerMovementController : MonoBehaviour
 	public float JumpHeight = 1.4f;
 
 	public float AirMovementMultiplier = 0.2f;
+	public float MaxAirSpeed = 10f;
 
 	// public float Mass = 72.5f;
 
@@ -79,6 +80,7 @@ public class PlayerMovementController : MonoBehaviour
 		HandleCrouching();
 	}
 
+
 	private void HandleMovement()
 	{
 		// redo with new input system.
@@ -133,7 +135,7 @@ public class PlayerMovementController : MonoBehaviour
 		if (_isGrounded)
 		{
 			finalMoveDir = moveDirection * _speed;
-			_characterContoller.Move(moveDirection * _speed * Time.deltaTime * _crouchSpeedScale);
+			_characterContoller.Move(finalMoveDir * Time.deltaTime);
 		}
 		else
 		{
@@ -173,11 +175,11 @@ public class PlayerMovementController : MonoBehaviour
 			_velocity.z = 0;
 		}
 
-		if (Mathf.Pow(_velocity.z, 2f) + Mathf.Pow(_velocity.x, 2f) > Mathf.Pow(SprintSpeed, 2f))
+		if (Mathf.Pow(_velocity.z, 2f) + Mathf.Pow(_velocity.x, 2f) > Mathf.Pow(MaxAirSpeed, 2f))
 		{
 			float _ = _velocity.y;
 
-			_velocity = _velocity.normalized * SprintSpeed;
+			_velocity = _velocity.normalized * MaxAirSpeed;
 
 			_velocity.y = _;
 		}
@@ -200,6 +202,16 @@ public class PlayerMovementController : MonoBehaviour
 				// _velocity.y = Mathf.Sqrt(JumpHeight * -2f * (-Gravity));
 				_jumpVector = new Vector3(finalMoveDir.x, Mathf.Sqrt(JumpHeight * -2f * (-Gravity)), finalMoveDir.z);
 				// _characterContoller.Move(_jumpVector);
+
+				// if (Mathf.Pow(_jumpVector.z, 2f) + Mathf.Pow(_jumpVector.x, 2f) > Mathf.Pow(MaxAirSpeed, 2f))
+				// {
+				// 	float _ = _jumpVector.y;
+
+				// 	_jumpVector = _jumpVector.normalized * MaxAirSpeed;
+
+				// 	_jumpVector.y = _;
+				// }
+
 				_velocity += _jumpVector;
 			}
 		}
@@ -258,10 +270,17 @@ public class PlayerMovementController : MonoBehaviour
 		_cameraHolderTransform.localPosition = new Vector3(0, y, 0);
 	}
 
+	// void OnDrawGizmos()
+	// {
+	// 	// Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - (_characterContoller.height / 2f) + _characterContoller.radius / 2f, transform.position.z), _characterContoller.radius / 4f);
+	// }
+
 	private void HandleGroundCheck()
 	{
+
+		//Physics.CheckSphere(new Vector3(transform.position.x, transform.position.y - ((_characterContoller.height / 2f) + _characterContoller.radius / 2f), transform.position.z), _characterContoller.radius / 4f, ~(1 << 6))
 		//Physics.Raycast(transform.position, -transform.up, (_characterContoller.height / 2f) + 0.1f)
-		if (_characterContoller.isGrounded || Physics.CheckSphere(new Vector3(transform.position.x, transform.position.y - ((_characterContoller.height / 2f) + _characterContoller.radius / 4f), transform.position.z), _characterContoller.radius, ~(1 << 6)))
+		if (_characterContoller.isGrounded || Physics.Raycast(transform.position, -transform.up, (_characterContoller.height / 2f) + 0.1f))
 		{
 			_isGrounded = true;
 		}
