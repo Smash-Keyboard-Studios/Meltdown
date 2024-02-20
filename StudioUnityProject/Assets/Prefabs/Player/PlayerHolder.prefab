@@ -917,7 +917,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2647238305243501560}
   - component: {fileID: 4928014121090905579}
-  - component: {fileID: 8956963099891305817}
   - component: {fileID: 7017002398741779307}
   m_Layer: 6
   m_Name: Second cam
@@ -993,14 +992,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &8956963099891305817
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5174642110754004160}
-  m_Enabled: 1
 --- !u!114 &7017002398741779307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1308,7 +1299,8 @@ GameObject:
   - component: {fileID: 8837674229624353530}
   - component: {fileID: 4432008984798409796}
   - component: {fileID: 5405001806582342393}
-  - component: {fileID: 2547801627187184047}
+  - component: {fileID: 8860572925107370628}
+  - component: {fileID: 2874830188577350306}
   - component: {fileID: 1880704876620122638}
   - component: {fileID: 8643972227606793046}
   - component: {fileID: 705772530737012553}
@@ -1380,14 +1372,14 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 1.75
-  m_Radius: 0.25
+  m_Height: 2
+  m_Radius: 0.5
   m_SlopeLimit: 45
-  m_StepOffset: 0.3
+  m_StepOffset: 0.45
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2547801627187184047
+--- !u!114 &8860572925107370628
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1396,18 +1388,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 6067497010342986816}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb344cf306c8a044cbe2ad1fa79d3d36, type: 3}
+  m_Script: {fileID: 11500000, guid: 92922e7d46cc92e43a69d1bd0f8ce96f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 3
-  sprintMultiplier: 2
-  crouchDivider: 2
-  jumpHeight: 5
-  gravity: 9.81
-  mouseSensitivity: 2
-  upRange: 90
-  downRange: 80
-  range: 2
+  Locked: 0
+  CameraHolder: {fileID: 2724384780940018379}
+  Sensitivity: 1
+--- !u!114 &2874830188577350306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6067497010342986816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d248aa5f31e0d1c4bab8c48c31dc045d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Locked: 0
+  WalkSpeed: 3
+  SprintSpeed: 7
+  Gravity: 9.81
+  JumpHeight: 3
+  AirMovementMultiplier: 0.35
 --- !u!114 &1880704876620122638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1754,6 +1758,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1b3c644ff5d0de246902d005743994a0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1b3c644ff5d0de246902d005743994a0, type: 3}
+      propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1b3c644ff5d0de246902d005743994a0, type: 3}
