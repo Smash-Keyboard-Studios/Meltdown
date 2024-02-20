@@ -8,20 +8,19 @@ using UnityEngine.Events;
 
 public class GaugeIndicator : MonoBehaviour
 {
-	// [Non-Editor Variables]
-
-	private float[] _rotationPoint = { 0.0f, 35.0f, 70.0f, 105.0f, 140.0f, 175.0f };
+    // [Non-Editor Variables]
 
  	private float _firstRotationPoint, _nextRotationPoint, _prevRotationPoint, _finalRotationPoint;
 	private int _rotationIndex, _startRotationIndex, _finalRotationIndex;
 	private float _rotationIncrement;
 	private Quaternion _defaultRotation, _finalRotation;
 
-	// [Editor Variables]
+    // [Editor Variables]
 
-	[Header("<b>Rotation Parameters</b>")]
+    [Header("<b>Rotation Parameters</b>")]
 	[Space]
-	[SerializeField][Range(0.0f, 100.0f)] private float _heatingSpeed = 40.0f;
+    [SerializeField] private float[] _rotationPoint = { 0.0f, 35.0f, 70.0f, 105.0f, 140.0f, 175.0f };
+    [SerializeField][Range(0.0f, 100.0f)] private float _heatingSpeed = 40.0f;
 	[SerializeField][Range(0.0f, 100.0f)] private float _coolingSpeed = 5.0f;
 	[SerializeField][Range(0.0f, 100.0f)] private float _coolOffDelay = 2.0f;
 	public bool DisableCoolOff = false;
