@@ -5,7 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-	bool _paused = false;
+	public static bool _paused = false;
+
+	public static bool Overiding = false;
 
 	public GameObject PauseMenuObject;
 
@@ -26,7 +28,7 @@ public class PauseMenu : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		if (Input.GetKeyDown(InputManager.GetKey(InputActions.KeyAction.UI)))
+		if (Input.GetKeyDown(InputManager.GetKey(InputActions.KeyAction.UI)) && !Overiding)
 		{
 			_paused = !_paused;
 			PauseMenuObject.SetActive(_paused);
