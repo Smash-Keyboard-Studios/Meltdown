@@ -85,7 +85,10 @@ public class DebugConsole : MonoBehaviour
 
 		if (consoleOpen)
 		{
-
+			if (Input.GetKeyDown(KeyCode.Return))
+			{
+				EndEdit();
+			}
 		}
 	}
 
@@ -255,6 +258,7 @@ public class DebugConsole : MonoBehaviour
 		if (result == 1) TextToConsole("<color=red>Unkown Command!</color>");
 		if (result == 2) TextToConsole("<color=red>INTERNAL ERROR</color>");
 
+		InputField.text = "";
 
 		InputField.ActivateInputField();
 
