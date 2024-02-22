@@ -28,7 +28,7 @@ public class MainMenu : MonoBehaviour
     void Update()
     {
 
-        print("sensitivity is " + SensitivitySlider.value);
+        //print("sensitivity is " + SensitivitySlider.value);
 
     }
 

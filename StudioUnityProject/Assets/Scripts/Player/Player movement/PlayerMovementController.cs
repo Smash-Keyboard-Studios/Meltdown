@@ -195,7 +195,7 @@ public class PlayerMovementController : MonoBehaviour
 
 	private void HandleJumping()
 	{
-		if (Input.GetKeyDown(KeyCode.Space))
+		if (Input.GetKeyDown(InputManager.GetKey(InputActions.KeyAction.Jump)))
 		{
 			if (_isGrounded)
 			{
