@@ -16,7 +16,8 @@ public class BootSubsystems : MonoBehaviour
 		if (InputManager.Existing == false)
 		{
 			Debug.LogWarning("Failed to find input manager");
-			Instantiate(Resources.Load("Backup boot/BackupBoot", typeof(GameObject)));
+			GameObject go = Instantiate(Resources.Load("Backup boot/BackupBoot", typeof(GameObject))) as GameObject;
+			DontDestroyOnLoad(go);
 		}
 	}
 }
