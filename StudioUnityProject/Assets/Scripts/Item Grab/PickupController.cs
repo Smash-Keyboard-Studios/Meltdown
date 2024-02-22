@@ -8,6 +8,7 @@ using UnityEngine;
 //Make sure the mainCamera has the PickupController code attacked to the camera
 //Assign the HoldArea gameobject to the Hold Area Variable on the script component
 //Make sure the object you are having the player pick up has a Rigitbody component
+//Make sure the object you are trying to pick up has the tag "MoveableObject"
 //Make sure the gun object is attached to the variable on the script component
 //Make sure the player is attached to the player variable on the script component
 public class PickupController : MonoBehaviour
@@ -21,11 +22,15 @@ public class PickupController : MonoBehaviour
     [Header("Physics Parameters")]
     [SerializeField] private float pickupRange = 5.0f;
     [SerializeField] private float pickupForce = 150.0f;
+    [SerializeField] private float playerDistance = 1.0f;
+    [SerializeField] private int minMassObject = 2;
 
     public GameObject mainGun;
 
     Gun gun;
     public GameObject player;
+
+    public GameObject puzzleCube;
 
     void Awake()
     {
@@ -45,22 +50,16 @@ public class PickupController : MonoBehaviour
                 RaycastHit hit;
                 if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, pickupRange))
                 {
-                    PickupObject(hit.transform.gameObject);
-
-                    //Disables the mainGun as well as allowing the player to fire their ice and/or fire when the object is picked up.
-                    mainGun.SetActive(false);
-                    gun.hasFire = false;
-                    gun.hasIce = false;
+                    //Only picks up object with the tag "MoveableObject"
+                    if (hit.transform.CompareTag("MoveableObject"))
+                    {
+                            PickupObject(hit.transform.gameObject);
+                    }
                 }
             }
             else
             {
                 DropObject();
-
-                //Enables the mainGun as well as allowing the player to fire their ice and/or fire when the object is dropped'
-                mainGun.SetActive(true);
-                gun.hasFire = true;
-                gun.hasIce = true;
             }
         }
         //Check if the player actually has an object at any time.
@@ -77,6 +76,12 @@ public class PickupController : MonoBehaviour
                 //Where it's going to move to.
                 Vector3 moveDirection = (holdArea.position - heldObj.transform.position);
                 heldObjRB.AddForce(moveDirection * pickupForce);
+
+                //Drops the object if its get to far from the player
+                if (Vector3.Distance(heldObj.transform.position, holdArea.position) > playerDistance)
+                {
+                    DropObject();   
+                }
             }
         }
 
@@ -86,17 +91,30 @@ public class PickupController : MonoBehaviour
             {
                 heldObjRB = pickObj.GetComponent<Rigidbody>();
 
-                //Disables the gravity on the object when its been picked up.
-                heldObjRB.useGravity = false;
+                //Only picks up the object if its lower then the minMassObject
+                if (heldObjRB.mass < minMassObject)
+                {
+                    //Disables the gravity on the object when its been picked up.
+                    heldObjRB.useGravity = false;
 
-                heldObjRB.drag = 10;
+                    heldObjRB.drag = 10;
 
-                //When object is picked up it's not going to rotate around.
-                heldObjRB.constraints = RigidbodyConstraints.FreezeRotation;
+                    //When object is picked up it's not going to rotate around.
+                    heldObjRB.constraints = RigidbodyConstraints.FreezeRotation;
 
-                //Parents the object to the hold area.
-                heldObjRB.transform.parent = holdArea;
-                heldObj = pickObj;
+                    //Parents the object to the hold area.
+                    heldObjRB.transform.parent = holdArea;
+                    heldObj = pickObj;
+
+                    //Disables the mainGun as well as allowing the player to fire their ice and/or fire when the object is picked up.
+                    mainGun.SetActive(false);
+                    gun.hasFire = false;
+                    gun.hasIce = false;
+                }
+            }
+            else
+            {
+                DropObject();
             }
         }
 
@@ -113,6 +131,11 @@ public class PickupController : MonoBehaviour
             //Unparents the object from the hold area.
             heldObj.transform.parent = null;
             heldObj = null;
+
+            //Enables the mainGun as well as allowing the player to fire their ice and/or fire when the object is dropped'
+            mainGun.SetActive(true);
+            gun.hasFire = true;
+            gun.hasIce = true;
         }
     }
 }
