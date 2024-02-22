@@ -80,6 +80,11 @@ public class DebugConsole : MonoBehaviour
 			PauseMenu.Overiding = consoleOpen;
 			PauseMenu._paused = false;
 			Time.timeScale = consoleOpen ? 0 : 1;
+
+			if (consoleOpen)
+			{
+				InputField.ActivateInputField();
+			}
 		}
 
 
@@ -195,7 +200,7 @@ public class DebugConsole : MonoBehaviour
 			}
 		});
 
-		DestroyObjectCommand = new Command("destroy", "Deletes the game object 50m infront of the camera", "destroy", () =>
+		DestroyObjectCommand = new Command("obliterate", "Deletes the game object 50m infront of the camera", "obliterate", () =>
 		{
 			try
 			{
