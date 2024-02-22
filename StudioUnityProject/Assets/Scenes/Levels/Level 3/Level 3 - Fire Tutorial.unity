@@ -30493,11 +30493,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5754626f7880c0c4e8448de47c55b0dc, type: 3}
---- !u!1 &759405439 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3028320514872088757, guid: 5754626f7880c0c4e8448de47c55b0dc, type: 3}
-  m_PrefabInstance: {fileID: 759405438}
-  m_PrefabAsset: {fileID: 0}
 --- !u!43 &764517222
 Mesh:
   m_ObjectHideFlags: 0
@@ -45310,24 +45305,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 040ad58d25e864266a259b53d468243d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rotationSpeed: 40
-  _coolOffSpeed: 5
+  _rotationPoint:
+  - 0
+  - 35
+  - 70
+  - 105
+  - 140
+  - 175
+  _heatingSpeed: 40
+  _coolingSpeed: 40
+  _autoCoolDelay: 2
+  AutoCoolOn: 0
+  AutoCoolTriggerOn: 0
+  InstantRotation: 0
   MoveToNextPoint: 0
-  OnCompleate:
+  MoveToPrevPoint: 0
+  ResetPinLocation: 0
+  FinalPinLocation: 0
+  OnComplete:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 759405439}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!43 &1072010081
 Mesh:
   m_ObjectHideFlags: 0

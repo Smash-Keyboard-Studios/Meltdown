@@ -1,5 +1,6 @@
 // THIS SCRIPT CONTROLS THE MOVEMENT OF THE PIN (HAND) OF THE GAUGE AND SHOULD BE ATTACHED IT.
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,90 +8,262 @@ using UnityEngine.Events;
 
 public class GaugeIndicator : MonoBehaviour
 {
-	// [Non-Editor Variables]
+    // [Non-Editor Variables]
 
-	private float[] _rotationPoint = { 0.0f, 50.0f, 100.0f, 150.0f, 200.0f, 250.0f };
+    private float _firstRotationPoint, _nextRotationPoint, _prevRotationPoint, _finalRotationPoint;
+    private int _rotationIndex, _startRotationIndex, _finalRotationIndex;
+    private float _rotationIncrement;
+    private Quaternion _defaultRotation, _finalRotation;
+    private bool _didForwardRot = false, _didBackRot = false;
 
-	private float _rotationIncrement, _nextRotationPoint;
-	private int _rotationIndex = 1;
-	private Quaternion _defaultRotation;
+    // [Editor Variables]
 
-	// [Editor Variables]
+    [Header("<b>Rotation Parameters</b>")]
+    [Space]
+    [SerializeField] private float[] _rotationPoint = { 0.0f, 35.0f, 70.0f, 105.0f, 140.0f, 175.0f };
+    [SerializeField][Range(0.0f, 100.0f)] private float _heatingSpeed = 40.0f;
+    [SerializeField][Range(0.0f, 100.0f)] private float _coolingSpeed = 5.0f;
+    [SerializeField][Range(0.0f, 100.0f)] private float _autoCoolDelay = 2.0f;
+    public bool AutoCoolOn = false;
+    public bool AutoCoolTriggerOn = false;
+    public bool InstantRotation = false;
 
-	[Header("<b>Rotation Parameters</b>")]
-	[Space]
-	[SerializeField] private float _rotationSpeed = 40.0f;
-	[SerializeField] private float _coolOffSpeed = 5.0f;
+    [Header("<b>Location Parameters</b>")]
+    [Space]
+    public bool MoveToNextPoint = false;
+    public bool MoveToPrevPoint = false;
+    public bool ResetPinLocation = false;
+    public bool FinalPinLocation = false;
 
-	public bool MoveToNextPoint = false;
+    public UnityEvent OnComplete;
 
-	public UnityEvent OnCompleate;
+    // [Events]
 
-	// [Events]
+    private void Awake()
+    {
+        // Indexes of Array
+        _startRotationIndex = 1;
+        _rotationIndex = _startRotationIndex;
+        _finalRotationIndex = _rotationPoint.Length - 1;
 
-	private void Awake()
-	{
-		_nextRotationPoint = _rotationPoint[_rotationIndex];
-		_defaultRotation = transform.rotation;
-	}
+        // Elements of Array
+        _firstRotationPoint = _rotationPoint[0];
+        _nextRotationPoint = _rotationPoint[_rotationIndex];
+        _finalRotationPoint = _rotationPoint[_finalRotationIndex];
 
-	private void Update()
-	{
-		if (MoveToNextPoint) // Determines if rotation is enabled.
-		{
-			IncrementGauge();
-		}
-		else if (transform.rotation != _defaultRotation) // Cools down (reverse rotation) to origin if not.
-		{
-			transform.Rotate(-Vector3.forward, -_coolOffSpeed * Time.deltaTime);
-			_rotationIncrement -= _coolOffSpeed * Time.deltaTime;
-		}
-	}
+        // Rotations
+        _defaultRotation = transform.rotation;
+        _finalRotation = _defaultRotation * Quaternion.Euler(0, 0, -_finalRotationPoint);
+    }
 
-	// [Custom Methods]
+    private void Update()
+    {
+        if (ResetPinLocation)
+        {
+            ResetPinLocation = false;
+            ResetGauge();
+        }
+        else if (FinalPinLocation)
+        {
+            FinalPinLocation = false;
+            MaxGauge();
+        }
+        else if (MoveToNextPoint) // Determines if forward rotation is enabled.
+        {
+            MoveToPrevPoint = false;
+            IncrementGauge();
+        }
+        else if ((AutoCoolOn || MoveToPrevPoint) && transform.rotation != _defaultRotation) // Cools down (reverse rotation) to origin if not.
+        {
+            MoveToNextPoint = false;
+            DecrementGauge();
+        }
+    }
 
-	public void IncrementGauge()
-	{
-		if (_rotationIndex < _rotationPoint.Length) // Determines if there is a valid point to rotate to.
-		{
+    // [Custom Methods]
 
-			// Active rotation towards the next point.
+    public void IncrementGauge()
+    {
+        if (_rotationIndex <= _finalRotationIndex) // Determines if there is a valid point to rotate to.
+        {
+            // Active rotation towards the next point.
 
-			if (_rotationIncrement < _nextRotationPoint)
-			{
-				transform.Rotate(-Vector3.forward, _rotationSpeed * Time.deltaTime);
-				_rotationIncrement += _rotationSpeed * Time.deltaTime;
-			}
+            if (_rotationIncrement < _nextRotationPoint)
+            {
+                if (!InstantRotation)
+                {
+                    transform.Rotate(-Vector3.forward, _heatingSpeed * Time.deltaTime);
+                    _rotationIncrement += _heatingSpeed * Time.deltaTime;
 
-			// When the point is reached, rotation is disabled, and the next point (to rotate to) is assigned.
+                    // corrects rotation to end point.
+                    if (_rotationIncrement > _finalRotationPoint - 0.2f)
+                    {
+                        Invoke("MaxGauge", 0.1f);
+                    }
+                }
+                else
+                {
+                    JumpToNextRotationPoint();
 
-			else if (_rotationIncrement >= _nextRotationPoint) // Greater than symbol is necessary because of imprecision.
-			{
-				MoveToNextPoint = false;
+                    // corrects rotation to end point.
+                    if (_nextRotationPoint == _finalRotationPoint)
+                    {
+                        Invoke("MaxGauge", 0.1f);
+                    }
+                }
+                _didForwardRot = true;
+            }
 
-				if (_rotationIndex < _rotationPoint.Length - 1) // Determines if the current point is not the last one.
-				{
-					_rotationIndex++;
-					_nextRotationPoint = _rotationPoint[_rotationIndex];
-				}
-				else
-				{
-					OnCompleate.Invoke();
-				}
+            // When the point is reached, rotation is disabled, and the next point (to rotate to) is assigned.
 
-			}
-		}
-	}
+            else if (_rotationIncrement >= _nextRotationPoint) // Greater than symbol is necessary because of imprecision.
+            {
+                JumpToNextRotationPoint();
 
-	public void ResetGauge()
-	{
-		// Reset rotation
-		transform.rotation = _defaultRotation;
+                // Previous backward rotation check.
+                if (!_didBackRot)
+                {
+                    MoveToNextPoint = false;
+                }
+                else
+                {
+                    _didBackRot = false;
+                }
 
-		// Reset gauge-related variables
-		_rotationIncrement = 0.0f;
-		_rotationIndex = 1;
-		_nextRotationPoint = _rotationPoint[_rotationIndex];
-		MoveToNextPoint = false;
-	}
+                if (_rotationIndex < _finalRotationIndex) // Determines if the current point is not the last one.
+                {
+                    _rotationIndex++;
+                    SetRotationPoints(_rotationIndex);
+
+                    AutoCoolOn = false;
+
+                    if (AutoCoolTriggerOn)
+                    {
+                        Invoke("AwakenCoolDown", _autoCoolDelay);
+                    }
+                }
+                else
+                {
+                    AutoCoolOn = false;
+
+                    OnComplete.Invoke();
+                }
+            }
+        }
+    }
+
+    public void DecrementGauge()
+    {
+        if (_rotationIncrement > _prevRotationPoint) // active rotation towards the previous point.
+        {
+            if (!InstantRotation)
+            {
+                transform.Rotate(-Vector3.forward, -_coolingSpeed * Time.deltaTime);
+                _rotationIncrement -= _coolingSpeed * Time.deltaTime;
+
+                // corrects rotation to default.
+                if (_rotationIncrement < _firstRotationPoint + 0.2f)
+                {
+                   Invoke("ResetGauge",0.1f);
+                }
+            }
+            else
+            {
+                JumpToPrevRotationPoint();
+
+                // corrects rotation to default.
+                if (_prevRotationPoint == _firstRotationPoint)
+                {
+                    Invoke("ResetGauge", 0.1f);
+                }
+            }
+
+            _didBackRot = true;
+        }
+
+        // If the cooling takes it back below a previous rotation point, that will then become the next point to reach.
+
+        else if (_rotationIncrement <= _prevRotationPoint)
+        {
+            JumpToPrevRotationPoint();
+
+            // Previous forward rotation check.
+            if (!_didForwardRot)
+            {
+                MoveToPrevPoint = false;
+            }
+            else
+            {
+                _didForwardRot = false;
+            }
+
+            if (_rotationIndex > _startRotationIndex)
+            { 
+                _rotationIndex--;
+                SetRotationPoints(_rotationIndex);
+
+                if (AutoCoolTriggerOn)
+                {
+                    Invoke("AwakenCoolDown", _autoCoolDelay);
+                }
+            }
+        }
+    }
+
+    public void AwakenCoolDown()
+    {
+        if (!MoveToNextPoint && transform.rotation != _finalRotation) // if rotation is disabled and isn't last point.
+        {
+            AutoCoolOn = true;
+        }
+    }
+
+    public void ResetGauge()
+    {
+        // Resets rotation.
+        transform.rotation = _defaultRotation;
+
+        // Resets tracking-related variables
+        _rotationIncrement = _firstRotationPoint;
+        _rotationIndex = _startRotationIndex;
+        SetRotationPoints(_rotationIndex);
+        MoveToNextPoint = false;
+        MoveToPrevPoint = false;
+        _didForwardRot = false;
+        _didBackRot = false;
+    }
+
+    public void MaxGauge()
+    {
+        // Completes rotation.
+        transform.rotation = _finalRotation;
+
+        // Sets tracking-related variables to final destinations.
+        _rotationIncrement = _finalRotationPoint;
+        _rotationIndex = _finalRotationIndex;
+        SetRotationPoints(_rotationIndex);
+        MoveToNextPoint = false;
+        MoveToPrevPoint = false;
+        _didForwardRot = false;
+        _didBackRot = false;
+        AutoCoolOn = false;
+    }
+
+    private void SetRotationPoints(int i)
+    {
+        _nextRotationPoint = _rotationPoint[i];
+        _prevRotationPoint = _rotationPoint[i - 1];
+    }
+
+    private void JumpToNextRotationPoint()
+    {
+        transform.Rotate(-Vector3.forward, _nextRotationPoint - _rotationIncrement);
+        _rotationIncrement = _nextRotationPoint;
+    }
+
+    private void JumpToPrevRotationPoint()
+    {
+        transform.Rotate(-Vector3.forward, _prevRotationPoint - _rotationIncrement);
+        _rotationIncrement = _prevRotationPoint;
+    }
 }
