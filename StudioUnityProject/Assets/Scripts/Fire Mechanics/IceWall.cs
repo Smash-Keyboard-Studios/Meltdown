@@ -10,7 +10,8 @@ public class IceWall : MonoBehaviour
 	private Vector3 originalScale;
 	public float objectScale;
 
-	[Header ("Shrink Percentage per hit")] public int shrinkPercent = 34; //this is the percentage that the ice wall will shrink by with each hit
+	[Header ("Number of Hits Needed to Destroy Wall")] public int numOfHits = 3; //this is number of hits needed
+	private int shrinkPercent;
 
     [SerializeField] private ParticleSystem steamParticles;
 
@@ -29,10 +30,13 @@ public class IceWall : MonoBehaviour
 	// Update is called once per frame
 	private void Update()
 	{
+		//set shrink percent to correspond with number of hits
+		shrinkPercent = (100 / numOfHits) + 1;
+
 		//set scale to objectscale/100
 		transform.localScale = originalScale * objectScale / 100;
 
-        //remove object if objectscale < 1
+        //remove object if objectscale <= 1
         if (objectScale <= 1)
         {
             gameObject.SetActive(false);
