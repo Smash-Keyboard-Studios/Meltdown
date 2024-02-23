@@ -187,9 +187,9 @@ PrefabInstance:
       insertIndex: 0
       addedObject: {fileID: 1858497165}
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 9122741031617832936, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
-      insertIndex: 2
-      addedObject: {fileID: 1417760739}
+    - targetCorrespondingSourceObject: {fileID: 6067497010342986816, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1369202092}
   m_SourcePrefab: {fileID: 100100000, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
 --- !u!1 &298591180
 GameObject:
@@ -206,7 +206,7 @@ GameObject:
   - component: {fileID: 298591181}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: MoveableObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -324,28 +324,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &989611476 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9122741031617832936, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
-  m_PrefabInstance: {fileID: 86736620}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1369202090 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6067497010342986816, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
   m_PrefabInstance: {fileID: 86736620}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1417760737 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1569091353456590700, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
-  m_PrefabInstance: {fileID: 86736620}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1417760739
+--- !u!114 &1369202092
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 989611476}
+  m_GameObject: {fileID: 1369202090}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0e868ca1c467de439bdaa5abb609b75, type: 3}
@@ -354,8 +344,16 @@ MonoBehaviour:
   holdArea: {fileID: 1858497165}
   pickupRange: 5
   pickupForce: 150
-  mainGun: {fileID: 0}
+  playerDistance: 1
+  minMassObject: 2
+  mainGun: {fileID: 1799167653}
   player: {fileID: 1369202090}
+  puzzleCube: {fileID: 0}
+--- !u!4 &1417760737 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1569091353456590700, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
+  m_PrefabInstance: {fileID: 86736620}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1744914467
 GameObject:
   m_ObjectHideFlags: 0
@@ -487,6 +485,11 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!1 &1799167653 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5016006362402077666, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
+  m_PrefabInstance: {fileID: 86736620}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1858497164
 GameObject:
   m_ObjectHideFlags: 0
@@ -512,7 +515,7 @@ Transform:
   m_GameObject: {fileID: 1858497164}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000029504295}
-  m_LocalPosition: {x: 0, y: 0.532, z: 2.78}
+  m_LocalPosition: {x: 0, y: 0.532, z: 1.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
