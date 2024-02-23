@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class IceWall : MonoBehaviour
 {
-    const int shrinkPercent = 34;
-    const float shrinkDelay = 0.03f;
+	const float shrinkDelay = 0.03f;
 
-    private bool isShrinking;
+	private bool isShrinking;
 	private Vector3 originalScale;
 	public float objectScale;
 
-	[SerializeField] private ParticleSystem steamParticles;
+	[Header ("Shrink Percentage per hit")] public int shrinkPercent = 34; //this is the percentage that the ice wall will shrink by with each hit
+
+    [SerializeField] private ParticleSystem steamParticles;
 
 	// Start is called before the first frame update
 	private void Start()
