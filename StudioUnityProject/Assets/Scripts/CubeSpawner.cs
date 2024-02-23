@@ -7,14 +7,14 @@ public class CubeSpawner : MonoBehaviour
     public float maxDistance = 2f;  //distance player has to be at in relation to the cube spawner
     public string playerTag = "Player"; 
 
-    void Update()
-    {
+    // void Update()
+    // {
        
-        if (Input.GetKeyDown(KeyCode.E) && IsPlayerClose())   //basically checking whether the player is close and the player has pressed the correct interact button
-        {
-            SpawnCube();
-        }
-    }
+    //     if (Input.GetKeyDown(KeyCode.E) && IsPlayerClose())   //basically checking whether the player is close and the player has pressed the correct interact button
+    //     {
+    //         SpawnCube();
+    //     }
+    // }
 
     bool IsPlayerClose()  //checks whether the player is close enough
     {
@@ -36,7 +36,7 @@ public class CubeSpawner : MonoBehaviour
         return false;
     }
 
-    void SpawnCube()  
+    public void SpawnCube()  
     {
         
         GameObject cube = Instantiate(cubePrefab, transform.position, Quaternion.identity);
