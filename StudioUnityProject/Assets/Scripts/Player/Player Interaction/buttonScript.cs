@@ -6,45 +6,53 @@ using UnityEngine.Events;
 
 public class buttonScript : MonoBehaviour, IInteractable
 {
-    public UnityEvent getInteract;
+	public UnityEvent getInteract;
 
-    [SerializeField] public bool ToggleButton;
-    [SerializeField] public bool TimedButton;
-    [SerializeField] public int Timer;
+	[SerializeField] public bool ToggleButton;
+	[SerializeField] public bool TimedButton;
+	[SerializeField] public int Timer;
 
 
-    private bool ButtonUsed = false;
+	private bool ButtonUsed = false;
 
-    IEnumerator ActivateTimer()
-    {
-        yield return new WaitForSeconds(Timer);
-        if(!ToggleButton)
-        {
-            ButtonUsed = false;
-        }
-        getInteract.Invoke();
-    }
+	IEnumerator ActivateTimer()
+	{
+		yield return new WaitForSeconds(Timer);
+		if (!ToggleButton)
+		{
+			ButtonUsed = false;
+		}
+		getInteract.Invoke();
+	}
 
-    public void Interact()
-    {
-        if (!ToggleButton && ButtonUsed == false)
-        {
-            ButtonUsed = true;
-            getInteract.Invoke();
-            if(TimedButton == true)
-            {
-                StartCoroutine(ActivateTimer());
-            }
-        }
-        
-        if(ToggleButton)
-        {
-            getInteract.Invoke();
-            if (TimedButton == true)
-            {
-                StartCoroutine(ActivateTimer());
-            }
-        }
-    }
+	//  public void Interact()
+	void IInteractable.Interact()
+	{
+		print("running");
+		if (!ToggleButton && ButtonUsed == false)
+		{
+			ButtonUsed = true;
+			if (TimedButton == true)
+			{
+				StartCoroutine(ActivateTimer());
+			}
+			else
+			{
+				getInteract.Invoke();
+			}
+		}
+		else if (ToggleButton)
+		{
+
+			if (TimedButton == true)
+			{
+				StartCoroutine(ActivateTimer());
+			}
+			else
+			{
+				getInteract.Invoke();
+			}
+		}
+	}
 
 }
