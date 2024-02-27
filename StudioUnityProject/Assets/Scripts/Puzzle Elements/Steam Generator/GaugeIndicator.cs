@@ -20,29 +20,29 @@ public class GaugeIndicator : MonoBehaviour
 
     // [Editor Variables]
 
-    [Header("<b>Rotation Parameters</b>")]
+    [Header("<size=15>Rotation Parameters</size>")]
     [Space]
-    [SerializeField] private float[] _heatRotationPoint = { 0.0f, 70f, 140.0f, 210.0f };
-    [SerializeField] private float[] _coolRotationPoint = { 0.0f, 35.0f, 70.0f, 105.0f, 140.0f, 175.0f, 210.0f };
+    [SerializeField] private float[] _heatRotationPoints = { 0.0f, 70f, 140.0f, 210.0f };
+    [SerializeField] private float[] _coolRotationPoints = { 0.0f, 35.0f, 70.0f, 105.0f, 140.0f, 175.0f, 210.0f };
     [SerializeField][Range(0.0f, 100.0f)] private float _heatingSpeed = 40.0f;
     [SerializeField][Range(0.0f, 100.0f)] private float _coolingSpeed = 5.0f;
 
-    [Header("<b>Location Parameters</b>")]
+    [Header("<size=15>Location Parameters</size>")]
     [Space]
-    [SerializeField][Range(0.0f, 360.0f)] private float destination = 175.0f;
+    [SerializeField][Range(0.0f, 360.0f)] private float _destinationDegrees = 175.0f;
     public bool MoveToNextPoint = false;
     public bool MoveToPrevPoint = false;
     public bool ResetPinLocation = false;
     public bool FinalPinLocation = false;
 
-    [Header("<b>Test-Only Parameters</b>")]
+    [Header("<size=15>Test-Only Parameters</size>")]
     [Space]
     [SerializeField][Range(0.0f, 100.0f)] private float _autoCoolDelay = 2.0f;
     public bool AutoCoolOn = false;
     public bool AutoCoolTriggerOn = false;
     public bool InstantRotation = false;
     public bool RunTimeReposition = false;
-    public bool HeatOnly = false;
+    public bool HeatOnlyScale = false;
 
     public UnityEvent OnComplete;
 
@@ -52,20 +52,22 @@ public class GaugeIndicator : MonoBehaviour
     {
         // Indexes of Arrays.
         _startHeatIndex = 1;
-        _finalHeatIndex = _heatRotationPoint.Length - 1;
-        _finalCoolIndex = _coolRotationPoint.Length - 1;
+        _finalHeatIndex = _heatRotationPoints.Length - 1;
+        _finalCoolIndex = _coolRotationPoints.Length - 1;
         _heatIndex = _startHeatIndex;
         _coolIndex = _finalCoolIndex;
 
         // Elements of Array
-        _firstHeatPoint = _heatRotationPoint[0];
-        _finalHeatPoint = _heatRotationPoint[_finalHeatIndex];
-        _nextRotationPoint = _heatRotationPoint[_heatIndex];
-        _prevRotationPoint = !HeatOnly ? _coolRotationPoint[_coolIndex] : _firstHeatPoint;
+        _firstHeatPoint = _heatRotationPoints[0];
+        _finalHeatPoint = _heatRotationPoints[_finalHeatIndex];
+        _nextRotationPoint = _heatRotationPoints[_heatIndex];
+        _prevRotationPoint = !HeatOnlyScale ? _coolRotationPoints[_coolIndex] : _firstHeatPoint;
+
+        const float noXRotation = 0, noYRotation = 0, negZRotation = -1;
 
         // Rotations
         _defaultRotation = transform.rotation;
-        _finalRotation = _defaultRotation * Quaternion.Euler(0, 0, -_finalHeatPoint); // -z rotation
+        _finalRotation = _defaultRotation * Quaternion.Euler(noXrotation, noYrotation, negZRotation * _finalHeatPoint); // -z rotation
 
         // Corrective Variables
         smallIncrement = 0.2f;
@@ -166,7 +168,7 @@ public class GaugeIndicator : MonoBehaviour
 
                 AutoCoolOn = false;
 
-                if (_rotationIncrement == destination)
+                if (_rotationIncrement == _destinationDegrees)
                 {
                     OnComplete.Invoke();
                 }
@@ -232,7 +234,7 @@ public class GaugeIndicator : MonoBehaviour
             _coolIndex += (_coolIndex < _finalCoolIndex) ? 1 : 0; // increases _coolIndex unless end.
             SetRotationPoints(_heatIndex, _coolIndex);
 
-            if (_rotationIncrement == destination)
+            if (_rotationIncrement == _destinationDegrees)
             {
                 OnComplete.Invoke();
             }
@@ -296,11 +298,11 @@ public class GaugeIndicator : MonoBehaviour
     {
         // Indexes of Array
         _startHeatIndex = 1;
-        _finalHeatIndex = _heatRotationPoint.Length - 1;
+        _finalHeatIndex = _heatRotationPoints.Length - 1;
 
         // Elements of Array
-        _firstHeatPoint = _heatRotationPoint[0];
-        _finalHeatPoint = _heatRotationPoint[_finalHeatIndex];
+        _firstHeatPoint = _heatRotationPoints[0];
+        _finalHeatPoint = _heatRotationPoints[_finalHeatIndex];
 
         // if out of bounds, set to the last point. Minus one if it will be incremented afterwards.
         if (_heatIndex > _finalHeatIndex)
@@ -332,19 +334,19 @@ public class GaugeIndicator : MonoBehaviour
     private void SetRotationPoints(int i, int j)
     {
 
-        _nextRotationPoint = _heatRotationPoint[i];
+        _nextRotationPoint = _heatRotationPoints[i];
 
-        if (HeatOnly)
+        if (HeatOnlyScale)
         {
-            _prevRotationPoint = _heatRotationPoint[i - 1];
+            _prevRotationPoint = _heatRotationPoints[i - 1];
         }
         else if (_didBackRot)
         {
-            _prevRotationPoint = _coolRotationPoint[j];
+            _prevRotationPoint = _coolRotationPoints[j];
         }
         else
         {
-            _prevRotationPoint = _coolRotationPoint[FindCoolIndex(j)];
+            _prevRotationPoint = _coolRotationPoints[FindCoolIndex(j)];
         }
     }
 
@@ -359,9 +361,9 @@ public class GaugeIndicator : MonoBehaviour
         {
             float heatRotation = _finalHeatPoint - _prevRotationPoint;
 
-            if (_coolRotationPoint[i] > heatRotation)
+            if (_coolRotationPoints[i] > heatRotation)
             {
-                float difference = _coolRotationPoint[i] - heatRotation;
+                float difference = _coolRotationPoints[i] - heatRotation;
 
                 if (difference < minDifference)
                 {
