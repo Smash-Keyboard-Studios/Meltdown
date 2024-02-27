@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ButtonInteraction : MonoBehaviour, IInteractable
 {
-	public doorController drController;
+	public UnityEvent OnActivate;
 
 	private bool doorOpen = false;
 
@@ -16,11 +17,6 @@ public class ButtonInteraction : MonoBehaviour, IInteractable
 	[SerializeField] private int waitTimer = 1; // Length of time between debounces
 	[SerializeField] private bool pauseInteraction = false;
 
-	private void Start()
-	{
-		drController = GetComponent<doorController>();
-	}
-
 
 	public void Interact()
 	{
@@ -30,13 +26,13 @@ public class ButtonInteraction : MonoBehaviour, IInteractable
 	{
 		if (toggleButton == true)
 		{
-			drController.ToggleDoorOpen();
+			OnActivate.Invoke();
 			doorOpen = !doorOpen;
 		}
 
 		else if (buttonPressed == false) // Ensures the button cannot be pressed twice
 		{
-			drController.ToggleDoorOpen();
+			OnActivate.Invoke();
 			buttonPressed = true;
 		}
 	}
