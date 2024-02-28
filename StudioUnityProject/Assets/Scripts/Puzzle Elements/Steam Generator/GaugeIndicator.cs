@@ -359,8 +359,6 @@ public class GaugeIndicator : MonoBehaviour
             _prevRotationPoint = _coolRotationPoints[j - 1];
             MoveToPrevPoint = false; // disabled immediately for this permutation.
         }
-
-        Debug.Log("prev: " + _prevRotationPoint);
     }
 
 
