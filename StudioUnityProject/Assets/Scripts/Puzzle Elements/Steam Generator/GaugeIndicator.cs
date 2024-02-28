@@ -349,7 +349,7 @@ public class GaugeIndicator : MonoBehaviour
         {
             _prevRotationPoint = _heatRotationPoints[i - 1];
         }
-        else if (_didForwardRot || _heatIndex == _finalHeatIndex)
+        else if (_didForwardRot ^ _heatIndex == _finalHeatIndex)
         {
             _coolIndex = FindCoolIndex(i - 1);
             _prevRotationPoint = _coolRotationPoints[_coolIndex];
@@ -392,7 +392,8 @@ public class GaugeIndicator : MonoBehaviour
 
     private int FindCoolIndex(int i)
     {
-        int nextIndex = _coolIndex - 1; // -1 because previous point.
+        int nextIndex = _coolIndex;
+        nextIndex -= (_coolIndex == _finalCoolIndex) ? 1 : 0;
         float minDifference = _finalHeatPoint - _coolRotationPoints[nextIndex];
 
         for (int j = _coolIndex; j < _finalCoolIndex + 1; j++)
