@@ -9,7 +9,6 @@ public class InteractableButton : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        Debug.Log("I hate this");
         OnInteract.Invoke();
     }
 }

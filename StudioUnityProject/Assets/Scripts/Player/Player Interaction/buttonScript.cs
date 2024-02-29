@@ -28,7 +28,6 @@ public class buttonScript : MonoBehaviour, IInteractable
 	//  public void Interact()
 	void IInteractable.Interact()
 	{
-		print("running");
 		if (!ToggleButton && ButtonUsed == false)
 		{
 			ButtonUsed = true;
