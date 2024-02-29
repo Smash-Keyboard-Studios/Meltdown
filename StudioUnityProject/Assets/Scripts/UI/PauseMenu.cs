@@ -24,6 +24,7 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private GameObject comfirmationPrompt = null;
 
     public static bool Paused = false;
+    public static bool Overiding = false;
     public GameObject PauseMenuCanvas;
 
     void Start()
@@ -33,9 +34,9 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !Overiding)
         {
-            if(Paused)
+            if (Paused)
             {
                 Play();
                 Cursor.lockState = CursorLockMode.Locked;
@@ -55,7 +56,7 @@ public class PauseMenu : MonoBehaviour
         PauseMenuCanvas.SetActive(true);
         Time.timeScale = 0f;
         Paused = true;
-        
+
     }
 
     void Play()

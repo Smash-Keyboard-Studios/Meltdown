@@ -78,7 +78,7 @@ public class DebugConsole : MonoBehaviour
 				MouseLockManager.Instance.MouseVisable = consoleOpen;
 			}
 			PauseMenu.Overiding = consoleOpen;
-			PauseMenu._paused = false;
+			PauseMenu.Paused = false;
 			Time.timeScale = consoleOpen ? 0 : 1;
 
 			if (consoleOpen)
@@ -177,7 +177,7 @@ public class DebugConsole : MonoBehaviour
 			ConsoleWindow.SetActive(consoleOpen);
 
 			PauseMenu.Overiding = consoleOpen;
-			PauseMenu._paused = false;
+			PauseMenu.Paused = false;
 			Time.timeScale = consoleOpen ? 0 : 1;
 		});
 
