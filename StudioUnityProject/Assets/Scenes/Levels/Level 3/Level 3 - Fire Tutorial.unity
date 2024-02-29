@@ -46022,23 +46022,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 040ad58d25e864266a259b53d468243d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rotationPoint:
+  _heatRotationPoints:
   - 0
-  - 50
-  - 100
-  - 150
-  - 200
-  - 250
+  - 70
+  - 140
+  - 210
+  _coolRotationPoints:
+  - 0
+  - 35
+  - 70
+  - 105
+  - 140
+  - 175
+  - 210
   _heatingSpeed: 40
   _coolingSpeed: 5
-  _autoCoolDelay: 2
-  AutoCoolOn: 0
-  AutoCoolTriggerOn: 0
-  InstantRotation: 0
+  _destinationDegrees: 175
   MoveToNextPoint: 0
   MoveToPrevPoint: 0
   ResetPinLocation: 0
   FinalPinLocation: 0
+  _autoCoolDelay: 2
+  AutoCoolOn: 0
+  AutoCoolTriggerOn: 0
+  InstantRotation: 0
+  RunTimeReposition: 0
+  HeatOnlyScale: 0
   OnComplete:
     m_PersistentCalls:
       m_Calls: []
@@ -62694,10 +62703,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2874830188577350306, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
-      propertyPath: _playerStandingHeight
-      value: 1.75
-      objectReference: {fileID: 0}
     - target: {fileID: 5107562930961206842, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
       propertyPath: m_Icon
       value: 
@@ -62705,14 +62710,6 @@ PrefabInstance:
     - target: {fileID: 5107562930961206842, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
       propertyPath: m_Name
       value: PlayerHolder
-      objectReference: {fileID: 0}
-    - target: {fileID: 5405001806582342393, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
-      propertyPath: m_SkinWidth
-      value: 0.0001
-      objectReference: {fileID: 0}
-    - target: {fileID: 5405001806582342393, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
-      propertyPath: m_StepOffset
-      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 8837674229624353530, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
       propertyPath: m_LocalPosition.x
