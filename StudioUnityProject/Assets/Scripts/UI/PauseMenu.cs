@@ -47,13 +47,7 @@ public class PauseMenu : MonoBehaviour
 			if (Paused)
 			{
 				Play();
-<<<<<<< HEAD
-				Cursor.lockState = CursorLockMode.Locked;
-				Cursor.visible = false;
-
-=======
 				cam.Sensitivity = 1;
->>>>>>> e7d5259 (Fixed Pause Menu, Finished Credits Menu)
 			}
 			else
 			{
