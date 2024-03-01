@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class IceWall : MonoBehaviour
 {
-    const int shrinkPercent = 34;
-    const float shrinkDelay = 0.03f;
+	const float shrinkDelay = 0.03f;
 
-    private bool isShrinking;
+	private bool isShrinking;
 	private Vector3 originalScale;
 	public float objectScale;
 
-	[SerializeField] private ParticleSystem steamParticles;
+	[Header ("Number of Hits Needed to Destroy Wall")] public int numOfHits = 3; //this is number of hits needed
+	private int shrinkPercent;
+
+    [SerializeField] private ParticleSystem steamParticles;
 
 	// Start is called before the first frame update
 	private void Start()
@@ -28,10 +30,13 @@ public class IceWall : MonoBehaviour
 	// Update is called once per frame
 	private void Update()
 	{
+		//set shrink percent to correspond with number of hits
+		shrinkPercent = (100 / numOfHits) + 1;
+
 		//set scale to objectscale/100
 		transform.localScale = originalScale * objectScale / 100;
 
-        //remove object if objectscale < 1
+        //remove object if objectscale <= 1
         if (objectScale <= 1)
         {
             gameObject.SetActive(false);

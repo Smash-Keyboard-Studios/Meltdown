@@ -9,6 +9,8 @@ public class LargeFirePedestal : MonoBehaviour
 
     private void Start()
     {
+        //set player object
+        PlayerObject = GameObject.FindGameObjectWithTag("Player");
         //get ammocontroller from player prefab
         AmmoController = PlayerObject.GetComponentInChildren<AmmoController>();
     }

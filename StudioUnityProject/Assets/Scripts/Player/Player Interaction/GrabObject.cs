@@ -11,17 +11,16 @@ public class GrabObject : MonoBehaviour
 
     private void Awake()
     {
-        rb  = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
     }
     public void Grab(Transform objectGrabPoint)
     {
-        Debug.Log("AAAAAAAAAAAADDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
         this.objectGrabPoint = objectGrabPoint;
     }
 
     private void FixedUpdate()
     {
-      if(objectGrabPoint != null)
+        if (objectGrabPoint != null)
         {
             rb.MovePosition(objectGrabPoint.position);
         }

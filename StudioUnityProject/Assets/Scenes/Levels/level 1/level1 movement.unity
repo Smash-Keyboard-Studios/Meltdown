@@ -1550,7 +1550,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 733976292517919205, guid: a4b74c7b57f2bcc428a64abf3d267e22, type: 3}
       propertyPath: SceneBuildIndex
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2887237898510748902, guid: a4b74c7b57f2bcc428a64abf3d267e22, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3391,6 +3391,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 163242476698063103, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 979470915181320253, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.06
@@ -3434,6 +3438,10 @@ PrefabInstance:
     - target: {fileID: 5107562930961206842, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
       propertyPath: m_Name
       value: PlayerHolder
+      objectReference: {fileID: 0}
+    - target: {fileID: 7570972726445870235, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 8.098145
       objectReference: {fileID: 0}
     - target: {fileID: 7762152415813928839, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
       propertyPath: m_ClearFlags
@@ -6957,7 +6965,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: d93a3401e49b69146a20bd03dbf8a6a2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.005
+      value: -0.487
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d93a3401e49b69146a20bd03dbf8a6a2, type: 3}
       propertyPath: m_LocalPosition.y

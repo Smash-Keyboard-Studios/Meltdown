@@ -8,6 +8,7 @@ public class FanSpin : MonoBehaviour
     const float SlowSpinSpeed = 0.05f;
 
     const float SlowTime = 30;
+    public bool isSlow;
 
     [SerializeField] private float CurrentSpinSpeed;
 
@@ -37,9 +38,11 @@ public class FanSpin : MonoBehaviour
     IEnumerator SlowFan()
     {
         //change spin speed to slower for slowtime number of seconds
+        isSlow = true;
         CurrentSpinSpeed = SlowSpinSpeed;
         yield return new WaitForSeconds(SlowTime);
         CurrentSpinSpeed = FastSpinSpeed;
+        isSlow = false;
     }
 
     private void OnCollisionEnter(Collision collision)
