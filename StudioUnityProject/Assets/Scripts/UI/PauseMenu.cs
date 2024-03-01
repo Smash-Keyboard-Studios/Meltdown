@@ -27,7 +27,15 @@ public class PauseMenu : MonoBehaviour
 	public static bool Overiding = false;
 	public GameObject PauseMenuCanvas;
 
-	void Start()
+	MouseLookController cam;
+	public GameObject player;
+
+    private void Awake()
+    {
+        cam = player.GetComponent<MouseLookController>();
+    }
+
+    void Start()
 	{
 		Time.timeScale = 1f;
 	}
@@ -39,13 +47,18 @@ public class PauseMenu : MonoBehaviour
 			if (Paused)
 			{
 				Play();
+<<<<<<< HEAD
 				Cursor.lockState = CursorLockMode.Locked;
 				Cursor.visible = false;
 
+=======
+				cam.Sensitivity = 1;
+>>>>>>> e7d5259 (Fixed Pause Menu, Finished Credits Menu)
 			}
 			else
 			{
 				Stop();
+				cam.Sensitivity = 0;
 			}
 		}
 	}
