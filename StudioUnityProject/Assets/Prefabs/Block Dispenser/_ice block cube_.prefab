@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 1988573680750728001}
   - component: {fileID: 2790107985506113522}
   - component: {fileID: 9006820950834704298}
+  - component: {fileID: 2548924186499070084}
   m_Layer: 0
   m_Name: _ice block cube_
-  m_TagString: Untagged
+  m_TagString: IceBlock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -133,3 +134,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2548924186499070084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2292315179448927842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea8ff91883cfd0446a748fb045a49613, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iceCubeSpawner: {fileID: 0}
