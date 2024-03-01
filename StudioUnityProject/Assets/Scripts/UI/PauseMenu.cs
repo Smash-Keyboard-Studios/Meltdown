@@ -3,7 +3,6 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
 using TMPro;
-using log4net.Core;
 
 public class PauseMenu : MonoBehaviour
 {
