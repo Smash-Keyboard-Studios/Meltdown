@@ -13142,11 +13142,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a9c79b344ca1be4ca7f9366e69ada19, type: 3}
---- !u!4 &330855285 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2120d1cf63d5d9c4aad0200970a673df, type: 3}
-  m_PrefabInstance: {fileID: 1897675360}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &332031006
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20849,11 +20844,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 194153858956384015, guid: 1cfff26fed52ca147a04a5401b48c6fb, type: 3}
   m_PrefabInstance: {fileID: 509352683}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &509572547 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2120d1cf63d5d9c4aad0200970a673df, type: 3}
-  m_PrefabInstance: {fileID: 1761753682}
-  m_PrefabAsset: {fileID: 0}
 --- !u!43 &517102091
 Mesh:
   m_ObjectHideFlags: 0
@@ -22451,8 +22441,6 @@ Transform:
   - {fileID: 1982040785}
   - {fileID: 1924012301}
   - {fileID: 1443111186}
-  - {fileID: 330855285}
-  - {fileID: 509572547}
   - {fileID: 322204304}
   - {fileID: 1994784678}
   - {fileID: 1715082809}
@@ -39119,7 +39107,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2070946009306221692, guid: 007461df537b0ed4d8d0ada04b04c826, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.458
+      value: 2.0000002
       objectReference: {fileID: 0}
     - target: {fileID: 2070946009306221692, guid: 007461df537b0ed4d8d0ada04b04c826, type: 3}
       propertyPath: m_LocalPosition.z
@@ -42450,6 +42438,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  ObjectName: Please Change the Object Name in the InteractiveObject script
 --- !u!1001 &1005553674
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -70677,6 +70666,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  ObjectName: Please Change the Object Name in the InteractiveObject script
 --- !u!1001 &1643704461
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -74792,7 +74782,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2070946009306221692, guid: 007461df537b0ed4d8d0ada04b04c826, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.4580002
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2070946009306221692, guid: 007461df537b0ed4d8d0ada04b04c826, type: 3}
       propertyPath: m_LocalPosition.z
@@ -77755,63 +77745,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1001 &1761753682
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 572714264}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 2120d1cf63d5d9c4aad0200970a673df, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 236.185
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2120d1cf63d5d9c4aad0200970a673df, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 206.9207
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2120d1cf63d5d9c4aad0200970a673df, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 174.337
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2120d1cf63d5d9c4aad0200970a673df, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.60202247
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2120d1cf63d5d9c4aad0200970a673df, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2120d1cf63d5d9c4aad0200970a673df, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.7984792
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2120d1cf63d5d9c4aad0200970a673df, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2120d1cf63d5d9c4aad0200970a673df, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2120d1cf63d5d9c4aad0200970a673df, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -105.97
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2120d1cf63d5d9c4aad0200970a673df, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 2120d1cf63d5d9c4aad0200970a673df, type: 3}
-      propertyPath: m_Name
-      value: Microscope placeholder (1)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 2120d1cf63d5d9c4aad0200970a673df, type: 3}
 --- !u!43 &1766042305
 Mesh:
   m_ObjectHideFlags: 0
@@ -79673,6 +79606,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  ObjectName: Please Change the Object Name in the InteractiveObject script
 --- !u!64 &1829887344
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -82478,63 +82412,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2051822024320826537, guid: 45b8e8550f03e3a4c8ef99d20bf7036e, type: 3}
   m_PrefabInstance: {fileID: 1892723441}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1897675360
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 572714264}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 2120d1cf63d5d9c4aad0200970a673df, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 239.21143
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2120d1cf63d5d9c4aad0200970a673df, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 206.9207
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2120d1cf63d5d9c4aad0200970a673df, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 175.8969
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2120d1cf63d5d9c4aad0200970a673df, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.8975245
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2120d1cf63d5d9c4aad0200970a673df, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2120d1cf63d5d9c4aad0200970a673df, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.44096464
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2120d1cf63d5d9c4aad0200970a673df, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2120d1cf63d5d9c4aad0200970a673df, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2120d1cf63d5d9c4aad0200970a673df, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -52.331
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2120d1cf63d5d9c4aad0200970a673df, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 2120d1cf63d5d9c4aad0200970a673df, type: 3}
-      propertyPath: m_Name
-      value: Microscope placeholder
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 2120d1cf63d5d9c4aad0200970a673df, type: 3}
 --- !u!43 &1902801024
 Mesh:
   m_ObjectHideFlags: 0
