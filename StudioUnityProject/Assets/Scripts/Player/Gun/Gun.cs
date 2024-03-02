@@ -7,7 +7,7 @@ public class Gun : MonoBehaviour
 	public Transform bulletSpawnPoint;
 	public GameObject bulletPrefableftclick;
 	public GameObject bulletPrefabrightclick;
-	public float bulletSpeed = 10;
+	//public float bulletSpeed = 10;
 
 	public bool hasFire = true;
 	public bool hasIce = true;
@@ -39,7 +39,7 @@ public class Gun : MonoBehaviour
 				if (bulletRigidbody != null)
 				{
 					// Apply velocity to the bullet Rigidbody
-					bulletRigidbody.velocity = bulletSpawnPoint.forward * bulletSpeed;
+					bulletRigidbody.velocity = bulletSpawnPoint.forward * bulletObject.GetComponent<Fire>().Speed;
 				}
 
 			}
@@ -64,7 +64,7 @@ public class Gun : MonoBehaviour
 				if (bulletRigidbody != null)
 				{
 					// Apply velocity to the bullet Rigidbody
-					bulletRigidbody.velocity = bulletSpawnPoint.forward * bulletSpeed;
+					bulletRigidbody.velocity = bulletSpawnPoint.forward * bulletObject.GetComponent<Ice>().Speed;
 				}
 
 			}

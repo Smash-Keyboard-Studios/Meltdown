@@ -4,12 +4,26 @@ using UnityEngine;
 
 public class Fire : MonoBehaviour
 {
-    public float life = 3;
+	public float lifeTime = 5;
+	public float Speed = 50f;
+	public float decalLifeTime = 3f;
+	public GameObject DecalPrefab;
 
-    void Awake()
-    {
-        Destroy(gameObject, life);
-    }
+	void Awake()
+	{
+		Destroy(gameObject, lifeTime);
+	}
 
-    
+	void OnCollisionEnter(Collision other)
+	{
+		if (DecalPrefab != null)
+		{
+			GameObject decal = Instantiate(DecalPrefab, other.contacts[0].point, Quaternion.identity);
+			Destroy(decal, decalLifeTime);
+		}
+
+		Destroy(gameObject);
+	}
+
+
 }
