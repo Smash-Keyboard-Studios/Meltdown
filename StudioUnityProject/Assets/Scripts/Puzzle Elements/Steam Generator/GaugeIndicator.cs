@@ -23,11 +23,12 @@ public class GaugeIndicator : MonoBehaviour
     [Header("<size=15>Rotation Parameters</size>")]
     [Space]
     [SerializeField] private Vector3 _rotationAxis = Vector3.back;
-    [SerializeField] private int _equalHeatPoints = 5;
-    [SerializeField] private int _equalCoolPoints = 10;
-    [SerializeField][Range(0.0f, 360.0f)] private float _equalEndPoint = 180f;
     [SerializeField] private float[] _heatRotationPoints = { 0.0f, 70f, 140.0f, 210.0f };
     [SerializeField] private float[] _coolRotationPoints = { 0.0f, 35.0f, 70.0f, 105.0f, 140.0f, 175.0f, 210.0f };
+    [SerializeField][Range(1, 50)] private int _equalHeatPoints = 5;
+    [SerializeField][Range(1, 50)] private int _equalCoolPoints = 10;
+    [SerializeField][Range(10.0f, 360.0f)] private float _equalEndPoint = 180.0f;
+    [Space]
     [SerializeField][Range(0.0f, 100.0f)] private float _heatingSpeed = 40.0f;
     [SerializeField][Range(0.0f, 100.0f)] private float _coolingSpeed = 40.0f;
 
@@ -40,7 +41,7 @@ public class GaugeIndicator : MonoBehaviour
     public bool ResetPinLocation = false;
     public bool FinalPinLocation = false;
 
-    [Header("<size=15>Test-Only Parameters</size>")]
+    [Header("<size=15>Test-Only Rotation Parameters</size>")]
     [Space]
     [SerializeField][Range(0.0f, 100.0f)] private float _autoCoolDelay = 2.0f;
     public bool AutoCoolOn = false;
@@ -48,6 +49,15 @@ public class GaugeIndicator : MonoBehaviour
     public bool InstantRotation = false;
     public bool RunTimeReposition = false;
     public bool HeatOnlyScale = false;
+
+    [Header("<size=15>Test-Only Location Parameters </size>")]
+    [Space]
+    [SerializeField] private bool _setStartPosition = false;
+    [SerializeField] private Vector3 _startPosition = Vector3.zero;
+    [Space]
+    [SerializeField] private bool _setStartRotation = false;
+    [SerializeField] private Vector3 _startRotation = Vector3.zero;
+    [Space]
     [SerializeField] private bool _minCoolLocation = false;
     [SerializeField] private bool _maxCoolLocation = false;
 
@@ -57,6 +67,38 @@ public class GaugeIndicator : MonoBehaviour
 
     private void Awake()
     {
+        // Sets equidistant heat scale rotation points.
+
+        if (_equalHeatPoints > 0)
+        {
+            _heatRotationPoints = new float[_equalHeatPoints+1]; // +1 because of 0th point.
+            for (int i = 1; i < _equalHeatPoints+1; i++)
+            {
+                _heatRotationPoints[i] = i * (_equalEndPoint / _equalHeatPoints);
+            }
+        }
+
+        // Sets equidistant ice scale rotation points.
+
+        if (_equalCoolPoints > 0)
+        {
+            _coolRotationPoints = new float[_equalCoolPoints + 1]; // +1 because of 0th point.
+            for (int i = 1; i < _equalCoolPoints + 1; i++)
+            {
+                _coolRotationPoints[i] = i * (_equalEndPoint / _equalCoolPoints);
+            }
+        }
+
+        // Local Start Co-ordinates override.
+        if (_setStartPosition)
+        {
+            transform.localPosition = _startPosition;
+        }
+        if (_setStartRotation)
+        {
+            transform.localRotation = Quaternion.Euler(_startRotation);
+        }
+
         // Indexes of Arrays.
         _startHeatIndex = 1;
         _startCoolIndex = 1;
