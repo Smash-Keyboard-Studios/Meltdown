@@ -18,7 +18,8 @@ public class Fire : MonoBehaviour
 	{
 		if (DecalPrefab != null)
 		{
-			GameObject decal = Instantiate(DecalPrefab, other.contacts[0].point, Quaternion.identity);
+			GameObject decal = Instantiate(DecalPrefab, other.contacts[0].point, Quaternion.FromToRotation(Vector3.up, other.GetContact(0).normal) * DecalPrefab.transform.rotation);
+			decal.transform.parent = other.transform;
 			Destroy(decal, decalLifeTime);
 		}
 

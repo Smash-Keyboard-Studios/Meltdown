@@ -30,8 +30,6 @@ public class PickupController : MonoBehaviour
     Gun gun;
     public GameObject player;
 
-    public GameObject puzzleCube;
-
     void Awake()
     {
         //Links the gun script tied to the player object to this script.
@@ -53,7 +51,7 @@ public class PickupController : MonoBehaviour
                     //Only picks up object with the tag "MoveableObject"
                     if (hit.transform.CompareTag("MoveableObject"))
                     {
-                            PickupObject(hit.transform.gameObject);
+                        PickupObject(hit.transform.gameObject);
                     }
                 }
             }
@@ -80,7 +78,7 @@ public class PickupController : MonoBehaviour
                 //Drops the object if its get to far from the player
                 if (Vector3.Distance(heldObj.transform.position, holdArea.position) > playerDistance)
                 {
-                    DropObject();   
+                    DropObject();
                 }
             }
         }
