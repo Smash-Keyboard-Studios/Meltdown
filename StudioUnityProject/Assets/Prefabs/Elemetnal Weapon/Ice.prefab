@@ -120,7 +120,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59a64aa0735f340498763e11412027d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  life: 3
+  lifeTime: 5
+  Speed: 40
+  decalLifeTime: 3
+  DecalPrefab: {fileID: 6108528481455311777, guid: a04a042baa381f94fb02992fb35f52c9, type: 3}
 --- !u!54 &-5243200876737132418
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -145,9 +148,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 0
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!1001 &1909680974319390109
 PrefabInstance:
   m_ObjectHideFlags: 0
