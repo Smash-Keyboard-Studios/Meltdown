@@ -25,7 +25,6 @@ public class MainMenu : MonoBehaviour
 
 
 	[Header("Comfirmation")]
-<<<<<<< HEAD
 	[SerializeField] private GameObject comfirmationPrompt = null;
 
 
@@ -34,12 +33,6 @@ public class MainMenu : MonoBehaviour
 		//Loads Level 1 if player clicks yes
 		SceneManager.LoadScene(2);
 	}
-
-	public void NewGameDialogYes()
-	{
-		//Loads Level 1 if player clicks yes
-		LevelLoading.Instance.LoadScene(2);
-    }
 
 	//This is where the override code will be referenced/placed 
 	public void LoadGameDialogYes()
