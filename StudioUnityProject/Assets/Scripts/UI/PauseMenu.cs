@@ -47,7 +47,9 @@ public class PauseMenu : MonoBehaviour
 			if (Paused)
 			{
 				Play();
-				cam.Sensitivity = 1;
+				Cursor.lockState = CursorLockMode.Locked;
+				Cursor.visible = false;
+
 			}
 			else
 			{
