@@ -10805,7 +10805,7 @@ LightingSettings:
   m_BakeBackend: 2
   m_LightmapMaxSize: 1024
   m_LightmapSizeFixed: 0
-  m_BakeResolution: 40
+  m_BakeResolution: 2
   m_Padding: 2
   m_LightmapCompression: 3
   m_AO: 0
@@ -46015,6 +46015,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 040ad58d25e864266a259b53d468243d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rotationAxis: {x: 0, y: 0, z: -1}
   _heatRotationPoints:
   - 0
   - 70
@@ -46028,9 +46029,13 @@ MonoBehaviour:
   - 140
   - 175
   - 210
+  _equalHeatPoints: 5
+  _equalCoolPoints: 10
+  _equalEndPoint: 180
   _heatingSpeed: 40
   _coolingSpeed: 5
   _destinationDegrees: 175
+  _destinationTolerance: 20
   MoveToNextPoint: 0
   MoveToPrevPoint: 0
   ResetPinLocation: 0
@@ -46041,6 +46046,11 @@ MonoBehaviour:
   InstantRotation: 0
   RunTimeReposition: 0
   HeatOnlyScale: 0
+  _setStartPosition: 0
+  _startPosition: {x: 0, y: 0, z: 0}
+  _setStartRotation: 0
+  _startRotation: {x: 0, y: 0, z: 0}
+  _minLocation: 0
   OnComplete:
     m_PersistentCalls:
       m_Calls: []

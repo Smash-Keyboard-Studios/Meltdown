@@ -27,7 +27,7 @@ public class MainMenu : MonoBehaviour
     public void NewGameDialogYes()
 	{
 		//Loads Level 1 if player clicks yes
-		SceneManager.LoadScene(2);
+		LevelLoading.Instance.LoadScene(2);
 	}
 
 	//This is where the override code will be referenced/placed 

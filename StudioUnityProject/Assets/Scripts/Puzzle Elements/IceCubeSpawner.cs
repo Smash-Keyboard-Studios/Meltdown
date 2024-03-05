@@ -1,13 +1,4 @@
-using Codice.Client.Common;
-using Codice.Client.Common.GameUI;
-using JetBrains.Annotations;
-using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Net.Security;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 public class IceCubeSpawner : MonoBehaviour
 {
