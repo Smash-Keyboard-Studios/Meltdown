@@ -92,8 +92,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PauseMenu, Core
+      - m_Target: {fileID: 7331237354052372623}
+        m_TargetAssemblyTypeName: PauseMenu, Scripts
         m_MethodName: SetControllerSen
         m_Mode: 0
         m_Arguments:
@@ -1652,9 +1652,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PauseMenu, Core
-        m_MethodName: GameplaySave
+      - m_Target: {fileID: 7331237354052372623}
+        m_TargetAssemblyTypeName: PauseMenu, Scripts
+        m_MethodName: VolumeSave
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1664,9 +1664,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PauseMenu, Core
-        m_MethodName: VolumeSave
+      - m_Target: {fileID: 7331237354052372623}
+        m_TargetAssemblyTypeName: PauseMenu, Scripts
+        m_MethodName: GameplaySave
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1797,8 +1797,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PauseMenu, Core
+      - m_Target: {fileID: 7331237354052372623}
+        m_TargetAssemblyTypeName: PauseMenu, Scripts
         m_MethodName: ExitButton
         m_Mode: 1
         m_Arguments:
@@ -2114,7 +2114,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1762268170716424661}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: 
         m_Mode: 1
@@ -2248,8 +2248,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PauseMenu, Core
+      - m_Target: {fileID: 7331237354052372623}
+        m_TargetAssemblyTypeName: PauseMenu, Scripts
         m_MethodName: GameExitButton
         m_Mode: 1
         m_Arguments:
@@ -3896,8 +3896,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PauseMenu, Core
+      - m_Target: {fileID: 7331237354052372623}
+        m_TargetAssemblyTypeName: PauseMenu, Scripts
         m_MethodName: Resume
         m_Mode: 1
         m_Arguments:
@@ -4134,8 +4134,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PauseMenu, Core
+      - m_Target: {fileID: 7331237354052372623}
+        m_TargetAssemblyTypeName: PauseMenu, Scripts
         m_MethodName: SetVolume
         m_Mode: 0
         m_Arguments:
@@ -5102,9 +5102,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PauseMenu, Core
-        m_MethodName: GameplaySave
+      - m_Target: {fileID: 7331237354052372623}
+        m_TargetAssemblyTypeName: PauseMenu, Scripts
+        m_MethodName: VolumeSave
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5114,9 +5114,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PauseMenu, Core
-        m_MethodName: VolumeSave
+      - m_Target: {fileID: 7331237354052372623}
+        m_TargetAssemblyTypeName: PauseMenu, Scripts
+        m_MethodName: GameplaySave
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
