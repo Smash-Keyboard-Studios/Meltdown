@@ -27,6 +27,15 @@ public class SaveManager : MonoBehaviour
 		}
 	}
 
+	public event Action onLoad;
+	public void GameLoadInvoke()
+	{
+		if (onSave != null)
+		{
+			onLoad();
+		}
+	}
+
 	void Awake()
 	{
 		if (current != null && current != this)
@@ -40,9 +49,14 @@ public class SaveManager : MonoBehaviour
 		}
 
 		if (SerializationManager.Load(Application.persistentDataPath + "/saves/0.save") == null)
+		{
 			SerializationManager.Save("0", SaveData.Current);
+		}
 		else
+		{
 			SaveData.Current = (SaveData)SerializationManager.Load(Application.persistentDataPath + "/saves/0.save");
+			GameLoadInvoke();
+		}
 	}
 
 	/// <summary>
@@ -53,5 +67,11 @@ public class SaveManager : MonoBehaviour
 	{
 		SerializationManager.Save(saveName, SaveData.Current);
 		GameSaveInvoke();
+	}
+
+	public void ForceLoad()
+	{
+		SaveData.Current = (SaveData)SerializationManager.Load(Application.persistentDataPath + "/saves/0.save");
+		GameLoadInvoke();
 	}
 }

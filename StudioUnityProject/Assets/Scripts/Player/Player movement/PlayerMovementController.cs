@@ -53,6 +53,8 @@ public class PlayerMovementController : MonoBehaviour
 
 	private bool _isSprinting = false;
 
+	private bool _isOnIce = false;
+
 
 	// Start is called before the first frame update
 	void Start()
@@ -109,7 +111,7 @@ public class PlayerMovementController : MonoBehaviour
 
 		moveDirection.Normalize();
 
-		if (Input.GetKey(KeyCode.LeftShift) && _isGrounded)
+		if (Input.GetKey(KeyCode.LeftShift) && _isGrounded && !_isOnIce)
 		{
 			_isSprinting = true;
 		}
@@ -132,7 +134,7 @@ public class PlayerMovementController : MonoBehaviour
 			_speed = WalkSpeed;
 		}
 
-		if (_isGrounded)
+		if (_isGrounded && !_isOnIce)
 		{
 			finalMoveDir = moveDirection * _speed;
 			_characterContoller.Move(finalMoveDir * Time.deltaTime);
@@ -148,6 +150,22 @@ public class PlayerMovementController : MonoBehaviour
 
 	}
 
+	void OnCollisionEnter(Collision other)
+	{
+		if (other.rigidbody != null)
+		{
+			other.rigidbody.AddForce(new Vector3(other.transform.position.x - transform.position.x, 0, other.transform.position.z - transform.position.z), ForceMode.Impulse);
+		}
+	}
+
+	void OnCollisionStay(Collision other)
+	{
+		if (other.rigidbody != null)
+		{
+			other.rigidbody.AddForce(new Vector3(other.transform.position.x - transform.position.x, 0, other.transform.position.z - transform.position.z), ForceMode.Impulse);
+		}
+	}
+
 
 	private void HandleGravity()
 	{
@@ -157,6 +175,8 @@ public class PlayerMovementController : MonoBehaviour
 
 		bool onSlope = Vector3.Dot(hit.normal, Vector3.up) != 1 ? true : false && Physics.Raycast(transform.position, Vector3.down, _characterContoller.height / 2f + 0.5f);
 
+		if (hit.collider != null && hit.collider.tag == "Ice") _isOnIce = true;
+		else _isOnIce = false;
 
 
 		if (_isGrounded && _velocity.y <= 0)
@@ -168,9 +188,9 @@ public class PlayerMovementController : MonoBehaviour
 			_velocity.y += (-Gravity) * Time.deltaTime;
 		}
 
-		if (_isGrounded && _velocity.y <= 0)
+		if (_isGrounded && _velocity.y <= 0 && !_isOnIce)
 		{
-			// haha locked. such a pain.
+			// haha locked. such a pain. huh, what? what do you mean?
 			_velocity.x = 0;
 			_velocity.z = 0;
 		}

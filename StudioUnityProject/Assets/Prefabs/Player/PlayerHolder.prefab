@@ -92,8 +92,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PauseMenu, Core
+      - m_Target: {fileID: 7331237354052372623}
+        m_TargetAssemblyTypeName: PauseMenu, Scripts
         m_MethodName: SetControllerSen
         m_Mode: 0
         m_Arguments:
@@ -616,6 +616,7 @@ Transform:
   m_Children:
   - {fileID: 1569091353456590700}
   - {fileID: 2647238305243501560}
+  - {fileID: 2123020561024384952}
   m_Father: {fileID: 8837674229624353530}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1472153699748852448
@@ -681,13 +682,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1737716628551991856}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: 0.7061663, z: -0, w: 0.708046}
+  m_LocalPosition: {x: 0, y: -0.000000026077032, z: 0}
   m_LocalScale: {x: 0.5, y: 0.85, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1263725795151869834}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 89.848, z: 0}
 --- !u!33 &5729207001861525675
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -716,7 +717,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 620ec16e846739f44b2e622e0beced5d, type: 2}
+  - {fileID: 2100000, guid: 88f06ca116efa6b469a081c8553ba26d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1082,6 +1083,37 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &2173396554300433126
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2123020561024384952}
+  m_Layer: 6
+  m_Name: HoldArea
+  m_TagString: Untagged
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2123020561024384952
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2173396554300433126}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1.25}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2724384780940018379}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3116595362201678028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1652,9 +1684,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PauseMenu, Core
-        m_MethodName: GameplaySave
+      - m_Target: {fileID: 7331237354052372623}
+        m_TargetAssemblyTypeName: PauseMenu, Scripts
+        m_MethodName: VolumeSave
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1664,9 +1696,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PauseMenu, Core
-        m_MethodName: VolumeSave
+      - m_Target: {fileID: 7331237354052372623}
+        m_TargetAssemblyTypeName: PauseMenu, Scripts
+        m_MethodName: GameplaySave
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1797,8 +1829,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PauseMenu, Core
+      - m_Target: {fileID: 7331237354052372623}
+        m_TargetAssemblyTypeName: PauseMenu, Scripts
         m_MethodName: ExitButton
         m_Mode: 1
         m_Arguments:
@@ -2114,7 +2146,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1762268170716424661}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: 
         m_Mode: 1
@@ -2248,8 +2280,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PauseMenu, Core
+      - m_Target: {fileID: 7331237354052372623}
+        m_TargetAssemblyTypeName: PauseMenu, Scripts
         m_MethodName: GameExitButton
         m_Mode: 1
         m_Arguments:
@@ -2714,6 +2746,81 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &5437239098586889519
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 728645103947570615}
+  - component: {fileID: 6928319494934501233}
+  - component: {fileID: 2186807513475521857}
+  m_Layer: 0
+  m_Name: NoteBackground
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &728645103947570615
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5437239098586889519}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7956628354476962564}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &6928319494934501233
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5437239098586889519}
+  m_CullTransparentMesh: 1
+--- !u!114 &2186807513475521857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5437239098586889519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.07058824}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &5868639989951689221
 GameObject:
   m_ObjectHideFlags: 0
@@ -2747,6 +2854,7 @@ RectTransform:
   m_Children:
   - {fileID: 1172439215215167218}
   - {fileID: 4899370400033305934}
+  - {fileID: 728645103947570615}
   m_Father: {fileID: 979470915181320253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3102,8 +3210,9 @@ GameObject:
   - component: {fileID: 8643972227606793046}
   - component: {fileID: 705772530737012553}
   - component: {fileID: 1562913032083953613}
+  - component: {fileID: 4571351336483045258}
   m_Layer: 6
-  m_Name: Player
+  m_Name: marol
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3244,7 +3353,6 @@ MonoBehaviour:
   bulletSpawnPoint: {fileID: 5016434585858009511}
   bulletPrefableftclick: {fileID: 8493402149711268378, guid: 1d41aeaaab518fd419f6e18da1e299a2, type: 3}
   bulletPrefabrightclick: {fileID: 6405268716962760783, guid: 752c5cb5ef5665845ac8b007aa03a628, type: 3}
-  bulletSpeed: 10
   hasFire: 1
   hasIce: 1
   AmmoController: {fileID: 705772530737012553}
@@ -3263,6 +3371,8 @@ MonoBehaviour:
   GunScript: {fileID: 8643972227606793046}
   IceAmmo: 0
   FireAmmo: 3
+  LargePedestalRefill: 3
+  SmallPedestalRefill: 1
 --- !u!64 &1562913032083953613
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -3285,6 +3395,25 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!114 &4571351336483045258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6067497010342986816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0e868ca1c467de439bdaa5abb609b75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdArea: {fileID: 2123020561024384952}
+  pickupRange: 5
+  pickupForce: 150
+  playerDistance: 1
+  minMassObject: 2
+  mainGun: {fileID: 5016006362402077666}
+  player: {fileID: 6067497010342986816}
 --- !u!1 &6223661030936554615
 GameObject:
   m_ObjectHideFlags: 0
@@ -3818,8 +3947,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PauseMenu, Core
+      - m_Target: {fileID: 7331237354052372623}
+        m_TargetAssemblyTypeName: PauseMenu, Scripts
         m_MethodName: Resume
         m_Mode: 1
         m_Arguments:
@@ -4056,8 +4185,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PauseMenu, Core
+      - m_Target: {fileID: 7331237354052372623}
+        m_TargetAssemblyTypeName: PauseMenu, Scripts
         m_MethodName: SetVolume
         m_Mode: 0
         m_Arguments:
@@ -5024,9 +5153,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PauseMenu, Core
-        m_MethodName: GameplaySave
+      - m_Target: {fileID: 7331237354052372623}
+        m_TargetAssemblyTypeName: PauseMenu, Scripts
+        m_MethodName: VolumeSave
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5036,9 +5165,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PauseMenu, Core
-        m_MethodName: VolumeSave
+      - m_Target: {fileID: 7331237354052372623}
+        m_TargetAssemblyTypeName: PauseMenu, Scripts
+        m_MethodName: GameplaySave
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5621,6 +5750,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b3c644ff5d0de246902d005743994a0, type: 3}
+--- !u!1 &5016006362402077666 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 1b3c644ff5d0de246902d005743994a0, type: 3}
+  m_PrefabInstance: {fileID: 5286389114094880435}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5681220120758935896 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1b3c644ff5d0de246902d005743994a0, type: 3}
