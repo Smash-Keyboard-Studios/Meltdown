@@ -25,7 +25,6 @@ public class GaugeIndicator : MonoBehaviour
     private float _rotationIncrement, _smallIncrement, _smallDelay;
     private Quaternion _defaultRotation, _finalRotation, _descendRotation;
     private bool _didForwardRot = false, _didBackRot = false;
-    private int _fireCalls, _iceCalls;
 
     // [Editor Variables]
 
@@ -379,7 +378,7 @@ public class GaugeIndicator : MonoBehaviour
         // Sets tracking-related variables to final destinations.
         _rotationIncrement = _firstCoolPoint;
         _coolIndex = _startCoolIndex;
-        _heatIndex = _firstHeatIndex;
+        _heatIndex = _firstCoolPoint == _firstHeatPoint ? _startHeatIndex : _firstHeatIndex;
         SetRotationPoints(_heatIndex, _coolIndex);
         MoveToNextPoint = false;
         MoveToPrevPoint = false;
@@ -494,12 +493,17 @@ public class GaugeIndicator : MonoBehaviour
         {
             _prevRotationPoint = _heatRotationPoints[i - 1];
         }
-        else if (_rotationIncrement == _firstHeatPoint || _rotationIncrement == _finalHeatPoint)
+        else if (_rotationIncrement == _firstCoolPoint && _coolIndex != _startCoolIndex)
+        {
+            MinGauge();
+            return;
+        }
+        else if (_rotationIncrement == _finalHeatPoint && _rotationIncrement != _firstCoolPoint)
         {
             _coolIndex = FindCoolIndex(i);
             _prevRotationPoint = _coolRotationPoints[_coolIndex];
         }
-        else if (_didForwardRot)
+        else if (_didForwardRot || (_rotationIncrement == _firstHeatPoint && _rotationIncrement != _firstCoolPoint))
         {
             _coolIndex = FindCoolIndex(i - 1);
             _prevRotationPoint = _coolRotationPoints[_coolIndex];
@@ -508,8 +512,6 @@ public class GaugeIndicator : MonoBehaviour
         {
             _prevRotationPoint = _coolRotationPoints[j];
         }
-        Debug.Log(_prevRotationPoint);
-        Debug.Log(_nextRotationPoint);
     }
 
 
