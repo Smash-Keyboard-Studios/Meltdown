@@ -23,8 +23,12 @@ public class MainMenu : MonoBehaviour
 	[Header("Comfirmation")]
 	[SerializeField] private GameObject comfirmationPrompt = null;
 
+	void Start()
+	{
+		MouseLockManager.Instance.MouseVisable = true;
+	}
 
-    public void NewGameDialogYes()
+	public void NewGameDialogYes()
 	{
 		//Loads Level 1 if player clicks yes
 		LevelLoading.Instance.LoadScene(2);
