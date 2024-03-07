@@ -30,6 +30,7 @@ public class PauseMenu : MonoBehaviour
 	void Start()
 	{
 		Time.timeScale = 1f;
+		MouseLockManager.Instance.MouseVisable = false;
 	}
 
 	void Update()
@@ -68,8 +69,7 @@ public class PauseMenu : MonoBehaviour
 	{
 		PauseMenuCanvas.SetActive(false);
 		Time.timeScale = 1f;
-		Cursor.lockState = CursorLockMode.None;
-		Cursor.visible = false;
+		MouseLockManager.Instance.MouseVisable = false;
 	}
 
 	public void GameExitButton()
