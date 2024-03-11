@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class IceWall : MonoBehaviour
 {
+	//delay num of seconds between each 1% of shrinking
 	const float shrinkDelay = 0.03f;
 
 	private bool isShrinking;
@@ -13,7 +14,11 @@ public class IceWall : MonoBehaviour
 	[Header ("Number of Hits Needed to Destroy Wall")] public int numOfHits = 3; //this is number of hits needed
 	private int shrinkPercent;
 
+	//steam particles
     [SerializeField] private ParticleSystem steamParticles;
+
+	//water puddle object that will be created when melting the ice
+	[SerializeField] private GameObject WaterPuddle;
 
 	// Start is called before the first frame update
 	private void Start()
@@ -43,7 +48,7 @@ public class IceWall : MonoBehaviour
         }
 	}
 
-	////reduces size of ice by 1/3 of its original size
+	////reduces size of ice by 1/3 of its original size without any transition
 	//private void ShrinkIce()
 	//{
 	//	objectScale -= shrinkPercent;
@@ -63,6 +68,9 @@ public class IceWall : MonoBehaviour
 
 		isShrinking = false;
         steamParticles.Stop();
+
+		//create instance of water puddle after shrinking
+		Instantiate(WaterPuddle, transform.position, Quaternion.identity);
     }
 
 	//replace fireScript with whatever script the fire projectile contains
@@ -73,6 +81,7 @@ public class IceWall : MonoBehaviour
 			if (!isShrinking)
 			{
 				StartCoroutine("ShrinkIceGradual");
+				//create instance of water puddle after shrinking
 			}
 		}
 	}
