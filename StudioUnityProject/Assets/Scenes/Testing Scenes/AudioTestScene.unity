@@ -421,6 +421,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1006770556}
   - component: {fileID: 1006770557}
+  - component: {fileID: 1006770561}
+  - component: {fileID: 1006770560}
+  - component: {fileID: 1006770559}
+  - component: {fileID: 1006770558}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -467,6 +471,62 @@ MonoBehaviour:
     Clip: {fileID: 0}
   - Name: 
     Clip: {fileID: 0}
+--- !u!114 &1006770558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1006770555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 581a2b9f0e227cd469967e5ef8542ce0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SFXAudioSource: {fileID: 0}
+  AudioLibraryArray: []
+--- !u!114 &1006770559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1006770555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01040863e0791fe45aea8b0bc50cfaed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MusicAudioSource: {fileID: 0}
+  AudioLibraryArray: []
+--- !u!114 &1006770560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1006770555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce1845c1f194d6b438ea79bcae693791, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnvAudioSource: {fileID: 0}
+  AudioLibraryArray: []
+--- !u!114 &1006770561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1006770555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a2ea8a593698d546a55cd9999cb5c5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MenuAudioSource: {fileID: 0}
+  AudioLibraryArray: []
 --- !u!1 &1299608681
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class MenuAudio : MonoBehaviour
 {
     public AudioSource MenuAudioSource;
     public AudioClipLibrary[] AudioLibraryArray;
