@@ -100,9 +100,13 @@ public class PickupController : MonoBehaviour
                     //When object is picked up it's not going to rotate around.
                     heldObjRB.constraints = RigidbodyConstraints.FreezeRotation;
 
+                    heldObjRB.isKinematic = true;
+
                     //Parents the object to the hold area.
                     heldObjRB.transform.parent = holdArea;
                     heldObj = pickObj;
+
+                    heldObjRB.transform.rotation = Quaternion.Euler(0, 0, 0);
 
                     //Disables the mainGun as well as allowing the player to fire their ice and/or fire when the object is picked up.
                     mainGun.SetActive(false);
@@ -129,6 +133,8 @@ public class PickupController : MonoBehaviour
             //Unparents the object from the hold area.
             heldObj.transform.parent = null;
             heldObj = null;
+
+            heldObjRB.isKinematic = false;
 
             //Enables the mainGun as well as allowing the player to fire their ice and/or fire when the object is dropped'
             mainGun.SetActive(true);
