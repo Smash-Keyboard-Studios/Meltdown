@@ -40,6 +40,7 @@ public class BoomEntrance : MonoBehaviour
 
     [Header("<b>Action Paramaters</b>")]
     [Space]
+    public bool PlayShakeAndClips = false;
     public bool Shake = false;
     public bool PlayClips = false;
 
@@ -64,7 +65,13 @@ public class BoomEntrance : MonoBehaviour
 
     private void Update()
     {
-        if (Shake)
+        if (PlayShakeAndClips)
+        {
+            PlayShakeAndClips = false;
+            Shake = true;
+            PlayClips = true;
+        }
+        else if (Shake)
         {
             Shake = false;
             StartCoroutine(ShakeCamera());
