@@ -38,6 +38,12 @@ public class BoomEntrance : MonoBehaviour
         new AudioVariables { name = "Track 2", audioClip = null, pitch = 150f, volume = 50f }
     };
 
+    [Header("<b>Action Paramaters</b>")]
+    [Space]
+    public bool PlayShakeAndClips = false;
+    public bool Shake = false;
+    public bool PlayClips = false;
+
 
     // [Events]
 
@@ -54,6 +60,26 @@ public class BoomEntrance : MonoBehaviour
         else
         {
             Debug.Log("The Main Camera could not be found.");
+        }
+    }
+
+    private void Update()
+    {
+        if (PlayShakeAndClips)
+        {
+            PlayShakeAndClips = false;
+            Shake = true;
+            PlayClips = true;
+        }
+        else if (Shake)
+        {
+            Shake = false;
+            StartCoroutine(ShakeCamera());
+        }
+        else if (PlayClips)
+        {
+            PlayClips = false;
+            PlayAudioClips();
         }
     }
 
