@@ -25,6 +25,7 @@ public class GaugeIndicator : MonoBehaviour
     private float _rotationIncrement, _smallIncrement, _smallDelay;
     private Quaternion _defaultRotation, _finalRotation, _descendRotation;
     private bool _didForwardRot = false, _didBackRot = false;
+    private int _fireCalls, _iceCalls;
 
     // [Editor Variables]
 
@@ -123,6 +124,11 @@ public class GaugeIndicator : MonoBehaviour
         // Corrective Variables
         _smallIncrement = 0.2f;
         _smallDelay = 0.1f;
+
+        // Set Number of Calls to Repeat
+
+        _fireCalls = FireCalls - 1;
+        _iceCalls = IceCalls - 1;
     }
 
     private void Update()
@@ -145,7 +151,7 @@ public class GaugeIndicator : MonoBehaviour
                 MinGauge();
             }
         }
-        else if (MoveToNextPoint) // Determines if forward rotation is enabled.
+        else if (MoveToNextPoint && FireCalls != 0) // Determines if forward rotation is enabled.
         {
             // Cancels if at the end.
             if (transform.rotation == _finalRotation && _nextRotationPoint == _finalHeatPoint)
@@ -157,7 +163,7 @@ public class GaugeIndicator : MonoBehaviour
             IncrementGauge();
 
         }
-        else if (AutoCoolOn || MoveToPrevPoint) // Cools down (reverse rotation) to origin if not.
+        else if (AutoCoolOn || (MoveToPrevPoint && IceCalls != 0)) // Cools down (reverse rotation) to origin if not.
         {
             // Cancels if at the start.
             if ((HeatOnlyScale && transform.rotation == _defaultRotation && _prevRotationPoint == _firstHeatPoint) || (transform.rotation == _descendRotation && _prevRotationPoint == _firstCoolPoint))
@@ -247,6 +253,18 @@ public class GaugeIndicator : MonoBehaviour
                 {
                     Invoke("AwakenCoolDown", _autoCoolDelay);
                 }
+
+                // Repeated Increment calls.
+
+                if (_fireCalls > 0)
+                {
+                    _fireCalls--;
+                    MoveToNextPoint = true;
+                }
+                else
+                {
+                    Invoke("AwakenFireCall", _smallDelay);
+                }
             }
         }
     }
@@ -333,6 +351,34 @@ public class GaugeIndicator : MonoBehaviour
             SetRotationPoints(_heatIndex, _coolIndex);
 
             CheckForDestination();
+
+            // Repeated Decrement calls.
+
+            if (HeatOnlyScale)
+            {
+                if (_fireCalls > 0)
+                {
+                    _fireCalls--;
+                    MoveToPrevPoint = true;
+                }
+                else
+                {
+                    Invoke("AwakenFireCall", _smallDelay);
+                }
+            }
+            else
+            {
+
+                if (_iceCalls > 0)
+                {
+                    _iceCalls--;
+                    MoveToPrevPoint = true;
+                }
+                else
+                {
+                    Invoke("AwakenIceCall", _smallDelay);
+                }
+            }
         }
     }
 
@@ -343,6 +389,16 @@ public class GaugeIndicator : MonoBehaviour
         {
             AutoCoolOn = true;
         }
+    }
+
+    public void AwakenFireCall()
+    {
+        _fireCalls = FireCalls - 1;
+    }
+
+    public void AwakenIceCall()
+    {
+        _iceCalls = IceCalls - 1;
     }
 
     public void ResetGauge()

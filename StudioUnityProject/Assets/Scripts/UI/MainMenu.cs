@@ -23,21 +23,15 @@ public class MainMenu : MonoBehaviour
 	[Header("Comfirmation")]
 	[SerializeField] private GameObject comfirmationPrompt = null;
 
-	void Start()
-	{
-		MouseLockManager.Instance.MouseVisable = true;
-	}
-
-	public void NewGameDialogYes()
-	{
-		//Loads Level 1 if player clicks yes
-		LevelLoading.Instance.LoadScene(2);
-	}
-
 	//This is where the override code will be referenced/placed 
 	public void LoadGameDialogYes()
 	{
-
+		SaveManager.current.ForceLoad();
+		if (SaveData.Current.CurrentLevel > 1)
+			LevelLoading.Instance.LoadScene(SaveData.Current.CurrentLevel);
+		else
+			LevelLoading.Instance.LoadScene(2);
+		SaveManager.current.ForceSave();
 	}
 
 	public void ExitButton()
