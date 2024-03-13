@@ -30,14 +30,15 @@ public class PauseMenu : MonoBehaviour
 	MouseLookController cam;
 	public GameObject player;
 
-    private void Awake()
-    {
-        cam = player.GetComponent<MouseLookController>();
-    }
+	private void Awake()
+	{
+		cam = player.GetComponent<MouseLookController>();
+	}
 
-    void Start()
+	void Start()
 	{
 		Time.timeScale = 1f;
+		Play();
 	}
 
 	void Update()
@@ -54,7 +55,7 @@ public class PauseMenu : MonoBehaviour
 			else
 			{
 				Stop();
-				cam.Sensitivity = 0;
+
 			}
 		}
 	}
@@ -65,6 +66,7 @@ public class PauseMenu : MonoBehaviour
 		Time.timeScale = 0f;
 		Paused = true;
 		MouseLockManager.Instance.MouseVisable = true;
+		cam.Locked = true;
 
 	}
 
@@ -74,12 +76,11 @@ public class PauseMenu : MonoBehaviour
 		PauseMenuCanvas.SetActive(false);
 		Time.timeScale = 1f;
 		Paused = false;
+		cam.Locked = false;
 	}
 	public void Resume()
 	{
-		PauseMenuCanvas.SetActive(false);
-		Time.timeScale = 1f;
-		MouseLockManager.Instance.MouseVisable = false;
+		Play();
 	}
 
 	public void GameExitButton()
