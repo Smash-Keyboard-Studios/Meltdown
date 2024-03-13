@@ -655,7 +655,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SFXAudioSource: {fileID: 380800513}
-  AudioLibraryArray: []
+  AudioLibraryArray:
+  - Name: playerwalking
+    Clip: {fileID: 0}
 --- !u!4 &22279497
 Transform:
   m_ObjectHideFlags: 0
