@@ -123,8 +123,8 @@ MonoBehaviour:
   OnInteract:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8462891796888173400}
-        m_TargetAssemblyTypeName: SmallIcePedestal, Core
+      - m_Target: {fileID: 2028544117033553388}
+        m_TargetAssemblyTypeName: Pedestal, Scripts
         m_MethodName: UsePedestal
         m_Mode: 1
         m_Arguments:
@@ -250,7 +250,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5528781432738069347}
-  - component: {fileID: 8462891796888173400}
+  - component: {fileID: 2028544117033553388}
   m_Layer: 0
   m_Name: Small Ice Pedestal
   m_TagString: Untagged
@@ -275,7 +275,7 @@ Transform:
   - {fileID: 8673682103660695604}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8462891796888173400
+--- !u!114 &2028544117033553388
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -284,8 +284,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7271622109657554182}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6534a592df3cd1945b6d4b8f57691c59, type: 3}
+  m_Script: {fileID: 11500000, guid: 5ea91fc9f0bba1648b55e2fd18d2549c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RefillAmount: 1
+  IsIcePedestal: 1
   PlayerObject: {fileID: 0}
   AmmoController: {fileID: 0}

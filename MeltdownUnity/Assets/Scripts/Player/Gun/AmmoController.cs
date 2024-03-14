@@ -9,9 +9,6 @@ public class AmmoController : MonoBehaviour
     public int IceAmmo;
     public int FireAmmo;
 
-    public int LargePedestalRefill = 3;
-    public int SmallPedestalRefill = 1;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -35,14 +32,9 @@ public class AmmoController : MonoBehaviour
         }
     }
 
-    public int RefillLargePedestal(int Ammo){
-        Ammo = LargePedestalRefill;
-        return Ammo;
-    }
-
-    public int RefillSmallPedestal(int Ammo){
-        if(Ammo < SmallPedestalRefill){
-            Ammo = SmallPedestalRefill;
+    public int RefillPedestal(int Ammo, int RefillAmount){
+        if(Ammo < RefillAmount){
+            Ammo = RefillAmount;
         }
         return Ammo;
     }
