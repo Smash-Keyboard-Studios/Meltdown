@@ -70,7 +70,7 @@ public class IceWall : MonoBehaviour
         steamParticles.Stop();
 
 		//create instance of water puddle after shrinking
-		Instantiate(WaterPuddle, transform.position, Quaternion.identity);
+		Instantiate(WaterPuddle, transform.position + new Vector3(0, 0.01f, 0), Quaternion.identity);
     }
 
 	//replace fireScript with whatever script the fire projectile contains

@@ -2445,6 +2445,39 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5107562930961206842, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
   m_PrefabInstance: {fileID: 1399763166}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1014269181 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2865909794556574247, guid: b702a5b2092aa2f46a68b26e2b88bcc6, type: 3}
+  m_PrefabInstance: {fileID: 2068009075}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1014269188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1014269181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e815300fb8000b24ca70deadd9b12717, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnInteract:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1014269188}
+        m_TargetAssemblyTypeName: InteractiveObject, Scripts
+        m_MethodName: Interact
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  ObjectName: Button
 --- !u!1001 &1048181900
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3774,7 +3807,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh61320
+  m_Name: pb_Mesh404272
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -4559,26 +4592,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1455609472444089623, guid: b702a5b2092aa2f46a68b26e2b88bcc6, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: b1a32edea8283044aaa4c787103f09b3, type: 2}
     - target: {fileID: 4392493260183922508, guid: b702a5b2092aa2f46a68b26e2b88bcc6, type: 3}
       propertyPath: m_Name
       value: ToggleDoorTimerPrefab
       objectReference: {fileID: 0}
-    - target: {fileID: 5920855116074691372, guid: b702a5b2092aa2f46a68b26e2b88bcc6, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: b1a32edea8283044aaa4c787103f09b3, type: 2}
-    - target: {fileID: 8951623548136762446, guid: b702a5b2092aa2f46a68b26e2b88bcc6, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: b1a32edea8283044aaa4c787103f09b3, type: 2}
-    - target: {fileID: 8952268277219037313, guid: b702a5b2092aa2f46a68b26e2b88bcc6, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: c18093bcad65fc64dbbe0be6a842540c, type: 2}
+    - target: {fileID: 6769602086011542672, guid: b702a5b2092aa2f46a68b26e2b88bcc6, type: 3}
+      propertyPath: timedButton
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6769602086011542672, guid: b702a5b2092aa2f46a68b26e2b88bcc6, type: 3}
+      propertyPath: toggleButton
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9024970535172374847, guid: b702a5b2092aa2f46a68b26e2b88bcc6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 7
@@ -4622,7 +4647,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2865909794556574247, guid: b702a5b2092aa2f46a68b26e2b88bcc6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1014269188}
   m_SourcePrefab: {fileID: 100100000, guid: b702a5b2092aa2f46a68b26e2b88bcc6, type: 3}
 --- !u!1 &2122712219
 GameObject:

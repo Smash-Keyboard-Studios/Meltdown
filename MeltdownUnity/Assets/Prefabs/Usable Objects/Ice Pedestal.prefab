@@ -9,13 +9,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7425658345304534953}
-  - component: {fileID: 6917916624765702134}
+  - component: {fileID: 8236228248942946770}
   m_Layer: 0
   m_Name: Ice Pedestal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &7425658345304534953
 Transform:
@@ -34,7 +34,7 @@ Transform:
   - {fileID: 352488838876461557}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6917916624765702134
+--- !u!114 &8236228248942946770
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,9 +43,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6770415700435098401}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ea91fc9f0bba1648b55e2fd18d2549c, type: 3}
+  m_Script: {fileID: 11500000, guid: 46687128b75de3548813c6427a4bd22f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RefillAmount: 3
+  IsIcePedestal: 1
   PlayerObject: {fileID: 0}
   AmmoController: {fileID: 0}
 --- !u!1 &8217229678897572052
@@ -64,7 +66,7 @@ GameObject:
   m_TagString: InteractableObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &6562566126643056116
 Transform:
@@ -119,8 +121,8 @@ MonoBehaviour:
   OnInteract:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6917916624765702134}
-        m_TargetAssemblyTypeName: LargeIcePedestal, Scripts
+      - m_Target: {fileID: 8236228248942946770}
+        m_TargetAssemblyTypeName: Pedestal, Scripts
         m_MethodName: UsePedestal
         m_Mode: 1
         m_Arguments:
@@ -140,6 +142,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7425658345304534953}
     m_Modifications:
+    - target: {fileID: 299756259512259992, guid: 4437c41f250cb9044a0b68618adbeecf, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 1108767412454280994, guid: 4437c41f250cb9044a0b68618adbeecf, type: 3}
       propertyPath: m_LocalScale.y
       value: 1.4
@@ -155,6 +161,10 @@ PrefabInstance:
     - target: {fileID: 7189267761647149759, guid: 4437c41f250cb9044a0b68618adbeecf, type: 3}
       propertyPath: m_Name
       value: 21_FirePedestal_V1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7189267761647149759, guid: 4437c41f250cb9044a0b68618adbeecf, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 7534161935178479621, guid: 4437c41f250cb9044a0b68618adbeecf, type: 3}
       propertyPath: m_LocalPosition.x

@@ -33,7 +33,7 @@ MonoBehaviour:
   m_EnableLODCrossFade: 1
   m_LODCrossFadeDitheringType: 1
   m_ShEvalMode: 0
-  m_LightProbeSystem: 0
+  m_LightProbeSystem: 1
   m_ProbeVolumeMemoryBudget: 1024
   m_ProbeVolumeBlendingMemoryBudget: 128
   m_SupportProbeVolumeStreaming: 0
@@ -90,9 +90,16 @@ MonoBehaviour:
     bayerMatrixTex: {fileID: 2800000, guid: f9ee4ed84c1d10c49aabb9b210b0fc44, type: 3}
   apvScenesData:
     m_ObsoleteSerializedBakingSets: []
-    serializedBounds: []
-    serializedHasVolumes: []
-    bakingSets: []
+    serializedBounds:
+    - sceneGUID: c4e22d76931989c49932e29fd9c87a21
+      bounds:
+        m_Center: {x: 0, y: 0, z: 0}
+        m_Extent: {x: 81, y: 81, z: 81}
+    serializedHasVolumes:
+    - sceneGUID: c4e22d76931989c49932e29fd9c87a21
+      hasProbeVolumes: 0
+    bakingSets:
+    - {fileID: 11400000, guid: 7cd6a3fb4d7946e40bc4804312a539c2, type: 2}
     m_LightingScenario: Default
   m_PrefilteringModeMainLightShadows: 3
   m_PrefilteringModeAdditionalLight: 3

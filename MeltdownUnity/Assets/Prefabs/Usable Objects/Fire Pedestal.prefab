@@ -71,8 +71,8 @@ MonoBehaviour:
   OnInteract:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7858836480997188453}
-        m_TargetAssemblyTypeName: LargeFirePedestal, Scripts
+      - m_Target: {fileID: 672034536787409813}
+        m_TargetAssemblyTypeName: Pedestal, Scripts
         m_MethodName: UsePedestal
         m_Mode: 1
         m_Arguments:
@@ -93,7 +93,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7429090364687918713}
-  - component: {fileID: 7858836480997188453}
+  - component: {fileID: 672034536787409813}
   m_Layer: 0
   m_Name: Fire Pedestal
   m_TagString: Untagged
@@ -118,7 +118,7 @@ Transform:
   - {fileID: 5715550449839285585}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7858836480997188453
+--- !u!114 &672034536787409813
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,9 +127,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 5174281451216927576}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c8f1187f68d9544d9a47aba37846b24, type: 3}
+  m_Script: {fileID: 11500000, guid: 46687128b75de3548813c6427a4bd22f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RefillAmount: 3
+  IsIcePedestal: 0
   PlayerObject: {fileID: 0}
   AmmoController: {fileID: 0}
 --- !u!1001 &2873031059479174484
@@ -140,9 +142,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7429090364687918713}
     m_Modifications:
+    - target: {fileID: 299756259512259992, guid: 4437c41f250cb9044a0b68618adbeecf, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7189267761647149759, guid: 4437c41f250cb9044a0b68618adbeecf, type: 3}
       propertyPath: m_Name
       value: 21_FirePedestal_V1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7189267761647149759, guid: 4437c41f250cb9044a0b68618adbeecf, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7534161935178479621, guid: 4437c41f250cb9044a0b68618adbeecf, type: 3}
       propertyPath: m_LocalPosition.x
