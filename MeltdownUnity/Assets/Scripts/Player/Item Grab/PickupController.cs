@@ -52,6 +52,7 @@ public class PickupController : MonoBehaviour
                     if (hit.transform.CompareTag("MoveableObject"))
                     {
                         PickupObject(hit.transform.gameObject);
+                        //Call Audio Manager (Player)
                     }
                 }
             }
@@ -140,6 +141,8 @@ public class PickupController : MonoBehaviour
             mainGun.SetActive(true);
             gun.hasFire = true;
             gun.hasIce = true;
+
+            //Add a impact check to allow calling the audio manager
         }
     }
 }

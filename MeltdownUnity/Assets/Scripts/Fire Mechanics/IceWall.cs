@@ -80,6 +80,7 @@ public class IceWall : MonoBehaviour
 		{
 			if (!isShrinking)
 			{
+				//call Audio Manager (SFX)
 				StartCoroutine("ShrinkIceGradual");
 				//create instance of water puddle after shrinking
 			}
