@@ -23,6 +23,19 @@ public class MainMenu : MonoBehaviour
 	[Header("Comfirmation")]
 	[SerializeField] private GameObject comfirmationPrompt = null;
 
+	void Start()
+	{
+		if (MouseLockManager.Instance != null) MouseLockManager.Instance.MouseVisable = true;
+	}
+
+	public void StartNewGame()
+	{
+		SaveData.Current = new SaveData();
+		if (SaveManager.current != null) SaveManager.current.ForceSave();
+		LoadGameDialogYes();
+
+	}
+
 	//This is where the override code will be referenced/placed 
 	public void LoadGameDialogYes()
 	{
@@ -78,6 +91,12 @@ public class MainMenu : MonoBehaviour
 		}
 
 		PlayerPrefs.SetFloat("masterSen", mainControllerSen);
+	}
+
+	public void DeleteSaveData()
+	{
+		SaveData.Current = new SaveData();
+		if (SaveManager.current != null) SaveManager.current.ForceSave();
 	}
 
 	public IEnumerator ConfirmationBox()

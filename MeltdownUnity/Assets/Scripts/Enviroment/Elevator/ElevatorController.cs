@@ -10,6 +10,9 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class ElevatorController : MonoBehaviour
 {
+	[Header("Weather the player can use this elevator to leave")]
+	public bool IsEnabled = true;
+
 	[Header("What scene will be loaded")]
 
 	[Tooltip("What scene will be loaded")]
@@ -56,6 +59,7 @@ public class ElevatorController : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+		if (!IsEnabled) return;
 		// closed
 		if (_timeCounter < 1 && Closed)
 		{
@@ -72,11 +76,17 @@ public class ElevatorController : MonoBehaviour
 		RightElevatorDoor.localPosition = Vector3.Lerp(RightDoorOpenPos, RightDoorClosedPos, _timeCounter);
 	}
 
+	// The void means that it reaturns nothing.
+	// On Trigger Enter activates when the attached trigger has another object with a collider enters the trigger.
 	void OnTriggerEnter(Collider other)
 	{
 		if (other.tag == "Player")
 		{
+			if (!IsEnabled) return;
 			_playerEntered = true;
+			SaveData.Current.CurrentLevel = SceneBuildIndex;
+			if (SaveManager.current != null) SaveManager.current.ForceSave();
+			TriggerLeave();
 		}
 	}
 
@@ -94,6 +104,8 @@ public class ElevatorController : MonoBehaviour
 	/// </summary>
 	public void TriggerLeave()
 	{
+		if (!IsEnabled) return;
+		// redunded now.
 		if (!_playerEntered) return;
 
 

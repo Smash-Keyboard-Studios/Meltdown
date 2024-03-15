@@ -380,7 +380,7 @@ GameObject:
   - component: {fileID: 5135777828658917940}
   - component: {fileID: 6190885501685712706}
   - component: {fileID: 5597738369613507056}
-  - component: {fileID: 6769602086011542672}
+  - component: {fileID: 183396071815290948}
   m_Layer: 0
   m_Name: ToggleButtonTimer
   m_TagString: InteractableObject
@@ -474,7 +474,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6769602086011542672
+--- !u!114 &183396071815290948
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -483,10 +483,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2865909794556574247}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b0e76fb4f8c6d740b3f876ecb976af0, type: 3}
+  m_Script: {fileID: 11500000, guid: bdb6aa9c334b0e343a9e9381745c86e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnActivate:
+  getInteract:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2114979912176973722}
@@ -501,10 +501,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  toggleButton: 0
-  timedButton: 1
-  waitTimer: 2
-  pauseInteraction: 0
+  ToggleButton: 1
+  TimedButton: 1
+  Timer: 3
 --- !u!1 &4392493260183922508
 GameObject:
   m_ObjectHideFlags: 0
