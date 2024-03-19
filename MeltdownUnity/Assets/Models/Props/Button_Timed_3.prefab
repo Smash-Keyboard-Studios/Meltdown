@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6684302010722217706}
   - component: {fileID: 5345774878990147304}
   - component: {fileID: 2352280020059857271}
+  - component: {fileID: 2707915269213992210}
   m_Layer: 0
   m_Name: Button V1 (2)
   m_TagString: Untagged
@@ -83,6 +84,29 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &2707915269213992210
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7342241910368428338}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 10.21682
+  m_Height: 30
+  m_Direction: 1
+  m_Center: {x: -0.027254105, y: 0, z: 0.12030029}
 --- !u!1 &7387379049501953383
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,6 +118,7 @@ GameObject:
   - component: {fileID: 1903787191369829601}
   - component: {fileID: 7652490622618624697}
   - component: {fileID: 9151060000758070572}
+  - component: {fileID: 8587238997811783658}
   m_Layer: 0
   m_Name: Button_Timed_3
   m_TagString: Untagged
@@ -167,3 +192,26 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &8587238997811783658
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7387379049501953383}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 13
+  m_Height: 100
+  m_Direction: 1
+  m_Center: {x: 0.0000038146973, y: -0.0000038146973, z: 0}

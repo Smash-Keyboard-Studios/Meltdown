@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5870988160846128234}
   - component: {fileID: 8548346627726428425}
   - component: {fileID: 8709237274046407938}
-  - component: {fileID: 1080367177068030204}
+  - component: {fileID: 4756320909481813501}
   - component: {fileID: 1967245306425463622}
   m_Layer: 0
   m_Name: IceBlock
@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1760157636108955991}
@@ -66,7 +66,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7313326236114026238}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 5
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -85,7 +85,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1080367177068030204
+--- !u!114 &4756320909481813501
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,12 +94,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7313326236114026238}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbd68c56d5c704341b31354d6be17514, type: 3}
+  m_Script: {fileID: 11500000, guid: 2fd8452c7873d3f49a24b3e6f36f1cbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectScale: 0
-  numOfHits: 3
-  steamParticles: {fileID: 0}
+  objectSetScale: 1
+  objectScale: 100
+  maxShrinkSize: 3
+  steamParticles: {fileID: 2059485879415039546}
   WaterPuddle: {fileID: 1607225794465935763, guid: 1e4a1f1717b324c46add0991f53acf02, type: 3}
 --- !u!114 &1967245306425463622
 MonoBehaviour:
@@ -254,6 +255,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7fff4bc47d8f963499037cab7d745308, type: 3}
+--- !u!198 &2059485879415039546 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3151028745892095067, guid: 7fff4bc47d8f963499037cab7d745308, type: 3}
+  m_PrefabInstance: {fileID: 3976239276026626657}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3465254590801561045 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 520586033344202676, guid: 7fff4bc47d8f963499037cab7d745308, type: 3}
