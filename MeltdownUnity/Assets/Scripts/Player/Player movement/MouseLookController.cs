@@ -17,11 +17,33 @@ public class MouseLookController : MonoBehaviour
 
 	private float _yRotation;
 
+
+	// head bobing
+	[Header("Head Bob")]
+	public float headBobHorizontalAmplitude;
+	public float headBobVerticalAmplitude;
+	public float maxBobFreq = 4.5f;
+	[Range(0, 1)] public float headBobSmoothing;
+
+	private float xRotation;
+	private float yRotation;
+	private float headBobFrequency;
+	private float walkingTime;
+	private Vector3 targetCameraPosition;
+
+	private PlayerMovementController movementController;
+	private CharacterController characterController;
+	private Transform cam;
+
 	// Start is called before the first frame update
 	void Start()
 	{
 		// what is this? what is this bro? :face_vomiting:
 		_playerBody = GetComponent<Transform>();
+
+		cam = Camera.main.transform;
+		movementController = GetComponent<PlayerMovementController>();
+		characterController = GetComponent<CharacterController>();
 
 		Locked = false;
 	}
@@ -45,6 +67,42 @@ public class MouseLookController : MonoBehaviour
 
 		CameraHolder.localRotation = Quaternion.Euler(_yRotation * Sensitivity, 0, 0);
 
+		MainHeadBobbing();
+	}
 
+
+
+
+	private void MainHeadBobbing()
+	{
+		Vector3 MovementVel = new Vector3(characterController.velocity.x, 0, characterController.velocity.z);
+		if (MovementVel.magnitude > 0 && movementController.isGrounded) walkingTime += Time.deltaTime;
+		else walkingTime = 0f;
+
+		headBobFrequency = (movementController.speed > maxBobFreq) ? 1f * movementController.speed : maxBobFreq;
+
+
+		targetCameraPosition = CameraHolder.position + CalculateHeadBobOffset(walkingTime);
+
+		cam.position = Vector3.Lerp(cam.transform.position, targetCameraPosition, headBobSmoothing);
+
+		if ((cam.position - targetCameraPosition).magnitude <= 0.001) cam.position = targetCameraPosition;
+	}
+
+	private Vector3 CalculateHeadBobOffset(float t)
+	{
+		float horOffset = 0f;
+		float vertOffset = 0f;
+		Vector3 Offset = Vector3.zero;
+
+		if (t > 0)
+		{
+			horOffset = Mathf.Cos(t * headBobFrequency) * headBobHorizontalAmplitude * characterController.height / 2;
+			vertOffset = Mathf.Sin(t * headBobFrequency * 2f) * headBobVerticalAmplitude * characterController.height / 2;
+
+			Offset = cam.right * horOffset + cam.up * vertOffset;
+		}
+
+		return Offset;
 	}
 }

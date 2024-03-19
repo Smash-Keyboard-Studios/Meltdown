@@ -29,6 +29,8 @@ public class Gun : MonoBehaviour
 			// Instantiate the bullet GameObject
 			GameObject bulletObject = Instantiate(bulletPrefableftclick, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
 
+			//Call Audio Manager (SFX)
+
 			// Check if the bullet GameObject is not null
 			if (bulletObject != null)
 			{
