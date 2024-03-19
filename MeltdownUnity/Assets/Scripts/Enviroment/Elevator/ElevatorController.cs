@@ -59,7 +59,6 @@ public class ElevatorController : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		if (!IsEnabled) return;
 		// closed
 		if (_timeCounter < 1 && Closed)
 		{

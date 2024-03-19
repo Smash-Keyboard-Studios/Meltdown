@@ -35,6 +35,7 @@ public class DebugConsole : MonoBehaviour
 	public static Command<float, float, float> TP;
 	public static Command DestroyObjectCommand;
 	public static Command<float> SetSprintSpeed;
+	public static Command InfAmmo;
 
 
 	void Awake()
@@ -232,6 +233,23 @@ public class DebugConsole : MonoBehaviour
 			}
 		});
 
+		InfAmmo = new Command("infammo", "Infinite ammo for the gun", "infammo", () =>
+		{
+#nullable enable
+			GameObject? go = GameObject.FindGameObjectWithTag("Player");
+#nullable restore
+			if (go != null && go.transform.name == "Player")
+			{
+				go.transform.GetComponent<AmmoController>().InfAmmo = true;
+				TextToConsole("Infinite ammo granted");
+			}
+			else
+			{
+				TextToConsole("Cannot find the player");
+				return;
+			}
+		});
+
 		// insert commands here
 
 		commands = new List<object>
@@ -243,7 +261,8 @@ public class DebugConsole : MonoBehaviour
 			ToggleMouse,
 			TP,
 			DestroyObjectCommand,
-			SetSprintSpeed
+			SetSprintSpeed,
+			InfAmmo
 		};
 	}
 

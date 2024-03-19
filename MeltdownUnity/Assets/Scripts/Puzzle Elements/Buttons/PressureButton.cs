@@ -12,10 +12,17 @@ public class PressureButton : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        print("i want to be free");
-        if(collision.gameObject.GetComponent<CharacterController>() != null || collision.gameObject.GetComponent<Rigidbody>() || collision.gameObject.GetComponent<FirstPersonController>() != null)
+        if (collision.gameObject.GetComponent<Rigidbody>() != null || collision.gameObject.GetComponent<PlayerMovementController>() != null)
         {
             OnButtonPress.Invoke();
+        }
+    }
+
+    private void OnTriggerStay(Collider collision)
+    {
+        if (collision.gameObject.GetComponent<Rigidbody>() != null || collision.gameObject.GetComponent<PlayerMovementController>() != null)
+        {
+            buttonActive = true;
         }
     }
 
