@@ -10,12 +10,22 @@ public class NoteMenu : MonoBehaviour
     GameObject CurrentNote;
     GameObject NoteUIBackground;
 
+    MouseLookController MouseLookControllerScript;
+    PlayerMovementController PlayerMovementControllerScript;
+    PlayerInteractionScript PlayerInteraction;
+
     public bool IsNoteActive = false;
         
     public void Start()
     {
 
         playerCharacter = GameObject.FindWithTag("Player");
+
+        MouseLookControllerScript = playerCharacter.GetComponent<MouseLookController>();
+        PlayerMovementControllerScript = playerCharacter.GetComponent<PlayerMovementController>();
+        PlayerInteraction = playerCharacter.GetComponent<PlayerInteractionScript>(); // Grabs the different player scripts
+
+
         playerUI = GameObject.Find("PlayerUI"); // Grabs both the player object and the player UI
         NoteUIBackground = playerUI.transform.Find("NoteBackground").gameObject; // Grabs the NoteBackground to enable it
 
@@ -35,7 +45,9 @@ public class NoteMenu : MonoBehaviour
             NoteUIBackground.SetActive(false); // Deactivates note background
             Destroy(CurrentNote); // Destroys the note to prevent duplicates
             IsNoteActive = false;
-            playerCharacter.SetActive(true); // Reactivates the player
+            MouseLookControllerScript.enabled = true;
+            PlayerMovementControllerScript.enabled = true;
+            PlayerInteraction.enabled = true; ; // Reactivates the player
         }
     }
 
@@ -46,7 +58,9 @@ public class NoteMenu : MonoBehaviour
         CurrentNote = Instantiate(Note); // Retrieves the note prefab and instantiates it
         CurrentNote.transform.SetParent(playerUI.transform);
         CurrentNote.GetComponent<RectTransform>().localPosition = Vector3.zero; // Puts the note into the player UI and ensures its position is directly in the middle of the screen
-        playerCharacter.SetActive(false); // Prevents player from moving
+        MouseLookControllerScript.enabled = false;
+        PlayerMovementControllerScript.enabled = false;
+        PlayerInteraction.enabled = false; // Deactivates the player
         IsNoteActive = true;
     }
 
