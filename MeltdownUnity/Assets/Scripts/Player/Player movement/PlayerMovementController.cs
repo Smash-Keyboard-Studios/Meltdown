@@ -346,14 +346,14 @@ public class PlayerMovementController : MonoBehaviour
 			_isOnSlope = false;
 		}
 
-		if (_characterContoller.isGrounded)
+		if (_characterContoller.isGrounded || (velocity.y <= 0 && Physics.Raycast(transform.position, -transform.up, (_characterContoller.height / 2f) + _characterContoller.stepOffset, ~IgnoredLayers)))
 		{
 
 
 			// ground
 
 			// did the raycast hit somthing? if not then return gournd is false.
-			if (!Physics.Raycast(transform.position, -transform.up, out hit, (_characterContoller.height / 2f) + 0.1f, ~IgnoredLayers))
+			if (!Physics.Raycast(transform.position, -transform.up, out hit, (_characterContoller.height / 2f) + _characterContoller.stepOffset, ~IgnoredLayers))
 			{
 				isGrounded = false;
 				return;
