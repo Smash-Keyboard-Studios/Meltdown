@@ -37785,8 +37785,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c8f1187f68d9544d9a47aba37846b24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerObject: {fileID: 0}
-  AmmoController: {fileID: 0}
 --- !u!1001 &1582124312
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41937,6 +41935,10 @@ PrefabInstance:
     - target: {fileID: 2343153389705044645, guid: 54267308150c992479530bc1ae67d577, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8245324545784451853, guid: 54267308150c992479530bc1ae67d577, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 7.658
       objectReference: {fileID: 0}
     - target: {fileID: 8245324545784451853, guid: 54267308150c992479530bc1ae67d577, type: 3}
       propertyPath: m_LocalPosition.x
