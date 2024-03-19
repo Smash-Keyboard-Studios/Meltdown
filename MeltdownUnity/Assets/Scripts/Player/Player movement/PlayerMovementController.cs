@@ -187,7 +187,7 @@ public class PlayerMovementController : MonoBehaviour
 
 		if (isGrounded && velocity.y <= 0)
 		{
-			if (_isOnSlope)
+			if (_isOnSlope && velocity.y > IdleGravity * 2f)
 			{
 				Vector3 newVel = velocity;
 				newVel.y = IdleGravity;
@@ -203,19 +203,19 @@ public class PlayerMovementController : MonoBehaviour
 		}
 		else
 		{
-			if (_isOnSlope)
-			{
-				Vector3 newVel = velocity;
-				newVel.y = IdleGravity;
+			// if (_isOnSlope)
+			// {
+			// 	Vector3 newVel = velocity;
+			// 	newVel.y = IdleGravity;
 
-				newVel = Vector3.ProjectOnPlane(newVel, _slopeNormal);
+			// 	newVel = Vector3.ProjectOnPlane(newVel, _slopeNormal);
 
-				velocity = newVel;
-			}
-			else
-			{
-				velocity.y += (-Gravity) * Time.deltaTime;
-			}
+			// 	velocity = newVel;
+			// }
+			// else
+			// {
+			velocity.y += (-Gravity) * Time.deltaTime;
+			// }
 		}
 
 		if (isGrounded && velocity.y <= 0 && !_isOnIce)
@@ -336,7 +336,7 @@ public class PlayerMovementController : MonoBehaviour
 
 		RaycastHit hit;
 
-		if (Physics.Raycast(transform.position, -transform.up, out hit, (_characterContoller.height / 2f) + 0.3f) && hit.normal != Vector3.up)
+		if (Physics.Raycast(transform.position, -transform.up, out hit, (_characterContoller.height / 2f) + 0.3f) && Vector3.Dot(hit.normal, Vector3.up) < _characterContoller.slopeLimit / 100f)
 		{
 			_isOnSlope = true;
 			_slopeNormal = hit.normal;
