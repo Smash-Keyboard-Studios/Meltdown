@@ -3,6 +3,7 @@ using UnityEngine;
 public class SFXAudio : MonoBehaviour
 {
     public AudioClipLibrary[] AudioLibraryArray;
+    bool loopaudio = false;
 
     public void PlaySFXAudio(int i, AudioSource source = null)
     {
@@ -18,7 +19,15 @@ public class SFXAudio : MonoBehaviour
             sfxsource = source;
         }
 
-        sfxsource.PlayOneShot(SFXClip);
+        if(loopaudio == false)
+        {
+            sfxsource.PlayOneShot(SFXClip);
+        }
+        else
+        {
+            sfxsource.loop = true;
+            sfxsource.Play();
+        }
     }
 
     [System.Serializable]
