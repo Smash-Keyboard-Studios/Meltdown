@@ -3440,9 +3440,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92922e7d46cc92e43a69d1bd0f8ce96f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Locked: 0
+  Locked: 1
   CameraHolder: {fileID: 2724384780940018379}
   Sensitivity: 1
+  headBobHorizontalAmplitude: 0.1
+  headBobVerticalAmplitude: 0.05
+  maxBobFreq: 4.5
+  headBobSmoothing: 0.037
 --- !u!114 &2874830188577350306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3467,6 +3471,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   IgnoredTags: []
+  velocity: {x: 0, y: 0, z: 0}
+  speed: 0
+  isGrounded: 0
   _playerStandingHeight: 1.75
 --- !u!114 &1880704876620122638
 MonoBehaviour:
@@ -3518,7 +3525,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GunScript: {fileID: 8643972227606793046}
   IceAmmo: 0
-  FireAmmo: 3
+  FireAmmo: 0
+  InfAmmo: 0
 --- !u!114 &4571351336483045258
 MonoBehaviour:
   m_ObjectHideFlags: 0

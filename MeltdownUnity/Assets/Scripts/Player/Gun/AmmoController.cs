@@ -4,38 +4,48 @@ using UnityEngine;
 
 public class AmmoController : MonoBehaviour
 {
-    public Gun GunScript;
+	public Gun GunScript;
 
-    public int IceAmmo;
-    public int FireAmmo;
+	public int IceAmmo = 0;
+	public int FireAmmo = 0;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        GunScript = gameObject.GetComponent<Gun>();
+	public bool InfAmmo = false;
 
-        //set ice and fire ammo to 0
-        IceAmmo = 0;
-        FireAmmo = 0;
-    }
+	// Start is called before the first frame update
+	void Start()
+	{
+		GunScript = gameObject.GetComponent<Gun>();
 
-    // Update is called once per frame
-    void Update()
-    {
-        //cap ice and fire ammo at 3
-        if(IceAmmo > 3){
-            IceAmmo = 3;
-        }
-        
-        if(FireAmmo > 3){
-            FireAmmo = 3;
-        }
-    }
+	}
 
-    public int RefillPedestal(int Ammo, int RefillAmount){
-        if(Ammo < RefillAmount){
-            Ammo = RefillAmount;
-        }
-        return Ammo;
-    }
+	// Update is called once per frame
+	void Update()
+	{
+		//cap ice and fire ammo at 3
+		if (InfAmmo)
+		{
+			IceAmmo = 3;
+			FireAmmo = 3;
+			return;
+		}
+
+		if (IceAmmo > 3)
+		{
+			IceAmmo = 3;
+		}
+
+		if (FireAmmo > 3)
+		{
+			FireAmmo = 3;
+		}
+	}
+
+	public int RefillPedestal(int Ammo, int RefillAmount)
+	{
+		if (Ammo < RefillAmount)
+		{
+			Ammo = RefillAmount;
+		}
+		return Ammo;
+	}
 }
