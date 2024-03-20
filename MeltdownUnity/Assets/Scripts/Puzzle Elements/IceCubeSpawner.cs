@@ -1,8 +1,10 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class IceCubeSpawner : MonoBehaviour
 {
     public GameObject ObjectToSpawn;  // object that spawns
+    public UnityEvent OnComplete;  // used for puzzle gamemanager
 
 
 
@@ -42,6 +44,7 @@ public class IceCubeSpawner : MonoBehaviour
             }
             else
             {
+                OnComplete.Invoke();  // used for puzzle gamemanager
                 Debug.Log("object count is maxxed out" + spawnedObjCount);
             }
         }

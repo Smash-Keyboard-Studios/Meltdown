@@ -2,20 +2,39 @@ using UnityEngine;
 
 public class SFXAudio : MonoBehaviour
 {
-    public AudioSource SFXAudioSource;
     public AudioClipLibrary[] AudioLibraryArray;
+    bool loopaudio = false;
 
-    public void PlaySFXAudio(int i)
+    public void PlaySFXAudio(int i, AudioSource source = null)
     {
         AudioClip SFXClip = AudioLibraryArray[i].Clip;
+        AudioSource sfxsource = null;
 
-        SFXAudioSource.PlayOneShot(SFXClip);
+        if (source == null)
+        {
+            sfxsource = AudioLibraryArray[i].AudioSource;
+        }
+        else
+        {
+            sfxsource = source;
+        }
+
+        if(loopaudio == false)
+        {
+            sfxsource.PlayOneShot(SFXClip);
+        }
+        else
+        {
+            sfxsource.loop = true;
+            sfxsource.Play();
+        }
     }
 
     [System.Serializable]
     public class AudioClipLibrary
     {
         public string Name;
+        public AudioSource AudioSource;
         public AudioClip Clip;
     }
 }

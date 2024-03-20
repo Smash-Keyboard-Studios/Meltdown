@@ -120,6 +120,38 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &465573537
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 465573538}
+  m_Layer: 0
+  m_Name: SFXSources
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &465573538
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 465573537}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -33.156918, y: -0.39052206, z: 2.5340679}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 511897737}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &511897735
 GameObject:
   m_ObjectHideFlags: 0
@@ -146,9 +178,9 @@ AudioSource:
   m_GameObject: {fileID: 511897735}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -7802643074945120091, guid: 0dcdc2cc43418264daae8e29d40c023d, type: 2}
+  OutputAudioMixerGroup: {fileID: 7531493210367182214, guid: 0dcdc2cc43418264daae8e29d40c023d, type: 2}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -241,12 +273,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 511897735}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 33.156918, y: 0.39052206, z: -2.5340679}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 465573538}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &788715955
 GameObject:
@@ -421,7 +453,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1006770556}
   - component: {fileID: 1006770557}
-  - component: {fileID: 1006770561}
   - component: {fileID: 1006770560}
   - component: {fileID: 1006770559}
   - component: {fileID: 1006770558}
@@ -483,8 +514,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 581a2b9f0e227cd469967e5ef8542ce0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SFXAudioSource: {fileID: 0}
-  AudioLibraryArray: []
+  AudioLibraryArray:
+  - Name: Explosion
+    AudioSource: {fileID: 511897736}
+    Clip: {fileID: 0}
 --- !u!114 &1006770559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -498,7 +531,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MusicAudioSource: {fileID: 0}
-  AudioLibraryArray: []
+  AudioLibraryArray:
+  - Name: 
+    Clip: {fileID: 0}
 --- !u!114 &1006770560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -512,20 +547,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EnvAudioSource: {fileID: 0}
-  AudioLibraryArray: []
---- !u!114 &1006770561
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1006770555}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a2ea8a593698d546a55cd9999cb5c5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MenuAudioSource: {fileID: 0}
   AudioLibraryArray: []
 --- !u!1 &1299608681
 GameObject:
@@ -653,4 +674,4 @@ SceneRoots:
   - {fileID: 788715959}
   - {fileID: 950128311}
   - {fileID: 1006770556}
-  - {fileID: 511897737}
+  - {fileID: 465573538}
