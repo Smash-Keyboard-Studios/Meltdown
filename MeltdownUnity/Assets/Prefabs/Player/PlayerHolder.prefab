@@ -1773,7 +1773,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 21
+  m_VersionIndex: 30
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -4504,6 +4504,7 @@ GameObject:
   - component: {fileID: 8643972227606793046}
   - component: {fileID: 705772530737012553}
   - component: {fileID: 4571351336483045258}
+  - component: {fileID: 1562913032083953613}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -4679,6 +4680,26 @@ MonoBehaviour:
   GunScript: {fileID: 8643972227606793046}
   IceAmmo: 0
   FireAmmo: 3
+  InfAmmo: 0
+--- !u!114 &4571351336483045258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6067497010342986816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0e868ca1c467de439bdaa5abb609b75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdArea: {fileID: 2123020561024384952}
+  pickupRange: 5
+  pickupForce: 150
+  playerDistance: 1
+  minMassObject: 2
+  mainGun: {fileID: 0}
+  player: {fileID: 6067497010342986816}
 --- !u!64 &1562913032083953613
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -4701,25 +4722,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!114 &4571351336483045258
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6067497010342986816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0e868ca1c467de439bdaa5abb609b75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  holdArea: {fileID: 2123020561024384952}
-  pickupRange: 5
-  pickupForce: 150
-  playerDistance: 1
-  minMassObject: 2
-  mainGun: {fileID: 0}
-  player: {fileID: 6067497010342986816}
 --- !u!1 &6223661030936554615
 GameObject:
   m_ObjectHideFlags: 0
@@ -6851,7 +6853,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 21
+  m_VersionIndex: 30
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
