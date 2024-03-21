@@ -14,6 +14,9 @@ public class IceWall : MonoBehaviour
 	[Header ("Number of Hits Needed to Destroy Wall")] public int numOfHits = 3; //this is number of hits needed
 	private int shrinkPercent;
 
+	//ice audiosource
+	public AudioSource IceSource;
+
 	//steam particles
     [SerializeField] private ParticleSystem steamParticles;
 
@@ -80,7 +83,9 @@ public class IceWall : MonoBehaviour
 		{
 			if (!isShrinking)
 			{
-				//call Audio Manager (SFX)
+				//play audio
+				IceSource.Play();
+
 				StartCoroutine("ShrinkIceGradual");
 				//create instance of water puddle after shrinking
 			}
