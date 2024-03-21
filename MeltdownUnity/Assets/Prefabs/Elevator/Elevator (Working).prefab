@@ -368,6 +368,7 @@ Transform:
   - {fileID: 1768047209370747914}
   - {fileID: 3331275946403140378}
   - {fileID: 4497446952552450088}
+  - {fileID: 8180493850000449631}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1177901444762928545
@@ -432,6 +433,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c8cc847b582cab4c8b6695867890963, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsEnabled: 1
   SceneBuildIndex: 1
   LeftElevatorDoor: {fileID: 3331275946403140378}
   LeftDoorClosedPos: {x: -105.1, y: -2.7, z: 100}
@@ -591,3 +593,65 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 9118069214218795724, guid: 1508ff2615451f742a9c453ce5d72449, type: 3}
+--- !u!1001 &6562194905737705678
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2887237898510748902}
+    m_Modifications:
+    - target: {fileID: 3069038971730581649, guid: cebe72b56e2038642adb695e0a3d78a0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3069038971730581649, guid: cebe72b56e2038642adb695e0a3d78a0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3069038971730581649, guid: cebe72b56e2038642adb695e0a3d78a0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 101.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3069038971730581649, guid: cebe72b56e2038642adb695e0a3d78a0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3069038971730581649, guid: cebe72b56e2038642adb695e0a3d78a0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3069038971730581649, guid: cebe72b56e2038642adb695e0a3d78a0, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3069038971730581649, guid: cebe72b56e2038642adb695e0a3d78a0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3069038971730581649, guid: cebe72b56e2038642adb695e0a3d78a0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3069038971730581649, guid: cebe72b56e2038642adb695e0a3d78a0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3069038971730581649, guid: cebe72b56e2038642adb695e0a3d78a0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3853175856867967786, guid: cebe72b56e2038642adb695e0a3d78a0, type: 3}
+      propertyPath: m_Name
+      value: Confetti Particles
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cebe72b56e2038642adb695e0a3d78a0, type: 3}
+--- !u!4 &8180493850000449631 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3069038971730581649, guid: cebe72b56e2038642adb695e0a3d78a0, type: 3}
+  m_PrefabInstance: {fileID: 6562194905737705678}
+  m_PrefabAsset: {fileID: 0}

@@ -50,10 +50,13 @@ public class ElevatorController : MonoBehaviour
 	// whehter teh player is in the elevator or not.
 	private bool _playerEntered = false;
 
+	private ParticleSystem particleSystem;
+
 	// Start is called before the first frame update
 	void Start()
 	{
 		//_elevatorStartPos = transform.position;
+		particleSystem = GetComponentInChildren<ParticleSystem>();
 	}
 
 	// Update is called once per frame
@@ -107,6 +110,7 @@ public class ElevatorController : MonoBehaviour
 		// redunded now.
 		if (!_playerEntered) return;
 
+		if (Random.Range(0, 101) <= 10) particleSystem.Play();
 
 		Closed = true;
 

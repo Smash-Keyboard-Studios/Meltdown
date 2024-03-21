@@ -187,7 +187,7 @@ public class PlayerMovementController : MonoBehaviour
 		else _isOnIce = false;
 
 
-		if (isGrounded && velocity.y <= 0)
+		if (isGrounded && velocity.y < -IdleGravity)
 		{
 			if (_isOnSlope && velocity.y > (-IdleGravity) * 2f)
 			{
@@ -251,6 +251,8 @@ public class PlayerMovementController : MonoBehaviour
 		}
 
 
+		if (_isOnSlope) return;
+
 		if ((_characterContoller.velocity.x <= 0 && velocity.x > _characterContoller.velocity.x) || (_characterContoller.velocity.x >= 0 && velocity.x < _characterContoller.velocity.x))
 		{
 			// may change later
@@ -287,27 +289,15 @@ public class PlayerMovementController : MonoBehaviour
 				}
 
 				_jumpVector = new Vector3(MovementPlaneXZ.x, verticalPlane.y, MovementPlaneXZ.z);
-				// _characterContoller.Move(_jumpVector);
 
-				// if (Mathf.Pow(_jumpVector.z, 2f) + Mathf.Pow(_jumpVector.x, 2f) > Mathf.Pow(MaxAirSpeed, 2f))
+				// if (_isOnSlope)
 				// {
-				// 	float _ = _jumpVector.y;
-
-				// 	_jumpVector = _jumpVector.normalized * MaxAirSpeed;
-
-				// 	_jumpVector.y = _;
+				// 	_jumpVector = Vector3.ProjectOnPlane(_jumpVector, _slopeNormal);
 				// }
 
 				velocity += _jumpVector;
 			}
 		}
-
-		// if (!_isGrounded)
-		// {
-		// 	// _jumpVector += _velocity;
-		// 	_velocity.x = _jumpVector.x;
-		// 	_velocity.z = _jumpVector.z;
-		// }
 	}
 
 	private void HandleCrouching()
@@ -373,7 +363,7 @@ public class PlayerMovementController : MonoBehaviour
 		RaycastHit hit;
 
 
-		if (Physics.Raycast(transform.position, -transform.up, out hit, (_characterContoller.height / 2f) + 1f, ~IgnoredLayers) && Vector3.Dot(hit.normal, Vector3.up) < 1 - (_characterContoller.slopeLimit / 360))
+		if (Physics.Raycast(transform.position, -transform.up, out hit, (_characterContoller.height / 2f) + _characterContoller.stepOffset, ~IgnoredLayers) && Vector3.Dot(hit.normal, Vector3.up) < 1 - (_characterContoller.slopeLimit / 180))
 		{
 
 			_isOnSlope = true;
@@ -383,7 +373,7 @@ public class PlayerMovementController : MonoBehaviour
 		{
 			_isOnSlope = false;
 		}
-		//print(Vector3.Dot(hit.normal, Vector3.up) + " " + (1 - (_characterContoller.slopeLimit / 360)) + " " + (_characterContoller.slopeLimit / 360));
+		//print(Vector3.Dot(hit.normal, Vector3.up) + " " + (1 - (_characterContoller.slopeLimit / 360)) + " " + (_characterContoller.slopeLimit / 180));
 
 
 
@@ -393,7 +383,7 @@ public class PlayerMovementController : MonoBehaviour
 		// did the raycast hit somthing? if not then return gournd is false.
 		if (!Physics.Raycast(transform.position, -transform.up, out hit, (_characterContoller.height / 2f) + _characterContoller.stepOffset, ~IgnoredLayers))
 		{
-			if (!Physics.SphereCast(transform.position - (Vector3.one * (_characterContoller.height / 2)), _characterContoller.radius * 0.8f, -transform.up, out hit, ~IgnoredLayers))
+			if (!Physics.SphereCast(transform.position - (Vector3.one * (_characterContoller.height / 2)), _characterContoller.stepOffset * 0.8f, -transform.up, out hit, ~IgnoredLayers))
 			{
 				isGrounded = false;
 				return;
