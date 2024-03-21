@@ -20,6 +20,7 @@ public class MouseLookController : MonoBehaviour
 
 	// head bobing
 	[Header("Head Bob")]
+	public Transform HeadBob;
 	public float headBobHorizontalAmplitude;
 	public float headBobVerticalAmplitude;
 	public float maxBobFreq = 4.5f;
@@ -33,7 +34,8 @@ public class MouseLookController : MonoBehaviour
 
 	private PlayerMovementController movementController;
 	private CharacterController characterController;
-	private Transform cam;
+
+
 
 	// Start is called before the first frame update
 	void Start()
@@ -41,7 +43,6 @@ public class MouseLookController : MonoBehaviour
 		// what is this? what is this bro? :face_vomiting:
 		_playerBody = GetComponent<Transform>();
 
-		cam = Camera.main.transform;
 		movementController = GetComponent<PlayerMovementController>();
 		characterController = GetComponent<CharacterController>();
 
@@ -65,6 +66,7 @@ public class MouseLookController : MonoBehaviour
 
 		_playerBody.Rotate(Vector3.up * lookDirection.x * Sensitivity);
 
+
 		CameraHolder.localRotation = Quaternion.Euler(_yRotation * Sensitivity, 0, 0);
 
 		MainHeadBobbing();
@@ -84,9 +86,9 @@ public class MouseLookController : MonoBehaviour
 
 		targetCameraPosition = CameraHolder.position + CalculateHeadBobOffset(walkingTime);
 
-		cam.position = Vector3.Lerp(cam.transform.position, targetCameraPosition, headBobSmoothing);
+		HeadBob.position = Vector3.Lerp(HeadBob.transform.position, targetCameraPosition, headBobSmoothing);
 
-		if ((cam.position - targetCameraPosition).magnitude <= 0.001) cam.position = targetCameraPosition;
+		if ((HeadBob.position - targetCameraPosition).magnitude <= 0.001) HeadBob.position = targetCameraPosition;
 	}
 
 	private Vector3 CalculateHeadBobOffset(float t)
@@ -100,7 +102,7 @@ public class MouseLookController : MonoBehaviour
 			horOffset = Mathf.Cos(t * headBobFrequency) * headBobHorizontalAmplitude * characterController.height / 2;
 			vertOffset = Mathf.Sin(t * headBobFrequency * 2f) * headBobVerticalAmplitude * characterController.height / 2;
 
-			Offset = cam.right * horOffset + cam.up * vertOffset;
+			Offset = CameraHolder.right * horOffset + CameraHolder.up * vertOffset;
 		}
 
 		return Offset;

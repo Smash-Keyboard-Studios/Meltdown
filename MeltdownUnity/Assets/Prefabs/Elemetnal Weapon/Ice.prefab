@@ -44,7 +44,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6405268716962760783}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: -2837682660325928517, guid: bb20fdc25e57e93469092345bf763550, type: 3}
 --- !u!23 &6800090616404240559
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -124,6 +124,14 @@ MonoBehaviour:
   Speed: 40
   decalLifeTime: 3
   DecalPrefab: {fileID: 6108528481455311777, guid: a04a042baa381f94fb02992fb35f52c9, type: 3}
+  StartSize: 0.05
+  EndSize: 0.5
+  ScaleSpeed: 0.5
+  IgnoredTags: []
+  IgnoredLayers:
+    serializedVersion: 2
+    m_Bits: 48
+  Active: 0
 --- !u!54 &-5243200876737132418
 Rigidbody:
   m_ObjectHideFlags: 0

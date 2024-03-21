@@ -29,6 +29,7 @@ public class PlayerMovementController : MonoBehaviour
 
 	private CharacterController _characterContoller;
 
+	private Vector3 _gravityVelocity;
 	public Vector3 velocity;
 	private Vector3 _jumpVector;
 	Vector3 finalMoveDir;
@@ -49,7 +50,7 @@ public class PlayerMovementController : MonoBehaviour
 	public float _playerStandingHeight = 1.75f;
 	private float _playerCrouchingHeight;
 
-	private Transform _cameraHolderTransform;
+	public Transform CameraHolderTransform;
 
 	private float _cameraStandingHeight = 0.6f;
 	private float _cameraCrouchHeight;
@@ -66,7 +67,6 @@ public class PlayerMovementController : MonoBehaviour
 	void Start()
 	{
 		_characterContoller = GetComponent<CharacterController>();
-		_cameraHolderTransform = Camera.main.transform.parent.GetComponent<Transform>();
 
 		_playerCrouchingHeight = _playerStandingHeight / 2f;
 		_cameraCrouchHeight = _cameraStandingHeight / 2f;
@@ -127,7 +127,7 @@ public class PlayerMovementController : MonoBehaviour
 		}
 
 
-		if (_isSprinting && !_isCrouched)
+		if (_isSprinting && !_isCrouched && isGrounded)
 		{
 			speed = SprintSpeed;
 		}
@@ -143,13 +143,15 @@ public class PlayerMovementController : MonoBehaviour
 		if (isGrounded && !_isOnIce)
 		{
 			finalMoveDir = moveDirection.normalized * speed;
-			_characterContoller.Move(finalMoveDir * Time.deltaTime);
+			velocity.x = finalMoveDir.x;
+			velocity.z = finalMoveDir.z;
+			// _characterContoller.Move(finalMoveDir * Time.deltaTime);
 		}
 		else
 		{
 			float y = velocity.y;
 			if (moveDirection != Vector3.zero)
-				velocity += moveDirection.normalized * 0.1f * AirMovementMultiplier;
+				velocity += moveDirection.normalized * AirMovementMultiplier;
 			velocity.y = y;
 		}
 
@@ -187,18 +189,22 @@ public class PlayerMovementController : MonoBehaviour
 
 		if (isGrounded && velocity.y <= 0)
 		{
-			if (_isOnSlope && velocity.y > IdleGravity * 2f)
+			if (_isOnSlope && velocity.y > (-IdleGravity) * 2f)
 			{
+				velocity.x = velocity.x * 0.1f * AirMovementMultiplier;
+				velocity.z = velocity.z * 0.1f * AirMovementMultiplier;
+
 				Vector3 newVel = velocity;
-				newVel.y = IdleGravity;
+				newVel.y = (-IdleGravity);
 
 				newVel = Vector3.ProjectOnPlane(newVel, _slopeNormal);
 
+				// i hate this
 				velocity = newVel;
 			}
 			else
 			{
-				velocity.y = IdleGravity;
+				velocity.y = (-IdleGravity);
 			}
 		}
 		else
@@ -218,11 +224,11 @@ public class PlayerMovementController : MonoBehaviour
 			// }
 		}
 
-		if (isGrounded && velocity.y <= 0 && !_isOnIce)
+		if (isGrounded && velocity.y < 0 && !_isOnIce && !_isOnSlope)
 		{
-			// haha locked. such a pain. huh, what? what do you mean?
-			velocity.x = 0;
-			velocity.z = 0;
+			// stop moving the player through velocity when on
+			// velocity.x = 0;
+			// velocity.z = 0;
 		}
 
 		if (Mathf.Pow(velocity.z, 2f) + Mathf.Pow(velocity.x, 2f) > Mathf.Pow(MaxAirSpeed, 2f))
@@ -234,6 +240,8 @@ public class PlayerMovementController : MonoBehaviour
 			velocity.y = _;
 		}
 
+		// velocity += _gravityVelocity;
+
 		_characterContoller.Move(velocity * Time.deltaTime);
 
 		if (_characterContoller.velocity.y <= 0 && velocity.y > _characterContoller.velocity.y)
@@ -241,16 +249,44 @@ public class PlayerMovementController : MonoBehaviour
 			// may change later
 			velocity.y = _characterContoller.velocity.y;
 		}
+
+
+		if ((_characterContoller.velocity.x <= 0 && velocity.x > _characterContoller.velocity.x) || (_characterContoller.velocity.x >= 0 && velocity.x < _characterContoller.velocity.x))
+		{
+			// may change later
+			velocity.x = _characterContoller.velocity.x;
+		}
+
+		if ((_characterContoller.velocity.z <= 0 && velocity.z > _characterContoller.velocity.z) || (_characterContoller.velocity.z >= 0 && velocity.z < _characterContoller.velocity.z))
+		{
+			// may change later
+			velocity.z = _characterContoller.velocity.z;
+		}
 	}
 
 	private void HandleJumping()
 	{
 		if (Input.GetKeyDown(InputManager.GetKey(InputActions.KeyAction.Jump)))
 		{
-			if (isGrounded)
+			if (isGrounded && !_isOnSlope)
 			{
 				// _velocity.y = Mathf.Sqrt(JumpHeight * -2f * (-Gravity));
-				_jumpVector = new Vector3(finalMoveDir.x, Mathf.Sqrt(JumpHeight * -2f * (-Gravity)), finalMoveDir.z);
+				Vector3 MovementPlaneXZ = new Vector3(finalMoveDir.x, 0, finalMoveDir.z);
+
+				if (MovementPlaneXZ.magnitude > MaxAirSpeed)
+				{
+					MovementPlaneXZ = MovementPlaneXZ.normalized * MaxAirSpeed;
+				}
+
+
+				Vector3 verticalPlane = Vector3.zero;
+
+				if (velocity.y < Mathf.Sqrt(JumpHeight * -2f * (-Gravity)))
+				{
+					verticalPlane.y = Mathf.Sqrt(JumpHeight * -2f * (-Gravity)) - velocity.y;
+				}
+
+				_jumpVector = new Vector3(MovementPlaneXZ.x, verticalPlane.y, MovementPlaneXZ.z);
 				// _characterContoller.Move(_jumpVector);
 
 				// if (Mathf.Pow(_jumpVector.z, 2f) + Mathf.Pow(_jumpVector.x, 2f) > Mathf.Pow(MaxAirSpeed, 2f))
@@ -317,7 +353,7 @@ public class PlayerMovementController : MonoBehaviour
 
 	private void MoveCamY(float y)
 	{
-		_cameraHolderTransform.localPosition = new Vector3(0, y, 0);
+		CameraHolderTransform.localPosition = new Vector3(0, y, 0);
 	}
 
 	// void OnDrawGizmos()
@@ -336,8 +372,10 @@ public class PlayerMovementController : MonoBehaviour
 
 		RaycastHit hit;
 
-		if (Physics.Raycast(transform.position, -transform.up, out hit, (_characterContoller.height / 2f) + 0.3f) && Vector3.Dot(hit.normal, Vector3.up) < _characterContoller.slopeLimit / 100f)
+
+		if (Physics.Raycast(transform.position, -transform.up, out hit, (_characterContoller.height / 2f) + 1f, ~IgnoredLayers) && Vector3.Dot(hit.normal, Vector3.up) < 1 - (_characterContoller.slopeLimit / 360))
 		{
+
 			_isOnSlope = true;
 			_slopeNormal = hit.normal;
 		}
@@ -345,36 +383,34 @@ public class PlayerMovementController : MonoBehaviour
 		{
 			_isOnSlope = false;
 		}
+		//print(Vector3.Dot(hit.normal, Vector3.up) + " " + (1 - (_characterContoller.slopeLimit / 360)) + " " + (_characterContoller.slopeLimit / 360));
 
-		if (_characterContoller.isGrounded || (velocity.y <= 0 && Physics.Raycast(transform.position, -transform.up, (_characterContoller.height / 2f) + _characterContoller.stepOffset, ~IgnoredLayers)))
+
+
+
+		// ground
+
+		// did the raycast hit somthing? if not then return gournd is false.
+		if (!Physics.Raycast(transform.position, -transform.up, out hit, (_characterContoller.height / 2f) + _characterContoller.stepOffset, ~IgnoredLayers))
 		{
-
-
-			// ground
-
-			// did the raycast hit somthing? if not then return gournd is false.
-			if (!Physics.Raycast(transform.position, -transform.up, out hit, (_characterContoller.height / 2f) + _characterContoller.stepOffset, ~IgnoredLayers))
+			if (!Physics.SphereCast(transform.position - (Vector3.one * (_characterContoller.height / 2)), _characterContoller.radius * 0.8f, -transform.up, out hit, ~IgnoredLayers))
 			{
 				isGrounded = false;
 				return;
 			}
-
-			// did the hit object have a ignored tag?
-			if (CompareTag(hit))
-			{
-				isGrounded = false;
-				return;
-			}
-
-
-
-			isGrounded = true;
-
 		}
-		else
+
+		// did the hit object have a ignored tag?
+		if (CompareTag(hit))
 		{
 			isGrounded = false;
+			return;
 		}
+
+
+
+		isGrounded = true;
+
 
 	}
 
