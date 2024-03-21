@@ -5,14 +5,21 @@ using UnityEngine;
 public class Gun : MonoBehaviour
 {
 	public Transform bulletSpawnPoint;
-	public GameObject bulletPrefableftclick;
-	public GameObject bulletPrefabrightclick;
+	public GameObject FirePrefab;
+	public GameObject IcePrefab;
 	//public float bulletSpeed = 10;
+
+	public float FireRate = 0.3f;
 
 	public bool hasFire = true;
 	public bool hasIce = true;
 
 	public AmmoController AmmoController;
+
+	private GameObject currentBullet;
+
+	private float _LocalTime;
+	// private float _WaitTime;
 
 	void Start()
 	{
@@ -21,56 +28,89 @@ public class Gun : MonoBehaviour
 
 	void Update()
 	{
-		if (Input.GetKeyDown(InputManager.GetKey(InputActions.KeyAction.ShootFire)) && AmmoController.FireAmmo > 0)
+		if (PauseMenu.Paused) return;
+
+		if (_LocalTime < FireRate + 1f) _LocalTime += Time.deltaTime;
+
+
+		if (Input.GetKeyDown(InputManager.GetKey(InputActions.KeyAction.ShootFire)) && AmmoController.FireAmmo > 0 && _LocalTime > FireRate && currentBullet == null)
 		{
+
 			//-1 fire ammo
 			AmmoController.FireAmmo -= 1;
 
 			// Instantiate the bullet GameObject
-			GameObject bulletObject = Instantiate(bulletPrefableftclick, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+			currentBullet = Instantiate(FirePrefab, Vector3.zero, bulletSpawnPoint.rotation, bulletSpawnPoint);
 
-			//Call Audio Manager (SFX)
+			currentBullet.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.None;
+			currentBullet.GetComponent<Rigidbody>().isKinematic = true;
+
+			currentBullet.transform.localPosition = Vector3.zero;
+		}
+		else if (Input.GetKeyUp(InputManager.GetKey(InputActions.KeyAction.ShootFire)) && AmmoController.FireAmmo > 0 && currentBullet != null)
+		{
+			_LocalTime = 0;
+
 
 			// Check if the bullet GameObject is not null
-			if (bulletObject != null)
+			if (currentBullet != null)
 			{
-				// Get the Rigidbody component of the bullet GameObject
-				Rigidbody bulletRigidbody = bulletObject.GetComponent<Rigidbody>();
+				currentBullet.GetComponent<Fire>().Activate();
+
+				currentBullet.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.Interpolate;
+				currentBullet.GetComponent<Rigidbody>().isKinematic = false;
 
 				// Check if the bullet Rigidbody component is not null
-				if (bulletRigidbody != null)
+				if (currentBullet.GetComponent<Rigidbody>() != null)
 				{
 					// Apply velocity to the bullet Rigidbody
-					bulletRigidbody.velocity = bulletSpawnPoint.forward * bulletObject.GetComponent<Fire>().Speed;
+					currentBullet.GetComponent<Rigidbody>().velocity = bulletSpawnPoint.forward * currentBullet.GetComponent<Fire>().Speed;
 				}
 
 			}
 
+			currentBullet = null;
 		}
 
-		if (Input.GetKeyDown(InputManager.GetKey(InputActions.KeyAction.ShootIce)) && AmmoController.IceAmmo > 0)
+		if (Input.GetKeyDown(InputManager.GetKey(InputActions.KeyAction.ShootIce)) && AmmoController.IceAmmo > 0 && _LocalTime > FireRate && currentBullet == null)
 		{
 			//-1 ice ammo
 			AmmoController.IceAmmo -= 1;
 
 			// Instantiate the bullet GameObject
-			GameObject bulletObject = Instantiate(bulletPrefabrightclick, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+			currentBullet = Instantiate(IcePrefab, Vector3.zero, bulletSpawnPoint.rotation, bulletSpawnPoint);
+
+			currentBullet.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.None;
+			currentBullet.GetComponent<Rigidbody>().isKinematic = true;
+
+			currentBullet.transform.localPosition = Vector3.zero;
+
+
+
+		}
+		else if (Input.GetKeyUp(InputManager.GetKey(InputActions.KeyAction.ShootIce)) && AmmoController.IceAmmo > 0 && currentBullet != null)
+		{
+			_LocalTime = 0;
+
 
 			// Check if the bullet GameObject is not null
-			if (bulletObject != null)
+			if (currentBullet != null)
 			{
-				// Get the Rigidbody component of the bullet GameObject
-				Rigidbody bulletRigidbody = bulletObject.GetComponent<Rigidbody>();
+				currentBullet.GetComponent<Ice>().Activate();
+
+				currentBullet.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.Interpolate;
+				currentBullet.GetComponent<Rigidbody>().isKinematic = false;
 
 				// Check if the bullet Rigidbody component is not null
-				if (bulletRigidbody != null)
+				if (currentBullet.GetComponent<Rigidbody>() != null)
 				{
 					// Apply velocity to the bullet Rigidbody
-					bulletRigidbody.velocity = bulletSpawnPoint.forward * bulletObject.GetComponent<Ice>().Speed;
+					currentBullet.GetComponent<Rigidbody>().velocity = bulletSpawnPoint.forward * currentBullet.GetComponent<Ice>().Speed;
 				}
 
 			}
 
+			currentBullet = null;
 		}
 	}
 }
