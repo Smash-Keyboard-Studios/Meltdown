@@ -15,7 +15,7 @@ public class NoteMenu : MonoBehaviour
     PlayerInteractionScript PlayerInteraction;
 
     public bool IsNoteActive = false;
-        
+
     public void Start()
     {
 
@@ -33,14 +33,12 @@ public class NoteMenu : MonoBehaviour
 
     public void Update()
     {
-        PauseMenu.Overiding = false;
-        PauseMenu.Paused = true; 
-        if(Input.GetKeyDown(InputManager.GetKey(InputActions.KeyAction.UI)))
+        if (Input.GetKeyDown(InputManager.GetKey(InputActions.KeyAction.UI)))
         {
 
             // Audio should be played here to indicate the closing of a note
-            PauseMenu.Overiding = true;
-            PauseMenu.Paused = false; // This prevents the pause menu from opening up when trying to close a note
+
+            //PauseMenu.Paused = false; // This prevents the pause menu from opening up when trying to close a note
 
             NoteUIBackground.SetActive(false); // Deactivates note background
             Destroy(CurrentNote); // Destroys the note to prevent duplicates
@@ -51,7 +49,7 @@ public class NoteMenu : MonoBehaviour
         }
     }
 
-    public void SetNoteToGUI(GameObject Note) 
+    public void SetNoteToGUI(GameObject Note)
     {
         // Audio should be played here to indicate the opening of a note 
         NoteUIBackground.SetActive(true); // Activate note background
