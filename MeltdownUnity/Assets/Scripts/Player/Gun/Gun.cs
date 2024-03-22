@@ -47,7 +47,7 @@ public class Gun : MonoBehaviour
 
 			currentBullet.transform.localPosition = Vector3.zero;
 		}
-		else if (Input.GetKeyUp(InputManager.GetKey(InputActions.KeyAction.ShootFire)) && AmmoController.FireAmmo > 0 && currentBullet != null)
+		else if (Input.GetKeyUp(InputManager.GetKey(InputActions.KeyAction.ShootFire)) && currentBullet != null)
 		{
 			_LocalTime = 0;
 
@@ -64,7 +64,7 @@ public class Gun : MonoBehaviour
 				if (currentBullet.GetComponent<Rigidbody>() != null)
 				{
 					// Apply velocity to the bullet Rigidbody
-					currentBullet.GetComponent<Rigidbody>().velocity = bulletSpawnPoint.forward * currentBullet.GetComponent<Fire>().Speed;
+					currentBullet.GetComponent<Rigidbody>().velocity = -bulletSpawnPoint.forward * currentBullet.GetComponent<Fire>().Speed;
 				}
 
 			}
@@ -88,7 +88,7 @@ public class Gun : MonoBehaviour
 
 
 		}
-		else if (Input.GetKeyUp(InputManager.GetKey(InputActions.KeyAction.ShootIce)) && AmmoController.IceAmmo > 0 && currentBullet != null)
+		else if (Input.GetKeyUp(InputManager.GetKey(InputActions.KeyAction.ShootIce)) && currentBullet != null)
 		{
 			_LocalTime = 0;
 
@@ -105,7 +105,7 @@ public class Gun : MonoBehaviour
 				if (currentBullet.GetComponent<Rigidbody>() != null)
 				{
 					// Apply velocity to the bullet Rigidbody
-					currentBullet.GetComponent<Rigidbody>().velocity = bulletSpawnPoint.forward * currentBullet.GetComponent<Ice>().Speed;
+					currentBullet.GetComponent<Rigidbody>().velocity = -bulletSpawnPoint.forward * currentBullet.GetComponent<Ice>().Speed;
 				}
 
 			}
