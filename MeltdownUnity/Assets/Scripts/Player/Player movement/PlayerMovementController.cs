@@ -140,7 +140,7 @@ public class PlayerMovementController : MonoBehaviour
 			speed = WalkSpeed;
 		}
 
-		if (isGrounded && !_isOnIce)
+		if (isGrounded && !_isOnIce && !_isOnSlope)
 		{
 			finalMoveDir = moveDirection.normalized * speed;
 			velocity.x = finalMoveDir.x;
@@ -270,7 +270,7 @@ public class PlayerMovementController : MonoBehaviour
 	{
 		if (Input.GetKeyDown(InputManager.GetKey(InputActions.KeyAction.Jump)))
 		{
-			if (isGrounded && !_isOnSlope)
+			if (isGrounded && !_isOnSlope && velocity.y <= 0)
 			{
 				// _velocity.y = Mathf.Sqrt(JumpHeight * -2f * (-Gravity));
 				Vector3 MovementPlaneXZ = new Vector3(finalMoveDir.x, 0, finalMoveDir.z);
@@ -289,11 +289,6 @@ public class PlayerMovementController : MonoBehaviour
 				}
 
 				_jumpVector = new Vector3(MovementPlaneXZ.x, verticalPlane.y, MovementPlaneXZ.z);
-
-				// if (_isOnSlope)
-				// {
-				// 	_jumpVector = Vector3.ProjectOnPlane(_jumpVector, _slopeNormal);
-				// }
 
 				velocity += _jumpVector;
 			}
