@@ -13,6 +13,8 @@ public struct Destination
     public string name;
     public float position;
     public float tolerance;
+    public float minPosition;
+    public float maxPosition;
 }
 
 public class GaugeIndicator : MonoBehaviour
@@ -32,14 +34,10 @@ public class GaugeIndicator : MonoBehaviour
     [Header("<size=15>Rotation Parameters</size>")]
     [Space]
     [SerializeField] private Vector3 _rotationAxis = Vector3.back;
-    [SerializeField] private float[] _heatRotationPoints = { 0.0f, 70f, 140.0f, 210.0f };
-    [SerializeField] private float[] _coolRotationPoints = { 0.0f, 35.0f, 70.0f, 105.0f, 140.0f, 175.0f, 210.0f };
-    [SerializeField][Range(0, 50)] private int _equalHeatPoints = 3;
-    [SerializeField][Range(10.0f, 360.0f)] private float _equalHeatEndPoint = 210.0f;
-    [Space]
-    [SerializeField][Range(0, 50)] private int _equalCoolPoints = 7;
-    [SerializeField][Range(10.0f, 360.0f)] private float _equalCoolEndPoint = 210.0f;
-    [Space]
+    [SerializeField][Range(0.0f, 360.0f)] private float _minDegreesBelowStart = 90.0f;
+    [Range(0, 100)] public int _firePercentage = 40;
+    [Range(0, 100)] public int _icePercentage = 20;
+    [SerializeField][Range(19.9f, 360.0f)] private float _maxDegrees = 180.0f;
     [SerializeField][Range(0.0f, 100.0f)] private float _heatingSpeed = 40.0f;
     [SerializeField][Range(0.0f, 100.0f)] private float _coolingSpeed = 40.0f;
 
@@ -48,8 +46,7 @@ public class GaugeIndicator : MonoBehaviour
     [SerializeField]
     public Destination[] _destinations =
     {
-        new Destination { name = "On", position = 180, tolerance = 20},
-        new Destination { name = "Off", position = 90, tolerance = 20},
+        new Destination { name = "On", position = 180.0f, tolerance = 20.0f, minPosition = 0.0f, maxPosition = 0.0f},
     };
     public bool MoveToNextPoint = false;
     public bool MoveToPrevPoint = false;
@@ -57,6 +54,14 @@ public class GaugeIndicator : MonoBehaviour
     public bool FinalPinLocation = false;
 
     [Header("<size=14>Test-Only Rotation Parameters</size>")]
+    [Space]
+    [SerializeField] private float[] _heatRotationPoints = { 0.0f, 70f, 140.0f, 210.0f };
+    [SerializeField] private float[] _coolRotationPoints = { 0.0f, 35.0f, 70.0f, 105.0f, 140.0f, 175.0f, 210.0f };
+    [SerializeField][Range(0, 50)] private int _equalHeatPoints = 3;
+    [SerializeField][Range(10.0f, 360.0f)] private float _equalHeatEndPoint = 210.0f;
+    [Space]
+    [SerializeField][Range(0, 50)] private int _equalCoolPoints = 7;
+    [SerializeField][Range(10.0f, 360.0f)] private float _equalCoolEndPoint = 210.0f;
     [Space]
     [SerializeField][Range(0.0f, 100.0f)] private float _autoCoolDelay = 2.0f;
     public bool AutoCoolOn = false;
@@ -77,13 +82,17 @@ public class GaugeIndicator : MonoBehaviour
     [Space]
     [SerializeField] private bool _minLocation = false;
 
-    public UnityEvent<float> OnComplete;
+    public UnityEvent<string> OnComplete;
 
     // [Events]
 
     private void Awake()
     {
+        // Sets Number of Calls to Repeat
+        SetFireCalls();
+        SetIceCalls();
 
+        // Sets Equal Points to rotate to.
         SetEqualHeatPoints();
         SetEqualCoolPoints();
 
@@ -124,11 +133,6 @@ public class GaugeIndicator : MonoBehaviour
         // Corrective Variables
         _smallIncrement = 0.2f;
         _smallDelay = 0.1f;
-
-        // Set Number of Calls to Repeat
-
-        _fireCalls = FireCalls - 1;
-        _iceCalls = IceCalls - 1;
     }
 
     private void Update()
@@ -263,7 +267,7 @@ public class GaugeIndicator : MonoBehaviour
                 }
                 else
                 {
-                    Invoke("AwakenFireCall", _smallDelay);
+                    Invoke("SetFireCalls", _smallDelay);
                 }
             }
         }
@@ -363,7 +367,7 @@ public class GaugeIndicator : MonoBehaviour
                 }
                 else
                 {
-                    Invoke("AwakenFireCall", _smallDelay);
+                    Invoke("SetFireCalls", _smallDelay);
                 }
             }
             else
@@ -376,7 +380,7 @@ public class GaugeIndicator : MonoBehaviour
                 }
                 else
                 {
-                    Invoke("AwakenIceCall", _smallDelay);
+                    Invoke("SetIceCalls", _smallDelay);
                 }
             }
         }
@@ -391,14 +395,30 @@ public class GaugeIndicator : MonoBehaviour
         }
     }
 
-    public void AwakenFireCall()
+    public void SetFireCalls()
     {
-        _fireCalls = FireCalls - 1;
+        const float off = 19.9f;
+        if (_maxDegrees != off)
+        {
+            _fireCalls = _firePercentage - 1;
+        }
+        else
+        {
+            _fireCalls = FireCalls - 1;
+        }
     }
 
-    public void AwakenIceCall()
+    public void SetIceCalls()
     {
-        _iceCalls = IceCalls - 1;
+        const float off = 19.9f;
+        if (_maxDegrees != off)
+        {
+            _iceCalls = _icePercentage - 1;
+        }
+        else
+        {
+            _iceCalls = IceCalls - 1;
+        }
     }
 
     public void ResetGauge()
@@ -657,9 +677,9 @@ public class GaugeIndicator : MonoBehaviour
     private Quaternion RoundRotationPoint(Quaternion RotationPoint)
     {
         Vector3 eulerAngles = transform.localRotation.eulerAngles;
-        eulerAngles.x = Mathf.Round(eulerAngles.x);
-        eulerAngles.y = Mathf.Round(eulerAngles.y);
-        eulerAngles.z = Mathf.Round(eulerAngles.z);
+        eulerAngles.x = Mathf.Round(eulerAngles.x * 10) / 10;
+        eulerAngles.y = Mathf.Round(eulerAngles.y * 10) / 10;
+        eulerAngles.z = Mathf.Round(eulerAngles.z * 10) / 10;
 
         return Quaternion.Euler(eulerAngles);
     }
@@ -668,17 +688,30 @@ public class GaugeIndicator : MonoBehaviour
     {
         foreach (Destination destination in _destinations)
         {
-            if (_rotationIncrement >= (destination.position - destination.tolerance) && _rotationIncrement <= (destination.position + destination.tolerance))
+            if (!(destination.minPosition == 0.0f && destination.maxPosition == 0.0f) && _rotationIncrement >= destination.minPosition && _rotationIncrement <= destination.maxPosition)
             {
-                OnComplete.Invoke(destination.position);
-                AutoCoolOn = false;
-                AutoCoolTriggerOn = false;
+                SetDisabled();
+                OnComplete.Invoke(destination.name);
+            }
+            else if (_rotationIncrement >= (destination.position - destination.tolerance) && _rotationIncrement <= (destination.position + destination.tolerance))
+            {
+                SetDisabled();
+                OnComplete.Invoke(destination.name);
             }
         }
     }
 
     private void SetEqualHeatPoints()
     {
+        // When the end points are equal.
+
+        const float off = 19.9f;
+        if (_maxDegrees != off)
+        {
+            _equalHeatPoints = 100; // percent
+            _equalHeatEndPoint = _maxDegrees;
+        }
+
         // Sets equidistant heat scale rotation points.
 
         int numberOfPoints = _equalHeatPoints + 1; // +1 because of 0th point.
@@ -688,13 +721,22 @@ public class GaugeIndicator : MonoBehaviour
             _heatRotationPoints = new float[numberOfPoints];
             for (int i = _startHeatIndex; i < numberOfPoints; i++)
             {
-                _heatRotationPoints[i] = i * (_equalHeatEndPoint / _equalHeatPoints);
+                _heatRotationPoints[i] = i * (_equalHeatEndPoint / _equalHeatPoints) - _minDegreesBelowStart;
             }
         }
     }
 
     private void SetEqualCoolPoints()
     {
+        // When the end points are equal.
+
+        const float off = 19.9f;
+        if (_maxDegrees != off)
+        {
+            _equalCoolPoints = 100; // percent
+            _equalCoolEndPoint = _maxDegrees;
+        }
+
         // Sets equidistant ice scale rotation points.
 
         int numberOfPoints = _equalCoolPoints + 1; // +1 because of 0th point.
@@ -704,8 +746,18 @@ public class GaugeIndicator : MonoBehaviour
             _coolRotationPoints = new float[numberOfPoints];
             for (int i = _startCoolIndex; i < numberOfPoints; i++)
             {
-                _coolRotationPoints[i] = i * (_equalCoolEndPoint / _equalCoolPoints);
+                _coolRotationPoints[i] = i * (_equalCoolEndPoint / _equalCoolPoints) - _minDegreesBelowStart;
             }
         }
+    }
+
+    private void SetDisabled()
+    {
+        _fireCalls = 0;
+        _iceCalls = 0;
+        MoveToNextPoint = false;
+        MoveToPrevPoint = false;
+        AutoCoolOn = false;
+        AutoCoolTriggerOn = false;
     }
 }
