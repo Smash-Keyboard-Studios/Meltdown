@@ -63,6 +63,7 @@ public class PlayerMovementController : MonoBehaviour
 	private bool _isOnSlope = false;
 	private Vector3 _slopeNormal = Vector3.zero;
 
+	public bool IsMoving = false;
 
 	// Start is called before the first frame update
 	void Start()
@@ -140,6 +141,23 @@ public class PlayerMovementController : MonoBehaviour
 		{
 			speed = WalkSpeed;
 		}
+
+
+		// for detecting walking. If you can't read the code here is a run down.
+		// the move direction is from the input directly. x being horizontal (A = -1 and D = 1) and z being vertical (W = 1 and S = -1).
+		// This is normalised to get a total value of one.
+		// The movedirection is then compared to vector zero (0,0,0). If move direction does not equall the vector zero, then the plauer is moving.
+		// otherwise the player is not moving.
+		if (moveDirection.normalized != Vector3.zero)
+		{
+			IsMoving = true;
+		}
+		else
+		{
+			IsMoving = false;
+		}
+
+
 
 		finalMoveDir = moveDirection.normalized * speed;
 		if (isGrounded && !_isOnIce && !_isOnSlope)
