@@ -11,8 +11,6 @@ using UnityEngine.Events;
 public struct Destination
 {
     public string name;
-    public float position;
-    public float tolerance;
     public float minPosition;
     public float maxPosition;
 }
@@ -47,7 +45,7 @@ public class GaugeIndicator : MonoBehaviour
     [SerializeField]
     public Destination[] _destinations =
     {
-        new Destination { name = "On", position = 180.0f, tolerance = 20.0f, minPosition = 0.0f, maxPosition = 0.0f},
+        new Destination { name = "On", minPosition = 0.0f, maxPosition = 0.0f},
     };
     public bool MoveToNextPoint = false;
     public bool MoveToPrevPoint = false;
@@ -709,12 +707,7 @@ public class GaugeIndicator : MonoBehaviour
 
         foreach (Destination destination in _destinations)
         {
-            if (!(destination.minPosition == origin && destination.maxPosition == origin) && _rotationIncrement >= destination.minPosition && _rotationIncrement <= destination.maxPosition)
-            {
-                SetDisabled();
-                OnComplete.Invoke(destination.name);
-            }
-            else if (_rotationIncrement >= (destination.position - destination.tolerance) && _rotationIncrement <= (destination.position + destination.tolerance))
+            if (_rotationIncrement >= destination.minPosition && _rotationIncrement <= destination.maxPosition)
             {
                 SetDisabled();
                 OnComplete.Invoke(destination.name);
