@@ -109,8 +109,8 @@ public class GaugeIndicator : MonoBehaviour
         _firstHeatIndex = 0;
         _startCoolIndex = 0;
         _secondHeatIndex = _firstHeatIndex + 1;
-        _startHeatIndex = GetStartIndex();
-        _initialHeatIndex = _startHeatIndex - 1;
+        _initialHeatIndex = GetInitialIndex();
+        _startHeatIndex = _initialHeatIndex + 1;
         _finalHeatIndex = _heatRotationPoints.Length - 1;
         _finalCoolIndex = _coolRotationPoints.Length - 1;
         _heatIndex = _startHeatIndex;
@@ -421,13 +421,13 @@ public class GaugeIndicator : MonoBehaviour
         }
     }
 
-    private int GetStartIndex()
+    private int GetInitialIndex()
     {
         for (int i = _firstHeatIndex; i < _heatRotationPoints.Length; i++)
         {
             if (_heatRotationPoints[i] == (_heatRotationPoints[_firstHeatIndex] + _minDegreesBelowStart))
             {
-                return (++i); // Assign Next Index after Starting Point
+                return i;
             }
         }
         return 1;
