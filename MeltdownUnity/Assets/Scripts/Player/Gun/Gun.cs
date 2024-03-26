@@ -21,14 +21,28 @@ public class Gun : MonoBehaviour
 	private float _LocalTime;
 	// private float _WaitTime;
 
+	private Camera cam;
+
 	void Start()
 	{
 		AmmoController = gameObject.GetComponent<AmmoController>();
+		cam = Camera.main;
 	}
 
 	void Update()
 	{
 		if (PauseMenu.Paused) return;
+
+		RaycastHit hit;
+		if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit))
+		{
+			bulletSpawnPoint.LookAt(hit.point);
+		}
+		else
+		{
+			bulletSpawnPoint.localRotation = Quaternion.identity;
+		}
+
 
 		if (_LocalTime < FireRate + 1f) _LocalTime += Time.deltaTime;
 
@@ -47,14 +61,15 @@ public class Gun : MonoBehaviour
 
 			currentBullet.transform.localPosition = Vector3.zero;
 		}
-		else if (Input.GetKeyUp(InputManager.GetKey(InputActions.KeyAction.ShootFire)) && AmmoController.FireAmmo > 0 && currentBullet != null)
+		else if (Input.GetKeyUp(InputManager.GetKey(InputActions.KeyAction.ShootFire)) && currentBullet != null)
 		{
 			_LocalTime = 0;
 
 
 			// Check if the bullet GameObject is not null
-			if (currentBullet != null)
+			if (currentBullet != null && currentBullet.GetComponent<Fire>() != null)
 			{
+
 				currentBullet.GetComponent<Fire>().Activate();
 
 				currentBullet.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.Interpolate;
@@ -88,13 +103,13 @@ public class Gun : MonoBehaviour
 
 
 		}
-		else if (Input.GetKeyUp(InputManager.GetKey(InputActions.KeyAction.ShootIce)) && AmmoController.IceAmmo > 0 && currentBullet != null)
+		else if (Input.GetKeyUp(InputManager.GetKey(InputActions.KeyAction.ShootIce)) && currentBullet != null)
 		{
 			_LocalTime = 0;
 
 
 			// Check if the bullet GameObject is not null
-			if (currentBullet != null)
+			if (currentBullet != null && currentBullet.GetComponent<Ice>() != null)
 			{
 				currentBullet.GetComponent<Ice>().Activate();
 
