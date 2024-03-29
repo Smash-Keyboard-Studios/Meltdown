@@ -78,6 +78,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rotationAxis: {x: 0, y: 0, z: -1}
+  _minDegreesBelowStart: 13
+  _firePercentage: 40
+  _icePercentage: 20
+  _maxDegrees: 180
+  _heatingSpeed: 40
+  _coolingSpeed: 5
+  _destinations:
+  - name: On
+    minPosition: 0
+    maxPosition: 0
+    centralPosition: 0
+    tolerance: 0
+  - name: Off
+    minPosition: 0
+    maxPosition: 0
+    centralPosition: 0
+    tolerance: 0
+  MoveToNextPoint: 0
+  MoveToPrevPoint: 0
+  ResetPinLocation: 0
+  FinalPinLocation: 0
+  MinLocation: 0
+  FireCalls: 1
+  IceCalls: 1
+  _remainingFireCalls: 0
+  _remainingIceCalls: 0
+  _customScale: 0
   _heatRotationPoints:
   - 0
   - 70
@@ -92,32 +119,19 @@ MonoBehaviour:
   _equalHeatEndPoint: 210
   _equalCoolPoints: 10
   _equalCoolEndPoint: 210
-  _heatingSpeed: 40
-  _coolingSpeed: 5
-  _destinations:
-  - name: On
-    position: 180
-    tolerance: 20
-  - name: Off
-    position: 90
-    tolerance: 20
-  MoveToNextPoint: 0
-  MoveToPrevPoint: 0
-  ResetPinLocation: 0
-  FinalPinLocation: 0
+  _prevRotationPoint: 0
+  _rotationIncrement: 0
+  _nextRotationPoint: 0
   _autoCoolDelay: 2
   AutoCoolOn: 0
   AutoCoolTriggerOn: 0
   InstantRotation: 0
   RunTimeReposition: 0
   HeatOnlyScale: 0
-  FireCalls: 1
-  IceCalls: 1
   _setStartPosition: 0
   _startPosition: {x: 0, y: 0, z: 0}
   _setStartRotation: 0
   _startRotation: {x: 0, y: 0, z: 0}
-  _minLocation: 0
   OnComplete:
     m_PersistentCalls:
       m_Calls: []
