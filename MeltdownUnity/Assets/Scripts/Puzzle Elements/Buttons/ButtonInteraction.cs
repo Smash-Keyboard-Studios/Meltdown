@@ -20,8 +20,9 @@ public class ButtonInteraction : MonoBehaviour, IInteractable
 
 	public void Interact()
 	{
-
+		OpenDoor();
 	}
+
 	public void OpenDoor()
 	{
 		if (toggleButton == true)

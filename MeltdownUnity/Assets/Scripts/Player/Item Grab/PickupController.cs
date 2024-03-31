@@ -1,4 +1,5 @@
 
+using TMPro;
 using UnityEngine;
 
 //How the code works
@@ -14,135 +15,155 @@ using UnityEngine;
 public class PickupController : MonoBehaviour
 {
 
-    [Header("Pickup Settings")]
-    [SerializeField] Transform holdArea;
-    private GameObject heldObj;
-    private Rigidbody heldObjRB;
+	[Header("Pickup Settings")]
+	[SerializeField] Transform holdArea;
+	private GameObject heldObj;
+	private Rigidbody heldObjRB;
 
-    [Header("Physics Parameters")]
-    [SerializeField] private float pickupRange = 5.0f;
-    [SerializeField] private float pickupForce = 150.0f;
-    [SerializeField] private float playerDistance = 1.0f;
-    [SerializeField] private int minMassObject = 2;
+	[Header("Physics Parameters")]
+	[SerializeField] private float pickupRange = 5.0f;
+	[SerializeField] private float pickupForce = 150.0f;
+	[SerializeField] private float playerDistance = 1.0f;
+	[SerializeField] private int minMassObject = 2;
 
-    public GameObject mainGun;
+	public GameObject mainGun;
 
-    Gun gun;
-    public GameObject player;
+	Gun gun;
+	public GameObject player;
 
-    void Awake()
-    {
-        //Links the gun script tied to the player object to this script.
-        gun = player.GetComponent<Gun>();
-    }
+	public TMP_Text text;
 
-    private void Update()
-    {
-        //Checks all of the time when the player is going to pick something up.
-        //The Input is set to a toggle.
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            //Checks if at any point the player is actually holding an item.
-            if (heldObj == null)
-            {
-                RaycastHit hit;
-                if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, pickupRange))
-                {
-                    //Only picks up object with the tag "MoveableObject"
-                    if (hit.transform.CompareTag("MoveableObject"))
-                    {
-                        PickupObject(hit.transform.gameObject);
-                        //Call Audio Manager (Player)
-                    }
-                }
-            }
-            else
-            {
-                DropObject();
-            }
-        }
-        //Check if the player actually has an object at any time.
-        if (heldObj != null)
-        {
-            MoveObject();
-        }
+	private Camera _camera;
 
-        void MoveObject()
-        {
-            //Checking the distance between the held object and then the hold area to make sure thats it's greater then 0.1.
-            if (Vector3.Distance(heldObj.transform.position, holdArea.position) > 0.1f)
-            {
-                //Where it's going to move to.
-                Vector3 moveDirection = (holdArea.position - heldObj.transform.position);
-                heldObjRB.AddForce(moveDirection * pickupForce);
+	void Awake()
+	{
+		//Links the gun script tied to the player object to this script.
+		gun = player.GetComponent<Gun>();
 
-                //Drops the object if its get to far from the player
-                if (Vector3.Distance(heldObj.transform.position, holdArea.position) > playerDistance)
-                {
-                    DropObject();
-                }
-            }
-        }
+		_camera = Camera.main;
 
-        void PickupObject(GameObject pickObj)
-        {
-            if (pickObj.GetComponent<Rigidbody>())
-            {
-                heldObjRB = pickObj.GetComponent<Rigidbody>();
+		text.enabled = true;
+		text.text = "Press '" + InputManager.GetKey(InputActions.KeyAction.Interact).ToString() + "' to pick up object";
+		text.enabled = false;
+	}
 
-                //Only picks up the object if its lower then the minMassObject
-                if (heldObjRB.mass < minMassObject)
-                {
-                    //Disables the gravity on the object when its been picked up.
-                    heldObjRB.useGravity = false;
+	private void Update()
+	{
+		RaycastHit tempHit;
+		if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out tempHit, pickupRange) && heldObj == null && tempHit.transform.GetComponent<Rigidbody>() != null && tempHit.transform.CompareTag("MoveableObject"))
+		{
+			text.enabled = true;
+		}
+		else
+		{
+			text.enabled = false;
+		}
 
-                    heldObjRB.drag = 10;
+		//Checks all of the time when the player is going to pick something up.
+		//The Input is set to a toggle.
+		if (Input.GetKeyDown(KeyCode.E))
+		{
+			//Checks if at any point the player is actually holding an item.
+			if (heldObj == null)
+			{
+				RaycastHit hit;
+				if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out hit, pickupRange))
+				{
+					//Only picks up object with the tag "MoveableObject"
+					if (hit.transform.CompareTag("MoveableObject"))
+					{
+						PickupObject(hit.transform.gameObject);
+						//Call Audio Manager (Player)
+					}
+				}
+			}
+			else
+			{
+				DropObject();
+			}
+		}
+		//Check if the player actually has an object at any time.
+		if (heldObj != null)
+		{
+			MoveObject();
+		}
 
-                    //When object is picked up it's not going to rotate around.
-                    heldObjRB.constraints = RigidbodyConstraints.FreezeRotation;
+		void MoveObject()
+		{
+			//Checking the distance between the held object and then the hold area to make sure thats it's greater then 0.1.
+			if (Vector3.Distance(heldObj.transform.position, holdArea.position) > 0.1f)
+			{
+				//Where it's going to move to.
+				Vector3 moveDirection = (holdArea.position - heldObj.transform.position);
+				heldObjRB.AddForce(moveDirection * pickupForce);
 
-                    heldObjRB.isKinematic = true;
+				//Drops the object if its get to far from the player
+				if (Vector3.Distance(heldObj.transform.position, holdArea.position) > playerDistance)
+				{
+					DropObject();
+				}
+			}
+		}
 
-                    //Parents the object to the hold area.
-                    heldObjRB.transform.parent = holdArea;
-                    heldObj = pickObj;
+		void PickupObject(GameObject pickObj)
+		{
+			if (pickObj.GetComponent<Rigidbody>())
+			{
+				heldObjRB = pickObj.GetComponent<Rigidbody>();
 
-                    heldObjRB.transform.rotation = Quaternion.Euler(0, 0, 0);
+				//Only picks up the object if its lower then the minMassObject
+				if (heldObjRB.mass < minMassObject)
+				{
+					//Disables the gravity on the object when its been picked up.
+					heldObjRB.useGravity = false;
 
-                    //Disables the mainGun as well as allowing the player to fire their ice and/or fire when the object is picked up.
-                    mainGun.SetActive(false);
-                    gun.hasFire = false;
-                    gun.hasIce = false;
-                }
-            }
-            else
-            {
-                DropObject();
-            }
-        }
+					heldObjRB.drag = 10;
 
-        void DropObject()
-        {
-            //Enables the gravity on the object when its been dropped.
-            heldObjRB.useGravity = true;
+					//When object is picked up it's not going to rotate around.
+					heldObjRB.constraints = RigidbodyConstraints.FreezeRotation;
 
-            heldObjRB.drag = 1;
+					heldObjRB.isKinematic = true;
 
-            //When the object is dropped it can rotate again.
-            heldObjRB.constraints = RigidbodyConstraints.None;
+					//Parents the object to the hold area.
+					heldObjRB.transform.parent = holdArea;
+					heldObj = pickObj;
 
-            //Unparents the object from the hold area.
-            heldObj.transform.parent = null;
-            heldObj = null;
+					heldObjRB.transform.rotation = Quaternion.Euler(0, 0, 0);
 
-            heldObjRB.isKinematic = false;
+					//Disables the mainGun as well as allowing the player to fire their ice and/or fire when the object is picked up.
+					mainGun.SetActive(false);
+					gun.hasFire = false;
+					gun.hasIce = false;
+				}
+			}
+			else
+			{
+				DropObject();
+			}
+		}
 
-            //Enables the mainGun as well as allowing the player to fire their ice and/or fire when the object is dropped'
-            mainGun.SetActive(true);
-            gun.hasFire = true;
-            gun.hasIce = true;
+		void DropObject()
+		{
+			//Enables the gravity on the object when its been dropped.
+			heldObjRB.useGravity = true;
 
-            //Add a impact check to allow calling the audio manager
-        }
-    }
+			heldObjRB.drag = 1;
+
+			//When the object is dropped it can rotate again.
+			heldObjRB.constraints = RigidbodyConstraints.None;
+
+			//Unparents the object from the hold area.
+			heldObj.transform.parent = null;
+			heldObj = null;
+
+			heldObjRB.isKinematic = false;
+
+			//Enables the mainGun as well as allowing the player to fire their ice and/or fire when the object is dropped'
+			mainGun.SetActive(true);
+			gun.hasFire = true;
+			gun.hasIce = true;
+
+			//Add a impact check to allow calling the audio manager
+		}
+	}
 }

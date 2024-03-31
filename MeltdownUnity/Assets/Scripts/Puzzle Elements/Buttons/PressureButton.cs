@@ -5,30 +5,51 @@ using UnityEngine.Events;
 
 public class PressureButton : MonoBehaviour
 {
-    [SerializeField] private bool buttonActive;
+	public UnityEvent OnButtonPress;
+	public UnityEvent OnButtonRelease;
+
+	private bool _isPressed = false;
 
 
-    public UnityEvent OnButtonPress;
+	private void OnTriggerEnter(Collider collision)
+	{
+		if (collision.gameObject.GetComponent<Rigidbody>() != null || collision.gameObject.GetComponent<PlayerMovementController>() != null)
+		{
+			Press();
+		}
+	}
 
-    private void OnTriggerEnter(Collider collision)
-    {
-        if (collision.gameObject.GetComponent<Rigidbody>() != null || collision.gameObject.GetComponent<PlayerMovementController>() != null)
-        {
-            OnButtonPress.Invoke();
-        }
-    }
+	void OnTriggerStay(Collider collision)
+	{
+		if (collision.gameObject.GetComponent<Rigidbody>() != null || collision.gameObject.GetComponent<PlayerMovementController>() != null)
+		{
+			Press();
+		}
+	}
 
-    private void OnTriggerStay(Collider collision)
-    {
-        if (collision.gameObject.GetComponent<Rigidbody>() != null || collision.gameObject.GetComponent<PlayerMovementController>() != null)
-        {
-            buttonActive = true;
-        }
-    }
+	private void OnTriggerExit(Collider collision)
+	{
+		if (collision.gameObject.GetComponent<Rigidbody>() != null || collision.gameObject.GetComponent<PlayerMovementController>() != null)
+		{
+			Unpress();
+		}
+	}
 
-    private void OnTriggerExit(Collider collision)
-    {
-        buttonActive = false;
-        OnButtonPress.Invoke();
-    }
+	public void Press()
+	{
+		if (!_isPressed)
+		{
+			OnButtonPress.Invoke();
+			_isPressed = true;
+		}
+	}
+
+	public void Unpress()
+	{
+		if (_isPressed)
+		{
+			OnButtonRelease.Invoke();
+			_isPressed = false;
+		}
+	}
 }
