@@ -14,6 +14,7 @@ namespace CustomDrawer
 	using UnityEditor;
 	using UnityEngine;
 	using CustomAttributes;
+	using UnityEngine.UIElements;
 
 	[CustomPropertyDrawer(typeof(ShowOnlyAttribute))]
 	public class ShowOnlyDrawer : PropertyDrawer
@@ -36,14 +37,23 @@ namespace CustomDrawer
 				case SerializedPropertyType.String:
 					valueStr = prop.stringValue;
 					break;
+				case SerializedPropertyType.Vector2:
+					valueStr = prop.vector2Value.ToString();
+					break;
+				case SerializedPropertyType.Vector3:
+					valueStr = prop.vector3Value.ToString();
+					break;
 				default:
 					valueStr = "(not supported)";
 					break;
 			}
 
 			EditorGUI.LabelField(position, label.text, valueStr);
+
 		}
 	}
+
+
 
 #endif
 }
