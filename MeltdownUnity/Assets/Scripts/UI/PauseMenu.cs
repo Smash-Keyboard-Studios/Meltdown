@@ -54,6 +54,11 @@ public class PauseMenu : MonoBehaviour
 				Stop();
 			}
 		}
+
+		if (Overiding && Paused)
+		{
+			Play();
+		}
 	}
 
 	void Stop()
@@ -74,6 +79,7 @@ public class PauseMenu : MonoBehaviour
 		Paused = false;
 		cam.Locked = false;
 	}
+
 	public void Resume()
 	{
 		Play();
