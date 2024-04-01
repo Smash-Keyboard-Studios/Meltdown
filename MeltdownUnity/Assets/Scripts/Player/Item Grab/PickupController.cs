@@ -33,6 +33,8 @@ public class PickupController : MonoBehaviour
 
 	public TMP_Text text;
 
+
+
 	private Camera _camera;
 
 	void Awake()
@@ -132,8 +134,11 @@ public class PickupController : MonoBehaviour
 
 					//Disables the mainGun as well as allowing the player to fire their ice and/or fire when the object is picked up.
 					mainGun.SetActive(false);
-					gun.hasFire = false;
-					gun.hasIce = false;
+
+
+					// THIS WILL CAUSE ISSUES 
+					// gun.CanUseFire = false;
+					// gun.CanUseIce = false;
 				}
 			}
 			else
@@ -159,9 +164,9 @@ public class PickupController : MonoBehaviour
 			heldObjRB.isKinematic = false;
 
 			//Enables the mainGun as well as allowing the player to fire their ice and/or fire when the object is dropped'
+			// aeg9uoherasghu9oibae80ihj fi 80eafgha9euiohfg 9uo ashfgipubfguiobadfg
+			// FFS
 			mainGun.SetActive(true);
-			gun.hasFire = true;
-			gun.hasIce = true;
 
 			//Add a impact check to allow calling the audio manager
 		}
