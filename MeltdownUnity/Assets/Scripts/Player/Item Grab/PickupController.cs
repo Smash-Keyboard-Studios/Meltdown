@@ -20,6 +20,8 @@ public class PickupController : MonoBehaviour
 	private GameObject heldObj;
 	private Rigidbody heldObjRB;
 
+	private bool isObjPickUp;
+
 	[Header("Physics Parameters")]
 	[SerializeField] private float pickupRange = 5.0f;
 	[SerializeField] private float pickupForce = 150.0f;
@@ -75,8 +77,8 @@ public class PickupController : MonoBehaviour
 					if (hit.transform.CompareTag("MoveableObject"))
 					{
 						PickupObject(hit.transform.gameObject);
-						//Call Audio Manager (Player)
-					}
+                        //Call Audio Manager (Player)
+                    }
 				}
 			}
 			else
@@ -126,19 +128,19 @@ public class PickupController : MonoBehaviour
 
 					heldObjRB.isKinematic = true;
 
-					//Parents the object to the hold area.
-					heldObjRB.transform.parent = holdArea;
+                    //Parents the object to the hold area.
+                    heldObjRB.transform.parent = holdArea;
 					heldObj = pickObj;
 
-					heldObjRB.transform.rotation = Quaternion.Euler(0, 0, 0);
+					if (Vector3.Distance(heldObj.transform.position, holdArea.position) < playerDistance)
+					{
+						heldObjRB.transform.rotation = Quaternion.Euler(0, 0, 0);
+						heldObjRB.transform.position = holdArea.position;
+					}
+					
 
 					//Disables the mainGun as well as allowing the player to fire their ice and/or fire when the object is picked up.
 					mainGun.SetActive(false);
-
-
-					// THIS WILL CAUSE ISSUES 
-					// gun.CanUseFire = false;
-					// gun.CanUseIce = false;
 				}
 			}
 			else
@@ -163,10 +165,11 @@ public class PickupController : MonoBehaviour
 
 			heldObjRB.isKinematic = false;
 
-			//Enables the mainGun as well as allowing the player to fire their ice and/or fire when the object is dropped'
-			// aeg9uoherasghu9oibae80ihj fi 80eafgha9euiohfg 9uo ashfgipubfguiobadfg
+			//Enables the mainGun as well as allowing the player to fire their ice and/or fire when the object is dropped
 			// FFS
 			mainGun.SetActive(true);
+
+			isObjPickUp = false;
 
 			//Add a impact check to allow calling the audio manager
 		}
