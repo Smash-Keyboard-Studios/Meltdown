@@ -18,7 +18,7 @@ public class PuzzleManager : MonoBehaviour
 
     // Puzzle Scripts
     GaugeIndicator _gaugeIndicator;
-    IceCubeSpawner _iceCubeSpawner;
+    //IceCubeSpawner _iceCubeSpawner; // New dispenser script, needs updating
 
     void Start()
     {
@@ -31,11 +31,11 @@ public class PuzzleManager : MonoBehaviour
                     _gaugeIndicator = puzzle.script as GaugeIndicator;
                     _gaugeIndicator.OnComplete.AddListener(OnBoilerPuzzleComplete);
                 }
-                else if (puzzle.script is IceCubeSpawner)
-                {
-                    _iceCubeSpawner = puzzle.script as IceCubeSpawner;
-                    _iceCubeSpawner.OnComplete.AddListener(OnIceDispenserComplete);
-                }
+                //else if (puzzle.script is IceCubeSpawner)
+                //{
+                //    _iceCubeSpawner = puzzle.script as IceCubeSpawner;
+                //    _iceCubeSpawner.OnComplete.AddListener(OnIceDispenserComplete);
+                //}
             }
         }
     }
@@ -55,7 +55,7 @@ public class PuzzleManager : MonoBehaviour
 
     void OnIceDispenserComplete()
     {
-        _iceCubeSpawner.enabled = false;  // script disabled.
+        //_iceCubeSpawner.enabled = false;  // script disabled.
         // Extra Code
     }
 }

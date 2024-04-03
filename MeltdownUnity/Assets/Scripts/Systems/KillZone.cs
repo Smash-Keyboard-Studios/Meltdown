@@ -8,7 +8,6 @@ public class KillZone : MonoBehaviour
        
         if (collision.transform.CompareTag("Player"))
         {
-            Debug.Log("It Hit");
             int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
 
             if(LevelLoading.Instance == null) SceneManager.LoadScene(currentSceneIndex);
