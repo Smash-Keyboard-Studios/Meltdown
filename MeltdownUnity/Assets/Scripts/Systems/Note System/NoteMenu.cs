@@ -79,12 +79,34 @@ public class NoteMenu : MonoBehaviour
 		return pageType;
 	}
 
+	public bool UIExist(NoteUtil.NoteType type)
+	{
+		bool exsist = false;
+
+		foreach (PageType page in UIElements)
+		{
+			if (page.noteType == type)
+			{
+				exsist = true;
+			}
+		}
+
+		return exsist;
+	}
+
 	public void OpenNote(NoteObject note)
 	{
+		if (!UIExist(note.noteType))
+		{
+			Debug.LogError("UI Element does not exsist");
+			return;
+		}
+
 		PageType page = OpenUI(note.noteType);
 
-		page.TitleText.GetComponent<TMP_Text>().text = note.Title;
-		page.Text.GetComponent<TMP_Text>().text = note.Content;
+		if (page.TitleText.GetComponent<TMP_Text>() != null) page.TitleText.GetComponent<TMP_Text>().text = note.Title;
+
+		if (page.Text.GetComponent<TMP_Text>() != null) page.Text.GetComponent<TMP_Text>().text = note.Content;
 
 		MenuOpen = true;
 
