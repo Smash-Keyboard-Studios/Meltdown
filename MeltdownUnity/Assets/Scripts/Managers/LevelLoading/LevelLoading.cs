@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -14,7 +15,7 @@ public class LevelLoading : MonoBehaviour
 
 	// The loading screen UI.
 	public GameObject LoadingScreen;
-	//public ProgressBarManager ProgressBar;
+	public Slider ProgressBar;
 
 	// used to stop loading the level multiple times when reloading is called more than once when loading.
 	private bool isReloading = false;
@@ -160,7 +161,7 @@ public class LevelLoading : MonoBehaviour
 
 				totalSceneProgress = (totalSceneProgress / scenesLoading.Count) * 100f;
 
-				//ProgressBar.current = totalSceneProgress;
+				ProgressBar.value = totalSceneProgress;
 
 				yield return null;
 			}
