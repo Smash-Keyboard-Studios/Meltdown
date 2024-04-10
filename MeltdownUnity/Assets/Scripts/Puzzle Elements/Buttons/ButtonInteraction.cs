@@ -12,10 +12,10 @@ public class ButtonInteraction : MonoBehaviour, IInteractable
 	private bool buttonPressed = false; // Used for single use buttons
 
 	[SerializeField] private bool toggleButton = false;
-	[SerializeField] private bool timedButton = false;  // Serialised access fields for  designers to decide what button type
+	// [SerializeField] private bool timedButton = false;  // Serialised access fields for  designers to decide what button type
 
-	[SerializeField] private int waitTimer = 1; // Length of time between debounces
-	[SerializeField] private bool pauseInteraction = false;
+	// [SerializeField] private int waitTimer = 1; // Length of time between debounces
+	// [SerializeField] private bool pauseInteraction = false;
 
 
 	public void Interact()

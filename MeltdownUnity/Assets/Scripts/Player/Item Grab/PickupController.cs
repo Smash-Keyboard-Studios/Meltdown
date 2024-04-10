@@ -20,13 +20,14 @@ public class PickupController : MonoBehaviour
 	private GameObject heldObj;
 	private Rigidbody heldObjRB;
 
-	private bool isObjPickUp;
-
 	[Header("Physics Parameters")]
 	[SerializeField] private float pickupRange = 5.0f;
 	[SerializeField] private float pickupForce = 150.0f;
 	[SerializeField] private float playerDistance = 1.0f;
 	[SerializeField] private int minMassObject = 2;
+
+	// public bool isObjPickUp;
+
 
 	public GameObject mainGun;
 
@@ -77,8 +78,8 @@ public class PickupController : MonoBehaviour
 					if (hit.transform.CompareTag("MoveableObject"))
 					{
 						PickupObject(hit.transform.gameObject);
-                        //Call Audio Manager (Player)
-                    }
+						//Call Audio Manager (Player)
+					}
 				}
 			}
 			else
@@ -128,8 +129,8 @@ public class PickupController : MonoBehaviour
 
 					heldObjRB.isKinematic = true;
 
-                    //Parents the object to the hold area.
-                    heldObjRB.transform.parent = holdArea;
+					//Parents the object to the hold area.
+					heldObjRB.transform.parent = holdArea;
 					heldObj = pickObj;
 
 					if (Vector3.Distance(heldObj.transform.position, holdArea.position) < playerDistance)
@@ -137,7 +138,7 @@ public class PickupController : MonoBehaviour
 						heldObjRB.transform.rotation = Quaternion.Euler(0, 0, 0);
 						heldObjRB.transform.position = holdArea.position;
 					}
-					
+
 
 					//Disables the mainGun as well as allowing the player to fire their ice and/or fire when the object is picked up.
 					mainGun.SetActive(false);
@@ -169,7 +170,7 @@ public class PickupController : MonoBehaviour
 			// FFS
 			mainGun.SetActive(true);
 
-			isObjPickUp = false;
+			// isObjPickUp = false;
 
 			//Add a impact check to allow calling the audio manager
 		}

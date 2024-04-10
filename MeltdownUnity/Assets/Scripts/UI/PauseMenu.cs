@@ -9,11 +9,11 @@ public class PauseMenu : MonoBehaviour
 
 	[Header("Volume Setting")]
 	[SerializeField] private TMP_Text volumeTextValue = null;
-	[SerializeField] private Slider volumeSlider = null;
+	// [SerializeField] private Slider volumeSlider = null;
 
 	[Header("Gameplay Settings")]
 	[SerializeField] private TMP_Text ControllerSenTextValue = null;
-	[SerializeField] private Slider ControllerSenSlider = null;
+	// [SerializeField] private Slider ControllerSenSlider = null;
 	public float mainControllerSen = 1f;
 
 	[Header("Toggle Settings")]
