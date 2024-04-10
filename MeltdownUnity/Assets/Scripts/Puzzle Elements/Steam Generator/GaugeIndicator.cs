@@ -157,6 +157,7 @@ public class GaugeIndicator : MonoBehaviour
 		_finalCoolPoint = _coolRotationPoints[_finalCoolIndex];
 		_nextRotationPoint = _heatRotationPoints[_heatIndex];
 		_prevRotationPoint = !HeatOnlyScale ? _firstCoolPoint : _firstHeatPoint;
+		_rotationIncrement = _heatRotationPoints[_initialHeatIndex];
 
         // Sets Number of Calls to Repeat
         SetFireCalls();
@@ -452,10 +453,23 @@ public class GaugeIndicator : MonoBehaviour
 
 	private int GetInitialIndex()
 	{
-		for (int i = _firstHeatIndex; i < _heatRotationPoints.Length; i++)
+		float approxStartingPoint = _heatRotationPoints[_firstHeatIndex] + _minDegreesBelowStart;
+
+        for (int i = _firstHeatIndex; i < _heatRotationPoints.Length; i++)
 		{
-			if (Mathf.Round(_heatRotationPoints[i]) == (_heatRotationPoints[_firstHeatIndex] + _minDegreesBelowStart))
+			// Finds a rotation point near the min degrees below.
+			if (_heatRotationPoints[i] >= approxStartingPoint)
 			{
+                // checks which point is closer if there's a previous point.
+                if (i > _firstHeatIndex)
+				{
+					float prevDif = Mathf.Abs(_heatRotationPoints[i-1] - approxStartingPoint);
+					float curDif = Mathf.Abs(_heatRotationPoints[i] - approxStartingPoint);
+					if (prevDif < curDif)
+					{
+						return i - 1;
+					}
+                }
 				return i;
 			}
 		}
@@ -620,7 +634,7 @@ public class GaugeIndicator : MonoBehaviour
 			_coolIndex = FindCoolIndex(i);
 			_prevRotationPoint = _coolRotationPoints[_coolIndex];
 		}
-		else if (_didForwardRot || (_rotationIncrement == _firstHeatPoint && _rotationIncrement != _firstCoolPoint))
+		else if (_didForwardRot || (_rotationIncrement == _initialHeatPoint && _rotationIncrement != _firstCoolPoint))
 		{
 			_coolIndex = FindCoolIndex(i - 1);
 			_prevRotationPoint = _coolRotationPoints[_coolIndex];
