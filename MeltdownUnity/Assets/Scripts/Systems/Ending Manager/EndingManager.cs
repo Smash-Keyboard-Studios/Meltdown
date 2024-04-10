@@ -40,7 +40,17 @@ public class EndingManager : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			if (LevelLoading.Instance != null)
+			{
+				LevelLoading.Instance.LoadScene(1);
+			}
+			else
+			{
+				SceneManager.LoadScene(1);
+			}
+		}
 
 		if (_enabled)
 			_localTime += Time.deltaTime * Speed;
