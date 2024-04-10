@@ -493,7 +493,8 @@ public class GaugeIndicator : MonoBehaviour
 		// Resets tracking-related variables
 		_rotationIncrement = _initialHeatPoint;
 		_heatIndex = _startHeatIndex;
-		SetRotationPoints(_heatIndex, _coolIndex);
+        _coolIndex = FindCoolIndex(_heatIndex);
+        SetRotationPoints(_heatIndex, _coolIndex);
         Invoke("SetFireCalls", _smallDelay);
         Invoke("SetIceCalls", _smallDelay);
         MoveToNextPoint = false;
