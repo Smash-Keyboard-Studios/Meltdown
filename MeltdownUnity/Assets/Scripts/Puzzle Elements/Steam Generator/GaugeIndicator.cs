@@ -73,8 +73,10 @@ public class GaugeIndicator : MonoBehaviour
 	[Tooltip("The set number of rotation points to go through by ice.")][Range(0, 100)] public int IceCalls = 1;
 	[Tooltip("The remaining number of rotation points to go through by fire.")][SerializeField][Range(0, 100)] private int _remainingFireCalls;
 	[Tooltip("The remaining number of rotation points to go through by ice.")][SerializeField][Range(0, 100)] private int _remainingIceCalls;
+    [Tooltip("The previous rotation point after cooling repetition is done.")][SerializeField][ShowOnly] private float _prevStop;
+    [Tooltip("The next rotation point after heating repetition is done.")][SerializeField][ShowOnly] private float _nextStop;
 
-	[Header("<size=15>Scale Parameters</size>")]
+    [Header("<size=15>Scale Parameters</size>")]
 	[Space]
 	[Tooltip("Whether to override with custom scales.")][SerializeField] private bool _customScale = false;
 	[Tooltip("The fire rotation points.")][SerializeField] private float[] _heatRotationPoints = { 0.0f, 70f, 140.0f, 210.0f };
@@ -117,10 +119,6 @@ public class GaugeIndicator : MonoBehaviour
 
 	private void Awake()
 	{
-		// Sets Number of Calls to Repeat
-		SetFireCalls();
-		SetIceCalls();
-
 		// Sets Equal Points to rotate to.
 		SetEqualHeatPoints();
 		SetEqualCoolPoints();
@@ -145,11 +143,10 @@ public class GaugeIndicator : MonoBehaviour
 		_startCoolIndex = 0;
 		_secondHeatIndex = _firstHeatIndex + 1;
 		_initialHeatIndex = GetInitialIndex();
-		_startHeatIndex = _initialHeatIndex + 1;
+        _startHeatIndex = _initialHeatIndex + 1;
 		_finalHeatIndex = _heatRotationPoints.Length - 1;
 		_finalCoolIndex = _coolRotationPoints.Length - 1;
 		_heatIndex = _startHeatIndex;
-		_coolIndex = FindCoolIndex(_heatIndex);
 
 		// Elements of Array
 		_firstHeatPoint = _heatRotationPoints[_firstHeatIndex];
@@ -159,9 +156,17 @@ public class GaugeIndicator : MonoBehaviour
 		_finalCoolPoint = _coolRotationPoints[_finalCoolIndex];
 		_nextRotationPoint = _heatRotationPoints[_heatIndex];
 		_prevRotationPoint = !HeatOnlyScale ? _firstCoolPoint : _firstHeatPoint;
+		_rotationIncrement = _heatRotationPoints[_initialHeatIndex];
 
-		// Rotations
-		_defaultRotation = transform.rotation;
+		// Prev/Current Rotation Points need to be known.
+        _coolIndex = FindCoolIndex(_heatIndex);
+
+        // Sets Number of Calls to Repeat.
+        SetFireCalls();
+        SetIceCalls();
+
+        // Rotations
+        _defaultRotation = transform.rotation;
 		_finalRotation = _defaultRotation * Quaternion.Euler(_rotationAxis * _finalHeatPoint);
 		_descendRotation = _defaultRotation * Quaternion.Euler(_rotationAxis * _firstCoolPoint);
 
@@ -303,7 +308,8 @@ public class GaugeIndicator : MonoBehaviour
 				else
 				{
 					Invoke("SetFireCalls", _smallDelay);
-				}
+                    Invoke("SetIceCalls", _smallDelay);
+                }
 			}
 		}
 	}
@@ -415,8 +421,9 @@ public class GaugeIndicator : MonoBehaviour
 				}
 				else
 				{
-					Invoke("SetIceCalls", _smallDelay);
-				}
+                    Invoke("SetFireCalls", _smallDelay);
+                    Invoke("SetIceCalls", _smallDelay);
+                }
 			}
 		}
 	}
@@ -434,20 +441,39 @@ public class GaugeIndicator : MonoBehaviour
 	{
 		FireCalls = _customScale ? FireCalls : _firePercentage;
 		_remainingFireCalls = FireCalls - 1;
-	}
+        _nextStop = (_heatIndex + _remainingFireCalls) > _finalHeatIndex ? _finalHeatPoint : _heatRotationPoints[_heatIndex + _remainingFireCalls];
+		if (HeatOnlyScale)
+		{
+            _prevStop = (_heatIndex - _remainingFireCalls) < _firstHeatIndex ? _firstHeatPoint : _heatRotationPoints[_heatIndex - _remainingFireCalls];
+        }
+    }
 
 	public void SetIceCalls()
 	{
 		IceCalls = _customScale ? IceCalls : _icePercentage;
 		_remainingIceCalls = IceCalls - 1;
-	}
+        _prevStop = (_coolIndex - _remainingIceCalls) < _startCoolIndex ? _firstCoolPoint : _coolRotationPoints[_coolIndex - _remainingIceCalls];
+    }
 
 	private int GetInitialIndex()
 	{
-		for (int i = _firstHeatIndex; i < _heatRotationPoints.Length; i++)
+		float approxStartingPoint = _heatRotationPoints[_firstHeatIndex] + _minDegreesBelowStart;
+
+        for (int i = _firstHeatIndex; i < _heatRotationPoints.Length; i++)
 		{
-			if (_heatRotationPoints[i] == (_heatRotationPoints[_firstHeatIndex] + _minDegreesBelowStart))
+			// Finds a rotation point near the min degrees below.
+			if (_heatRotationPoints[i] >= approxStartingPoint)
 			{
+                // checks which point is closer if there's a previous point.
+                if (i > _firstHeatIndex)
+				{
+					float prevDif = Mathf.Abs(_heatRotationPoints[i-1] - approxStartingPoint);
+					float curDif = Mathf.Abs(_heatRotationPoints[i] - approxStartingPoint);
+					if (prevDif < curDif)
+					{
+						return i - 1;
+					}
+                }
 				return i;
 			}
 		}
@@ -467,8 +493,11 @@ public class GaugeIndicator : MonoBehaviour
 		// Resets tracking-related variables
 		_rotationIncrement = _initialHeatPoint;
 		_heatIndex = _startHeatIndex;
-		SetRotationPoints(_heatIndex, _coolIndex);
-		MoveToNextPoint = false;
+        _coolIndex = FindCoolIndex(_heatIndex);
+        SetRotationPoints(_heatIndex, _coolIndex);
+        Invoke("SetFireCalls", _smallDelay);
+        Invoke("SetIceCalls", _smallDelay);
+        MoveToNextPoint = false;
 		MoveToPrevPoint = false;
 		_didForwardRot = false;
 		_didBackRot = false;
@@ -489,7 +518,9 @@ public class GaugeIndicator : MonoBehaviour
 		_coolIndex = _startCoolIndex;
 		_heatIndex = _firstCoolPoint == _firstHeatPoint ? _secondHeatIndex : _firstHeatIndex;
 		SetRotationPoints(_heatIndex, _coolIndex);
-		MoveToNextPoint = false;
+        Invoke("SetFireCalls", _smallDelay);
+        Invoke("SetIceCalls", _smallDelay);
+        MoveToNextPoint = false;
 		MoveToPrevPoint = false;
 		_didForwardRot = false;
 		_didBackRot = false;
@@ -510,7 +541,9 @@ public class GaugeIndicator : MonoBehaviour
 		_rotationIncrement = _finalHeatPoint;
 		_heatIndex = _finalHeatIndex;
 		SetRotationPoints(_heatIndex, _coolIndex);
-		MoveToNextPoint = false;
+        Invoke("SetFireCalls", _smallDelay);
+        Invoke("SetIceCalls", _smallDelay);
+        MoveToNextPoint = false;
 		MoveToPrevPoint = false;
 		_didForwardRot = false;
 		_didBackRot = false;
@@ -587,7 +620,7 @@ public class GaugeIndicator : MonoBehaviour
 		}
 
 		// Permutations to set next rotation point.
-		if (HeatOnlyScale || _didForwardRot || _rotationIncrement == _firstCoolPoint || _rotationIncrement == _firstHeatPoint || _rotationIncrement == _finalHeatPoint)
+		if (HeatOnlyScale || _didForwardRot || _rotationIncrement == _firstCoolPoint ||  _rotationIncrement == _initialHeatPoint || _rotationIncrement == _finalHeatPoint)
 		{
 			_nextRotationPoint = _heatRotationPoints[i];
 		}
@@ -612,7 +645,7 @@ public class GaugeIndicator : MonoBehaviour
 			_coolIndex = FindCoolIndex(i);
 			_prevRotationPoint = _coolRotationPoints[_coolIndex];
 		}
-		else if (_didForwardRot || (_rotationIncrement == _firstHeatPoint && _rotationIncrement != _firstCoolPoint))
+		else if (_didForwardRot || (_rotationIncrement == _initialHeatPoint && _rotationIncrement != _firstCoolPoint && !_didBackRot))
 		{
 			_coolIndex = FindCoolIndex(i - 1);
 			_prevRotationPoint = _coolRotationPoints[_coolIndex];
@@ -682,7 +715,7 @@ public class GaugeIndicator : MonoBehaviour
 			}
 
 			noResult = false;
-		}
+        }
 
 		if (noResult)
 		{
