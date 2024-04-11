@@ -104,6 +104,8 @@ MonoBehaviour:
   IceCalls: 1
   _remainingFireCalls: 0
   _remainingIceCalls: 0
+  _prevStop: 0
+  _nextStop: 0
   _customScale: 0
   _heatRotationPoints:
   - 0
@@ -203,6 +205,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: eeff890adcda9c14c88181e20725fad4, type: 3}
       propertyPath: m_Name
       value: 23_SteamBoiler_V1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: eeff890adcda9c14c88181e20725fad4, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

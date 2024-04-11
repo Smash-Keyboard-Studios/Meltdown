@@ -5,9 +5,10 @@ using UnityEngine.Events;
 
 public class PressureButton : MonoBehaviour
 {
+	public UnityEvent OnButtonToggle;
 	public UnityEvent OnButtonPress;
 	public UnityEvent OnButtonRelease;
-
+	
 	private bool _isPressed = false;
 
 
@@ -16,7 +17,7 @@ public class PressureButton : MonoBehaviour
 		if (collision.gameObject.GetComponent<Rigidbody>() != null || collision.gameObject.GetComponent<PlayerMovementController>() != null)
 		{
 			Press();
-		}
+        }
 	}
 
 	void OnTriggerStay(Collider collision)
@@ -24,7 +25,7 @@ public class PressureButton : MonoBehaviour
 		if (collision.gameObject.GetComponent<Rigidbody>() != null || collision.gameObject.GetComponent<PlayerMovementController>() != null)
 		{
 			Press();
-		}
+        }
 	}
 
 	private void OnTriggerExit(Collider collision)
@@ -32,15 +33,17 @@ public class PressureButton : MonoBehaviour
 		if (collision.gameObject.GetComponent<Rigidbody>() != null || collision.gameObject.GetComponent<PlayerMovementController>() != null)
 		{
 			Unpress();
-		}
+        }
 	}
 
-	public void Press()
+    public void Press()
 	{
 		if (!_isPressed)
 		{
 			OnButtonPress.Invoke();
-			_isPressed = true;
+            OnButtonToggle.Invoke();
+            _isPressed = true;
+
 		}
 	}
 
@@ -49,7 +52,8 @@ public class PressureButton : MonoBehaviour
 		if (_isPressed)
 		{
 			OnButtonRelease.Invoke();
-			_isPressed = false;
+            OnButtonToggle.Invoke();
+            _isPressed = false;
 		}
 	}
 }
