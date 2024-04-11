@@ -123,7 +123,7 @@ GameObject:
   m_TagString: InteractableObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &4129259599266154955
 Transform:
@@ -181,9 +181,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   toggleButton: 1
-  timedButton: 0
-  waitTimer: 1
-  pauseInteraction: 0
 --- !u!1 &7752969659556503950
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,7 +198,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &2140321682581837327
 Transform:

@@ -44,9 +44,9 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 10
-  m_Range: 2
+  m_Color: {r: 0.5377358, g: 0.5377358, b: 0.5377358, a: 1}
+  m_Intensity: 7
+  m_Range: 3
   m_SpotAngle: 141.5033
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -168,7 +168,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c49abe303bb6a934386b61bd7a676491, type: 3}
       propertyPath: m_Name
-      value: Desk Lamp 1
+      value: Desk Lamp lit
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c49abe303bb6a934386b61bd7a676491, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
