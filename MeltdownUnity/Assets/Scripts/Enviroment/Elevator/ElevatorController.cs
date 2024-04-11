@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 
@@ -68,6 +70,12 @@ public class ElevatorController : MonoBehaviour
 			_timeCounter -= Time.deltaTime * DoorSpeed;
 		}
 
+
+		if (!IsEnabled)
+		{
+			Closed = !_playerEntered;
+		}
+
 		// move doors.
 		LeftElevatorDoor.localPosition = Vector3.Lerp(LeftDoorOpenPos, LeftDoorClosedPos, _timeCounter);
 		RightElevatorDoor.localPosition = Vector3.Lerp(RightDoorOpenPos, RightDoorClosedPos, _timeCounter);
@@ -87,11 +95,20 @@ public class ElevatorController : MonoBehaviour
 		}
 	}
 
+	void OnTriggerStay(Collider other)
+	{
+		if (other.tag == "Player" && !IsEnabled)
+		{
+			_playerEntered = true;
+		}
+	}
+
 	void OnTriggerExit(Collider other)
 	{
 		if (other.tag == "Player")
 		{
 			_playerEntered = false;
+
 		}
 	}
 

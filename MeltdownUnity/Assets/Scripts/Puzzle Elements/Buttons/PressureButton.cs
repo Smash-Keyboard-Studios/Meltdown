@@ -8,16 +8,21 @@ public class PressureButton : MonoBehaviour
 	public UnityEvent OnButtonToggle;
 	public UnityEvent OnButtonPress;
 	public UnityEvent OnButtonRelease;
-	
+
 	private bool _isPressed = false;
 
+	private Animator animator;
+	void Start()
+	{
+		animator = GetComponent<Animator>();
+	}
 
 	private void OnTriggerEnter(Collider collision)
 	{
 		if (collision.gameObject.GetComponent<Rigidbody>() != null || collision.gameObject.GetComponent<PlayerMovementController>() != null)
 		{
 			Press();
-        }
+		}
 	}
 
 	void OnTriggerStay(Collider collision)
@@ -25,7 +30,7 @@ public class PressureButton : MonoBehaviour
 		if (collision.gameObject.GetComponent<Rigidbody>() != null || collision.gameObject.GetComponent<PlayerMovementController>() != null)
 		{
 			Press();
-        }
+		}
 	}
 
 	private void OnTriggerExit(Collider collision)
@@ -33,17 +38,17 @@ public class PressureButton : MonoBehaviour
 		if (collision.gameObject.GetComponent<Rigidbody>() != null || collision.gameObject.GetComponent<PlayerMovementController>() != null)
 		{
 			Unpress();
-        }
+		}
 	}
 
-    public void Press()
+	public void Press()
 	{
 		if (!_isPressed)
 		{
 			OnButtonPress.Invoke();
-            OnButtonToggle.Invoke();
-            _isPressed = true;
-
+			OnButtonToggle.Invoke();
+			_isPressed = true;
+			animator.SetBool("IsPressed", true);
 		}
 	}
 
@@ -52,8 +57,9 @@ public class PressureButton : MonoBehaviour
 		if (_isPressed)
 		{
 			OnButtonRelease.Invoke();
-            OnButtonToggle.Invoke();
-            _isPressed = false;
+			OnButtonToggle.Invoke();
+			_isPressed = false;
+			animator.SetBool("IsPressed", false);
 		}
 	}
 }

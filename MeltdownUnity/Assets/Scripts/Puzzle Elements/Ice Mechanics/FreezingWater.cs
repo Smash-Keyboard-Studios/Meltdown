@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class FreezingWater : MonoBehaviour
 {
-    public GameObject IceCube;
+	public GameObject IceCube;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.GetComponent<Ice>() != null)
-        {
-            //create instance of ice cube at hit point
-            Instantiate(IceCube, other.transform.position, Quaternion.identity);
-            //call Audio Manager (SFX)
-        }
-    }
+	private void OnTriggerEnter(Collider other)
+	{
+		if (other.gameObject.GetComponent<Ice>() != null)
+		{
+
+			GameObject go = Instantiate(IceCube, transform.localPosition, Quaternion.identity, transform);
+			//call Audio Manager (SFX)
+
+			go.transform.localScale = new Vector3(10f, 0.1f, 10f);
+		}
+	}
 }

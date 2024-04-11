@@ -11,17 +11,19 @@ public class IceWall : MonoBehaviour
 	private Vector3 originalScale;
 	public float objectScale;
 
-	[Header ("Number of Hits Needed to Destroy Wall")] public int numOfHits = 3; //this is number of hits needed
+	[Header("Number of Hits Needed to Destroy Wall")] public int numOfHits = 3; //this is number of hits needed
 	private int shrinkPercent;
 
 	//ice audiosource
 	public AudioSource IceSource;
 
 	//steam particles
-    [SerializeField] private ParticleSystem steamParticles;
+	[SerializeField] private ParticleSystem steamParticles;
 
 	//water puddle object that will be created when melting the ice
 	[SerializeField] private GameObject WaterPuddle;
+
+	private bool _isWaitingOnParticles = false;
 
 	// Start is called before the first frame update
 	private void Start()
@@ -44,11 +46,11 @@ public class IceWall : MonoBehaviour
 		//set scale to objectscale/100
 		transform.localScale = originalScale * objectScale / 100;
 
-        //remove object if objectscale <= 1
-        if (objectScale <= 1)
-        {
-            gameObject.SetActive(false);
-        }
+		//remove object if objectscale <= 1
+		if (objectScale <= 1 && !_isWaitingOnParticles)
+		{
+			gameObject.SetActive(false);
+		}
 	}
 
 	////reduces size of ice by 1/3 of its original size without any transition
@@ -61,20 +63,28 @@ public class IceWall : MonoBehaviour
 	private IEnumerator ShrinkIceGradual()
 	{
 		isShrinking = true;
-        steamParticles.Play();
+		steamParticles.Play();
+		StartCoroutine(WaitingForParticles());
 
-        for (int i = 1; i < shrinkPercent; i++)
+		for (int i = 1; i < shrinkPercent; i++)
 		{
 			yield return new WaitForSeconds(shrinkDelay);
 			objectScale -= 1;
 		}
 
 		isShrinking = false;
-        steamParticles.Stop();
+		//steamParticles.Stop();
 
 		//create instance of water puddle after shrinking
 		Instantiate(WaterPuddle, transform.position + new Vector3(0, 0.01f, 0), Quaternion.identity);
-    }
+	}
+
+	private IEnumerator WaitingForParticles()
+	{
+		_isWaitingOnParticles = true;
+		yield return new WaitForSeconds(steamParticles.main.duration);
+		_isWaitingOnParticles = false;
+	}
 
 	//replace fireScript with whatever script the fire projectile contains
 	private void OnCollisionEnter(Collision other)

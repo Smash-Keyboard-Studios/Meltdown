@@ -7,7 +7,6 @@ public class ButtonInteraction : MonoBehaviour, IInteractable
 {
 	public UnityEvent OnActivate;
 
-	private bool doorOpen = false;
 
 	private bool buttonPressed = false; // Used for single use buttons
 
@@ -17,6 +16,7 @@ public class ButtonInteraction : MonoBehaviour, IInteractable
 	// [SerializeField] private int waitTimer = 1; // Length of time between debounces
 	// [SerializeField] private bool pauseInteraction = false;
 
+	public Animator animator;
 
 	public void Interact()
 	{
@@ -28,7 +28,7 @@ public class ButtonInteraction : MonoBehaviour, IInteractable
 		if (toggleButton == true)
 		{
 			OnActivate.Invoke();
-			doorOpen = !doorOpen;
+			StartCoroutine(PlayAnimation());
 		}
 
 		else if (buttonPressed == false) // Ensures the button cannot be pressed twice
@@ -36,5 +36,12 @@ public class ButtonInteraction : MonoBehaviour, IInteractable
 			OnActivate.Invoke();
 			buttonPressed = true;
 		}
+	}
+
+	IEnumerator PlayAnimation()
+	{
+		animator.SetBool("IsPressed", true);
+		yield return new WaitForSeconds(0.05f);
+		animator.SetBool("IsPressed", false);
 	}
 }
