@@ -16,7 +16,7 @@ GameObject:
   m_TagString: InteractableObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &3418956407103633952
 Transform:
@@ -99,7 +99,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &5528781432738069347
 Transform:
@@ -142,6 +142,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5528781432738069347}
     m_Modifications:
+    - target: {fileID: 299756259512259992, guid: 4437c41f250cb9044a0b68618adbeecf, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 1108767412454280994, guid: 4437c41f250cb9044a0b68618adbeecf, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.54922
@@ -161,6 +165,10 @@ PrefabInstance:
     - target: {fileID: 7189267761647149759, guid: 4437c41f250cb9044a0b68618adbeecf, type: 3}
       propertyPath: m_Name
       value: 21_FirePedestal_V1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7189267761647149759, guid: 4437c41f250cb9044a0b68618adbeecf, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 7534161935178479621, guid: 4437c41f250cb9044a0b68618adbeecf, type: 3}
       propertyPath: m_LocalPosition.x

@@ -19,7 +19,7 @@ public class SaveData
 				}
 				else
 				{
-					Debug.LogError("Save Manager does not exsist. Cannot save any data!");
+					Debug.LogError("Save Manager does not exist. Cannot save any data!");
 				}
 			}
 
