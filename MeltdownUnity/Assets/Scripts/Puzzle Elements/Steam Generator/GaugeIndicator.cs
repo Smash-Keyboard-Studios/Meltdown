@@ -79,13 +79,15 @@ public class GaugeIndicator : MonoBehaviour
     [Header("<size=15>Scale Parameters</size>")]
     [Space]
     [Tooltip("Whether to override with custom scales.")][SerializeField] private bool _customScale = false;
-    [Tooltip("The fire rotation points.")][SerializeField] private float[] _heatRotationPoints = { 0.0f, 70f, 140.0f, 210.0f };
-    [Tooltip("The ice rotation points.")][SerializeField] private float[] _coolRotationPoints = { 0.0f, 35.0f, 70.0f, 105.0f, 140.0f, 175.0f, 210.0f };
+    [Space]
     [Tooltip("The number of equidistant fire rotation points.")][SerializeField][Range(0, 100)] private int _equalHeatPoints = 3;
     [Tooltip("The size of the fire scale.")][SerializeField][Range(20f, 360f)] private float _equalHeatEndPoint = 210.0f;
     [Space]
     [Tooltip("The number of equidistant ice rotation points.")][SerializeField][Range(0, 100)] private int _equalCoolPoints = 7;
     [Tooltip("The size of the ice scale.")][SerializeField][Range(20f, 360f)] private float _equalCoolEndPoint = 210.0f;
+    [Space]
+    [Tooltip("The fire rotation points.")][SerializeField] private float[] _heatRotationPoints = { 0.0f, 70f, 140.0f, 210.0f };
+    [Tooltip("The ice rotation points.")][SerializeField] private float[] _coolRotationPoints = { 0.0f, 35.0f, 70.0f, 105.0f, 140.0f, 175.0f, 210.0f };
     [Space]
     [Tooltip("The previous rotation point.")][SerializeField][ShowOnly] private float _prevRotationPoint;
     [Tooltip("The current rotation value.")][SerializeField][ShowOnly] private float _rotationIncrement;
@@ -115,6 +117,12 @@ public class GaugeIndicator : MonoBehaviour
     {
         // Allows Central Position and Tolerance to be recalculated.
         RebuildDestinations();
+        
+        // Prevents _minDegreesBelowStart from reaching maxDegrees.
+        if (_minDegreesBelowStart >= _maxDegrees)
+        {
+            _minDegreesBelowStart = _maxDegrees - 1f;
+        }
     }
 
     private void Awake()
@@ -244,8 +252,6 @@ public class GaugeIndicator : MonoBehaviour
                     transform.Rotate(_rotationAxis, _heatingSpeed * Time.deltaTime * sign);
                     _rotationIncrement += _heatingSpeed * Time.deltaTime * sign;
 
-                    CheckForDestination();
-
                     // corrects rotation to end point. Needs to be this long because it won't get assigned quick enough in a local variable.
                     if (_nextRotationPoint == _finalHeatPoint && ((sign == pos && _rotationIncrement > _finalHeatPoint - _smallIncrement) || (sign == neg && _rotationIncrement < _finalHeatPoint + _smallIncrement)))
                     {
@@ -291,8 +297,6 @@ public class GaugeIndicator : MonoBehaviour
 
                 AutoCoolOn = false;
 
-                CheckForDestination();
-
                 // Repeated Increment calls.
 
                 if (_remainingFireCalls > 0)
@@ -302,6 +306,7 @@ public class GaugeIndicator : MonoBehaviour
                 }
                 else
                 {
+                    CheckForDestination();
                     Invoke("SetFireCalls", _smallDelay);
                     Invoke("SetIceCalls", _smallDelay);
                     if (AutoCoolTriggerOn)
@@ -330,8 +335,6 @@ public class GaugeIndicator : MonoBehaviour
             {
                 transform.Rotate(_rotationAxis, _coolingSpeed * Time.deltaTime * sign);
                 _rotationIncrement += _coolingSpeed * Time.deltaTime * sign;
-
-                CheckForDestination();
 
                 // corrects rotation to default. Needs to be this long because it won't get assigned quick enough in a local variable.
                 if (HeatOnlyScale && (_prevRotationPoint == _firstHeatPoint) && ((sign == pos && _rotationIncrement > _firstHeatPoint - _smallIncrement) || (sign == neg && _rotationIncrement < _firstHeatPoint + _smallIncrement)))
@@ -394,8 +397,6 @@ public class GaugeIndicator : MonoBehaviour
             _coolIndex -= (_coolIndex > _startCoolIndex) ? 1 : 0; // decreases _coolIndex unless start.
             SetRotationPoints(_heatIndex, _coolIndex);
 
-            CheckForDestination();
-
             // Repeated Decrement calls.
 
             if (HeatOnlyScale)
@@ -420,6 +421,7 @@ public class GaugeIndicator : MonoBehaviour
                 }
                 else
                 {
+                    CheckForDestination();
                     Invoke("SetFireCalls", _smallDelay);
                     Invoke("SetIceCalls", _smallDelay);
                 }
@@ -496,6 +498,7 @@ public class GaugeIndicator : MonoBehaviour
         SetRotationPoints(_heatIndex, _coolIndex);
         Invoke("SetFireCalls", _smallDelay);
         Invoke("SetIceCalls", _smallDelay);
+        CheckForDestination();
         MoveToNextPoint = false;
         MoveToPrevPoint = false;
         _didForwardRot = false;
@@ -519,6 +522,7 @@ public class GaugeIndicator : MonoBehaviour
         SetRotationPoints(_heatIndex, _coolIndex);
         Invoke("SetFireCalls", _smallDelay);
         Invoke("SetIceCalls", _smallDelay);
+        CheckForDestination();
         MoveToNextPoint = false;
         MoveToPrevPoint = false;
         _didForwardRot = false;
@@ -542,6 +546,7 @@ public class GaugeIndicator : MonoBehaviour
         SetRotationPoints(_heatIndex, _coolIndex);
         Invoke("SetFireCalls", _smallDelay);
         Invoke("SetIceCalls", _smallDelay);
+        CheckForDestination();
         MoveToNextPoint = false;
         MoveToPrevPoint = false;
         _didForwardRot = false;
@@ -772,6 +777,7 @@ public class GaugeIndicator : MonoBehaviour
             {
                 SetDisabled();
                 OnComplete.Invoke(destination.name);
+                Debug.Log("Hello");
             }
         }
     }
