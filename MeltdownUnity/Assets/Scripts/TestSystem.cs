@@ -5,7 +5,13 @@ using UnityEngine;
 
 public class TestSystem : MonoBehaviour
 {
-	List<PuzzleCompThing> objects = new List<PuzzleCompThing>();
+	public List<PuzzleCompThing> objects = new List<PuzzleCompThing>();
+
+	[Serializable]
+	public struct puzzleTings
+	{
+		public bool active;
+	}
 
 	bool working = false;
 
