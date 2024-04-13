@@ -775,9 +775,7 @@ public class GaugeIndicator : MonoBehaviour
         {
             if (_rotationIncrement >= destination.minPosition && _rotationIncrement <= destination.maxPosition)
             {
-                SetDisabled();
                 OnComplete.Invoke(destination.name);
-                Debug.Log("Hello");
             }
         }
     }
@@ -832,20 +830,5 @@ public class GaugeIndicator : MonoBehaviour
                 _coolRotationPoints[i] = i * (_equalCoolEndPoint / _equalCoolPoints) - _minDegreesBelowStart;
             }
         }
-    }
-
-    private void SetDisabled()
-    {
-        // Sets fire and ice calls to 0 to halt recursion, then sets to original number after a delay.
-        _remainingFireCalls = 0;
-        _remainingIceCalls = 0;
-        Invoke("SetFireCalls", _smallDelay);
-        Invoke("SetIceCalls", _smallDelay);
-
-        // Disables movement.
-        MoveToNextPoint = false;
-        MoveToPrevPoint = false;
-        AutoCoolOn = false;
-        AutoCoolTriggerOn = false;
     }
 }
