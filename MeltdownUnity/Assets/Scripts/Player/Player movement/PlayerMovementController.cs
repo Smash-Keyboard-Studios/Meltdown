@@ -226,21 +226,20 @@ public class PlayerMovementController : MonoBehaviour
 			velocity.x = finalMoveDir.x;
 			velocity.z = finalMoveDir.z;
 		}
-		else if (!isGrounded)
+		else if (!isGrounded && LimitMovementSpeedToMaxSpeed)
 		{
 			// we add to the velocity
 
-			if (LimitMovementSpeedToMaxSpeed)
-			{
-				// ! This may be from a old speed cap and can be remmoved. the Y.
-				// we seperate the y as we want to keep its' values.
-				float y = velocity.y;
-				// we add to the velocity
-				if (moveDirection != Vector3.zero) velocity += moveDirection.normalized * AirMovementMultiplier * (Time.deltaTime);
 
-				// we return the y.
-				velocity.y = y;
-			}
+			// ! This may be from a old speed cap and can be remmoved. the Y.
+			// we seperate the y as we want to keep its' values.
+			float y = velocity.y;
+			// we add to the velocity
+			if (moveDirection != Vector3.zero) velocity += moveDirection.normalized * AirMovementMultiplier * (Time.deltaTime);
+
+			// we return the y.
+			velocity.y = y;
+
 		}
 
 

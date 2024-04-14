@@ -160,4 +160,35 @@ public class MovingPlatform : MonoBehaviour
 	{
 		Extending = isExtending;
 	}
+
+	// all for looping.
+
+	public void ToggleLooping()
+	{
+		Loop = !Loop;
+	}
+
+	public void SetLooping(bool b)
+	{
+		Loop = b;
+	}
+
+	public void StopLooping()
+	{
+		Loop = false;
+		Extending = false;
+	}
+
+	public void StartLooping()
+	{
+		Loop = true;
+	}
+
+	public void StopLoopingAndSetExtending(bool b)
+	{
+		Loop = false;
+		Extending = b;
+	}
+
+
 }

@@ -24,6 +24,8 @@ public class TriggerDetection : MonoBehaviour
 	private Vector3 _velocity;
 	private Vector3 _lastPos;
 
+	private PlayerMovementController pmc;
+
 	List<Entity> entities = new List<Entity>();
 
 	void Start()
@@ -37,7 +39,8 @@ public class TriggerDetection : MonoBehaviour
 		if (other.transform.tag == PlayerTag)
 		{
 			_playerID = entities.Count - 1;
-			other.transform.GetComponent<PlayerMovementController>().LimitMovementSpeedToMaxSpeed = false;
+			pmc = other.transform.GetComponent<PlayerMovementController>();
+			pmc.LimitMovementSpeedToMaxSpeed = false;
 		}
 		else
 		{
@@ -61,7 +64,13 @@ public class TriggerDetection : MonoBehaviour
 					if (other.transform.tag == PlayerTag)
 					{
 						_playerID = -1;
-						other.transform.GetComponent<PlayerMovementController>().LimitMovementSpeedToMaxSpeed = true;
+						pmc.LimitMovementSpeedToMaxSpeed = true;
+
+						// limit the speed of the player.
+						if (!pmc.isGrounded && pmc.velocity.magnitude > pmc.SprintSpeed)
+						{
+							pmc.velocity = pmc.velocity.normalized * pmc.SprintSpeed;
+						}
 					}
 					else
 					{
@@ -95,7 +104,7 @@ public class TriggerDetection : MonoBehaviour
 			_velocity = Vector3.zero;
 		}
 
-		if (_playerID != -1)
+		if (_playerID != -1 && pmc.isGrounded)
 		{
 			// want to add force.
 			PlayerMovementController pmc = entities[_playerID].self.GetComponent<PlayerMovementController>();
