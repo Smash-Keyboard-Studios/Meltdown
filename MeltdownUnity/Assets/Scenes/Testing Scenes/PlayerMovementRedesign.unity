@@ -41656,6 +41656,7 @@ GameObject:
   - component: {fileID: 985687224}
   - component: {fileID: 985687223}
   - component: {fileID: 985687229}
+  - component: {fileID: 985687230}
   m_Layer: 0
   m_Name: Cube (38)
   m_TagString: Untagged
@@ -42013,25 +42014,25 @@ MonoBehaviour:
   OnConditionMet:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 985687229}
+      - m_Target: {fileID: 985687230}
         m_TargetAssemblyTypeName: ANDComp, Scripts
-        m_MethodName: DebugMessage
-        m_Mode: 1
+        m_MethodName: SetA
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
   OnConditionNotMet:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 985687229}
+      - m_Target: {fileID: 985687230}
         m_TargetAssemblyTypeName: ANDComp, Scripts
-        m_MethodName: DebugMessage
-        m_Mode: 1
+        m_MethodName: SetA
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -42040,6 +42041,27 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &985687230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 985687222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d2fc3ba83cbdf643b2d85803fc25350, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  A: 0
+  B: 0
+  Result: 0
+  OnConditionMet:
+    m_PersistentCalls:
+      m_Calls: []
+  OnConditionNotMet:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!43 &993425074
 Mesh:
   m_ObjectHideFlags: 0
@@ -42428,7 +42450,7 @@ PrefabInstance:
       objectReference: {fileID: 364929531}
     - target: {fileID: 4579161379247660502, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
       propertyPath: m_VersionIndex
-      value: 297
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 5107562930961206842, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
       propertyPath: m_Name
@@ -42440,7 +42462,7 @@ PrefabInstance:
       objectReference: {fileID: 1021535150}
     - target: {fileID: 6865033428560288176, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
       propertyPath: m_VersionIndex
-      value: 300
+      value: 303
       objectReference: {fileID: 0}
     - target: {fileID: 9056440363664688849, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
       propertyPath: m_Mesh

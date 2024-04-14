@@ -26,7 +26,9 @@ public class ANDComp : MonoBehaviour
 
 	}
 
-	// Update is called once per frame
+	/// <summary>
+	/// A void marks the function returns nothing, so the compiler will expect nothing.
+	/// </summary>
 	void Update()
 	{
 		if (!alreadyTriggered && A && B)
