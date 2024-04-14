@@ -36,7 +36,7 @@ public class GaugeIndicator : MonoBehaviour
     private float _firstHeatPoint, _initialHeatPoint, _finalHeatPoint, _firstCoolPoint, _finalCoolPoint;
     private float _smallIncrement, _smallDelay;
     private Quaternion _defaultRotation, _finalRotation, _descendRotation;
-    private bool _didForwardRot = false, _didBackRot = false;
+    private bool _didForwardRot = false, _didBackRot = false, _runTimeRepositionStandby = false;
 
     // [Editor Variables]
 
@@ -96,9 +96,11 @@ public class GaugeIndicator : MonoBehaviour
     [Tooltip("The next rotation point.")][SerializeField][ShowOnly] private float _nextRotationPoint;
 
     [Header("<size=14>Test-Only Rotation Parameters</size>")]
+    [Space]
     [Tooltip("The delay at which auto-cooling begins.")][SerializeField][Range(0.0f, 100.0f)] private float _autoCoolDelay = 2.0f;
     [Tooltip("Whether auto-cooling is active.")] public bool AutoCoolOn = false;
     [Tooltip("Whether auto-cooling is triggered.")] public bool AutoCoolTriggerOn = false;
+    [Space]
     [Tooltip("Whether instant movement is on.")] public bool InstantRotation = false;
     [Tooltip("Whether the rotation points adapat at run-time (currently heat-only).")] public bool RunTimeReposition = false;
     [Tooltip("Makes the ice hits the same as fire hits.")] public bool HeatOnlyScale = false;
@@ -121,9 +123,17 @@ public class GaugeIndicator : MonoBehaviour
         RebuildDestinations();
 
         // Prevents _minDegreesBelowStart from reaching maxDegrees.
-        if (_minDegreesBelowStart >= _maxDegrees)
+        if (_minDegreesBelowStart >= _maxDegrees && !_customScale)
         {
             _minDegreesBelowStart = _maxDegrees - 1f;
+        }
+        else if (_minDegreesBelowStart >= _equalHeatEndPoint)
+        {
+            _minDegreesBelowStart = _equalHeatEndPoint - 1f;
+        }
+        else if (_minDegreesBelowStart >= _equalCoolEndPoint)
+        {
+            _minDegreesBelowStart = _equalCoolEndPoint - 1f;
         }
     }
 
@@ -170,7 +180,7 @@ public class GaugeIndicator : MonoBehaviour
         _currentStop = _currentRotationPoint;
 
         // Prev/Current Rotation Points need to be known.
-        _coolIndex = FindCoolIndex(_heatIndex);
+        _coolIndex = FindCoolIndex(_initialHeatIndex);
 
         // Sets Number of Calls to Repeat.
         SetFireCalls();
@@ -273,6 +283,12 @@ public class GaugeIndicator : MonoBehaviour
                     }
                 }
                 _didForwardRot = true;
+
+                if (RunTimeReposition && !_runTimeRepositionStandby)
+                {
+                    UpdateRotationPoints(IncrementStatus.Changed);
+                    _runTimeRepositionStandby = true;
+                }
             }
 
             // When the point is reached, rotation is disabled, and the next point (to rotate to) is assigned.
@@ -280,7 +296,7 @@ public class GaugeIndicator : MonoBehaviour
             else if (completePosRotation || completeNegRotation)
             {
                 JumpToNextRotationPoint(); // corrects the imprecision
-
+                
                 // Previous backward rotation check.
                 if (!_didBackRot || !HeatOnlyScale)
                 {
@@ -291,10 +307,7 @@ public class GaugeIndicator : MonoBehaviour
                     _didBackRot = false;
                 }
 
-                if (RunTimeReposition)
-                {
-                    UpdateRotationPoints(IncrementStatus.Forward);
-                }
+                _runTimeRepositionStandby = !RunTimeReposition; // Allows the RunTimeReposition to happen again if enabled.
 
                 _heatIndex += (_heatIndex < _finalHeatIndex) ? 1 : 0; // increases _heatIndex unless end.
                 SetRotationPoints(_heatIndex, _coolIndex);
@@ -367,6 +380,12 @@ public class GaugeIndicator : MonoBehaviour
             }
 
             _didBackRot = true;
+
+            if (RunTimeReposition && !_runTimeRepositionStandby)
+            {
+                UpdateRotationPoints(IncrementStatus.Changed);
+                _runTimeRepositionStandby = true;
+            }
         }
 
         // If the cooling takes it back below a previous rotation point, that will then become the next point to reach.
@@ -390,10 +409,7 @@ public class GaugeIndicator : MonoBehaviour
                 _didForwardRot = false;
             }
 
-            if (RunTimeReposition)
-            {
-                UpdateRotationPoints(IncrementStatus.Back);
-            }
+            _runTimeRepositionStandby = !RunTimeReposition; // Allows the RunTimeReposition to happen again if enabled.
 
             if (HeatOnlyScale)
             {
@@ -500,7 +516,7 @@ public class GaugeIndicator : MonoBehaviour
         _currentRotationPoint = _initialHeatPoint;
         _currentStop = _currentRotationPoint;
         _heatIndex = _startHeatIndex;
-        _coolIndex = FindCoolIndex(_heatIndex);
+        _coolIndex = FindCoolIndex(_initialHeatIndex);
         SetRotationPoints(_heatIndex, _coolIndex);
         Invoke("SetFireCalls", _smallDelay);
         Invoke("SetIceCalls", _smallDelay);
@@ -551,6 +567,7 @@ public class GaugeIndicator : MonoBehaviour
         _currentRotationPoint = _finalHeatPoint;
         _currentStop = _currentRotationPoint;
         _heatIndex = _finalHeatIndex;
+        _coolIndex = FindCoolIndex(_heatIndex);
         SetRotationPoints(_heatIndex, _coolIndex);
         Invoke("SetFireCalls", _smallDelay);
         Invoke("SetIceCalls", _smallDelay);
@@ -566,7 +583,7 @@ public class GaugeIndicator : MonoBehaviour
         }
     }
 
-    public enum IncrementStatus { Reset, Max, Forward, Back };
+    public enum IncrementStatus { Reset, Max, Changed};
 
     private void UpdateRotationPoints(IncrementStatus status)
     {
@@ -594,15 +611,11 @@ public class GaugeIndicator : MonoBehaviour
             _coolIndex = FindCoolIndex(_heatIndex);
         }
 
-        // Rotation to default point adjusted depending on previous forwards or backwards motion.
+        // Rotation to default point adjusted depending on current rotation point.
 
-        if (status == IncrementStatus.Forward)
+        if (status == IncrementStatus.Changed)
         {
-            _defaultRotation = transform.rotation * Quaternion.Euler(_rotationAxis * (_initialHeatPoint - _nextRotationPoint));
-        }
-        else if (status == IncrementStatus.Back)
-        {
-            _defaultRotation = transform.rotation * Quaternion.Euler(_rotationAxis * (_initialHeatPoint - _prevRotationPoint));
+            _defaultRotation = transform.rotation * Quaternion.Euler(_rotationAxis * (_initialHeatPoint - _currentRotationPoint));
         }
         else if (status == IncrementStatus.Reset)
         {
@@ -654,16 +667,11 @@ public class GaugeIndicator : MonoBehaviour
             MinGauge();
             return;
         }
-        else if (_didBackRot || _currentRotationPoint == _firstCoolPoint)
+        else if (_didBackRot || _currentRotationPoint == _firstCoolPoint || _currentRotationPoint == _initialHeatPoint || _currentRotationPoint == _finalHeatPoint)
         {
             _prevRotationPoint = _coolRotationPoints[j];
         }
-        else if (_currentRotationPoint == _finalHeatPoint)
-        {
-            _coolIndex = FindCoolIndex(i);
-            _prevRotationPoint = _coolRotationPoints[_coolIndex];
-        }
-        else if ((_didForwardRot || _currentRotationPoint == _initialHeatPoint))
+        else if (_didForwardRot)
         {
             _coolIndex = FindCoolIndex(i - 1);
             _prevRotationPoint = _coolRotationPoints[_coolIndex];
