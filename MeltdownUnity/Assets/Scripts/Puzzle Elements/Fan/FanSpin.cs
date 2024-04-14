@@ -28,6 +28,8 @@ public class FanSpin : MonoBehaviour
 	{
 		if (PauseMenu.Paused) return;
 
+
+		// somthing here is causing fan to stutter. try using time.deltatime.
 		if (isClockwise)
 		{
 			//rotate clockwise
