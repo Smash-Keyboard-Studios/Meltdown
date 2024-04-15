@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FanSpin : MonoBehaviour
@@ -73,12 +74,38 @@ public class FanSpin : MonoBehaviour
 		}
 	}
 
+	public void FreezFan()
+	{
+		StartCoroutine(SlowFan());
+	}
+
+	public void WarmUpFan()
+	{
+		CurrentSpinSpeed = FastSpinSpeed;
+		isSlow = false;
+
+		foreach (TrailRenderer trilRenderer in TrailRenderers)
+		{
+			trilRenderer.emitting = true;
+		}
+
+		foreach (KillZone killZone in KillZones)
+		{
+			killZone.IsEnabled = true;
+		}
+	}
+
 	private void OnCollisionEnter(Collision collision)
 	{
 		//if collide with ice then slow fan
 		if (collision.gameObject.GetComponent<Ice>() != null)
 		{
-			StartCoroutine("SlowFan");
+			FreezFan();
+		}
+
+		if (collision.gameObject.GetComponent<Fire>() != null)
+		{
+			WarmUpFan();
 		}
 	}
 }
