@@ -98,6 +98,10 @@ public class PlayerMovementController : MonoBehaviour
 	[Header("Moveing check")]
 	// for audio, this serves not other purpose.
 	public bool IsMoving = false;
+
+	// limmits all movement speed to the max speed possible which is the sprint speed.
+	// kkinda want to make a bit quake with velocity uncaped.
+	public bool LimitMovementSpeedToMaxSpeed = true;
 	#endregion
 
 
@@ -222,19 +226,20 @@ public class PlayerMovementController : MonoBehaviour
 			velocity.x = finalMoveDir.x;
 			velocity.z = finalMoveDir.z;
 		}
-		else if (!isGrounded)
+		else if (!isGrounded && LimitMovementSpeedToMaxSpeed)
 		{
 			// we add to the velocity
+
 
 			// ! This may be from a old speed cap and can be remmoved. the Y.
 			// we seperate the y as we want to keep its' values.
 			float y = velocity.y;
-
 			// we add to the velocity
 			if (moveDirection != Vector3.zero) velocity += moveDirection.normalized * AirMovementMultiplier * (Time.deltaTime);
 
 			// we return the y.
 			velocity.y = y;
+
 		}
 
 
@@ -287,7 +292,7 @@ public class PlayerMovementController : MonoBehaviour
 
 		// this is getting the 2d vector x and z from the 3d vector velocity, and checking if the magnitude is larger
 		// than the max air speed.
-		if (Mathf.Pow(velocity.z, 2f) + Mathf.Pow(velocity.x, 2f) > Mathf.Pow(MaxAirSpeed, 2f))
+		if (Mathf.Pow(velocity.z, 2f) + Mathf.Pow(velocity.x, 2f) > Mathf.Pow(MaxAirSpeed, 2f) && LimitMovementSpeedToMaxSpeed)
 		{
 			// we cache the y velocity because we are not dealing with that.
 			float _ = velocity.y;

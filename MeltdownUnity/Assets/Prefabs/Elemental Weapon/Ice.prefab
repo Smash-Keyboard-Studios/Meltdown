@@ -151,14 +151,18 @@ MonoBehaviour:
   lifeTime: 5
   Speed: 40
   decalLifeTime: 3
-  DecalPrefab: {fileID: 6108528481455311777, guid: a04a042baa381f94fb02992fb35f52c9, type: 3}
   StartSize: 0.1
   EndSize: 0.5
-  ScaleSpeed: 0.3
-  IgnoredTags: []
+  ScaleSpeed: 1
+  IgnoredTags:
+  - Ice
   IgnoredLayers:
     serializedVersion: 2
     m_Bits: 48
+  attachedLight: {fileID: 4999212337469700197}
+  EndRadiusCollision: 5
+  DurationOfCollisionLight: 0.05
+  DecalPrefab: {fileID: 6108528481455311777, guid: a04a042baa381f94fb02992fb35f52c9, type: 3}
   Active: 0
 --- !u!1 &8220754982532362833
 GameObject:

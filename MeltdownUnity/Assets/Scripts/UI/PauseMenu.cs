@@ -9,11 +9,11 @@ public class PauseMenu : MonoBehaviour
 
 	[Header("Volume Setting")]
 	[SerializeField] private TMP_Text volumeTextValue = null;
-	// [SerializeField] private Slider volumeSlider = null;
+	[SerializeField] private Slider volumeSlider = null;
 
 	[Header("Gameplay Settings")]
 	[SerializeField] private TMP_Text ControllerSenTextValue = null;
-	// [SerializeField] private Slider ControllerSenSlider = null;
+	[SerializeField] private Slider ControllerSenSlider = null;
 	public float mainControllerSen = 1f;
 
 	[Header("Toggle Settings")]
@@ -132,6 +132,24 @@ public class PauseMenu : MonoBehaviour
 		}
 
 		PlayerPrefs.SetFloat("masterSen", mainControllerSen);
+	}
+
+	public void PauseSettingsSave()
+	{
+		if (SaveData.Current == null) return;
+		SaveData.Current.MaxVolume = volumeSlider.value;
+		SaveData.Current.Sensitivity = ControllerSenSlider.value;
+		SaveData.Current.ToggleCrouch = crouchToggle.isOn;
+		if (SaveManager.current != null) SaveManager.current.ForceSave();
+	}
+
+	public void PauseSettingsLoad()
+	{
+		if (SaveManager.current != null) SaveManager.current.ForceLoad();
+		if (SaveData.Current == null) return;
+		volumeSlider.value = SaveData.Current.MaxVolume;
+		ControllerSenSlider.value = SaveData.Current.Sensitivity;
+		crouchToggle.isOn = SaveData.Current.ToggleCrouch;
 	}
 
 	public IEnumerator ConfirmationBox()

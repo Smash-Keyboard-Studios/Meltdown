@@ -34,6 +34,7 @@ public class SaveData
 	//public PlayerProfile Profile;
 
 	public float Sensitivity = 1f;
+	public float MaxVolume = 50f;
 	public bool ToggleCrouch = false;
 
 	public int CurrentLevel = 0;

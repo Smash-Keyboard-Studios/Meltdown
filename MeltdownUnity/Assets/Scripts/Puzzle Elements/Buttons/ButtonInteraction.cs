@@ -5,11 +5,7 @@ using UnityEngine.Events;
 
 public class ButtonInteraction : MonoBehaviour, IInteractable
 {
-	public UnityEvent OnActivate;
-
-	private bool doorOpen = false;
-
-	private bool buttonPressed = false; // Used for single use buttons
+	public UnityEvent OnButtonPress;
 
 	[SerializeField] private bool toggleButton = false;
 	// [SerializeField] private bool timedButton = false;  // Serialised access fields for  designers to decide what button type
@@ -17,24 +13,32 @@ public class ButtonInteraction : MonoBehaviour, IInteractable
 	// [SerializeField] private int waitTimer = 1; // Length of time between debounces
 	// [SerializeField] private bool pauseInteraction = false;
 
+	private Animator animator;
+
+	void Start()
+	{
+		animator = GetComponent<Animator>();
+	}
 
 	public void Interact()
 	{
-		OpenDoor();
+		PressButton();
 	}
 
-	public void OpenDoor()
+	public void PressButton()
 	{
-		if (toggleButton == true)
-		{
-			OnActivate.Invoke();
-			doorOpen = !doorOpen;
-		}
+		OnButtonPress.Invoke();
 
-		else if (buttonPressed == false) // Ensures the button cannot be pressed twice
-		{
-			OnActivate.Invoke();
-			buttonPressed = true;
-		}
+		animator.SetTrigger("Press");
+
+		//StartCoroutine(PlayAnimation());
+
+	}
+
+	IEnumerator PlayAnimation()
+	{
+		animator.SetBool("IsPressed", true);
+		yield return new WaitForSeconds(0.01f);
+		animator.SetBool("IsPressed", false);
 	}
 }
