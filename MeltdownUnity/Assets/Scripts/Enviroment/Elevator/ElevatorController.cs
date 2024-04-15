@@ -47,6 +47,8 @@ public class ElevatorController : MonoBehaviour
 	// whehter teh player is in the elevator or not.
 	private bool _playerEntered = false;
 
+	private bool _leaving = false;
+
 	private ParticleSystem particleSystemConfetti;
 
 	// Start is called before the first frame update
@@ -127,7 +129,11 @@ public class ElevatorController : MonoBehaviour
 		Closed = true;
 
 		// rise elevator - ienumerator here
-		StartCoroutine(Leave());
+		if (!_leaving)
+		{
+			_leaving = true;
+			StartCoroutine(Leave());
+		}
 	}
 
 	/// <summary>
@@ -145,6 +151,11 @@ public class ElevatorController : MonoBehaviour
 	IEnumerator Leave()
 	{
 		yield return new WaitForSeconds(WaitTime);
+
+
+		FadeToBlack.Current.FadeOut();
+
+		yield return new WaitForSeconds(1 / FadeToBlack.Current.Speed);
 
 		if (LevelLoading.Instance != null) LevelLoading.Instance.LoadScene(SceneBuildIndex);
 		else SceneManager.LoadScene(SceneBuildIndex, LoadSceneMode.Single);
