@@ -9,11 +9,11 @@ public class MainMenu : MonoBehaviour
 {
 	[Header("Volume Setting")]
 	[SerializeField] private TMP_Text volumeTextValue = null;
-	// [SerializeField] private Slider volumeSlider = null;
+	[SerializeField] private Slider volumeSlider = null;
 
 	[Header("Gameplay Settings")]
 	[SerializeField] private TMP_Text ControllerSenTextValue = null;
-	//[SerializeField] private Slider ControllerSenSlider = null;
+	[SerializeField] private Slider ControllerSenSlider = null;
 	public float mainControllerSen = 1f;
 
 	[Header("Toggle Settings")]
@@ -109,17 +109,17 @@ public class MainMenu : MonoBehaviour
 		SaveData.Current.MaxVolume = volumeSlider.value;
 		SaveData.Current.Sensitivity = ControllerSenSlider.value;
 		SaveData.Current.ToggleCrouch = crouchToggle.isOn;
-        if (SaveManager.current != null) SaveManager.current.ForceSave();
-    }
+		if (SaveManager.current != null) SaveManager.current.ForceSave();
+	}
 
 	public void LoadSettings()
 	{
 		if (SaveManager.current != null) SaveManager.current.ForceLoad();
-        if (SaveData.Current == null) return;
+		if (SaveData.Current == null) return;
 		volumeSlider.value = SaveData.Current.MaxVolume;
-        ControllerSenSlider.value = SaveData.Current.Sensitivity;
+		ControllerSenSlider.value = SaveData.Current.Sensitivity;
 		crouchToggle.isOn = SaveData.Current.ToggleCrouch;
-    }
+	}
 
 	public IEnumerator ConfirmationBox()
 	{
