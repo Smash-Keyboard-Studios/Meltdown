@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
-public class PuzzleManager : MonoBehaviour
+public class PuzzleManager_A : MonoBehaviour
 {
     [System.Serializable]
     public struct Puzzle
