@@ -26,6 +26,11 @@ public class MainMenu : MonoBehaviour
 	void Start()
 	{
 		if (MouseLockManager.Instance != null) MouseLockManager.Instance.MouseVisable = true;
+
+		if (SaveManager.current != null)
+		{
+			SaveManager.current.ForceLoad();
+		}
 	}
 
 	public void StartNewGame()
@@ -73,7 +78,6 @@ public class MainMenu : MonoBehaviour
 		//Allows the player to changed their mouse sensitivity
 		mainControllerSen = sensitivity;
 		ControllerSenTextValue.text = sensitivity.ToString("0.0");
-
 	}
 
 	public void GameplaySave()
@@ -98,6 +102,24 @@ public class MainMenu : MonoBehaviour
 		SaveData.Current = new SaveData();
 		if (SaveManager.current != null) SaveManager.current.ForceSave();
 	}
+
+	public void SaveSettings()
+	{
+		if (SaveData.Current == null) return;
+		SaveData.Current.MaxVolume = volumeSlider.value;
+		SaveData.Current.Sensitivity = ControllerSenSlider.value;
+		SaveData.Current.ToggleCrouch = crouchToggle.isOn;
+        if (SaveManager.current != null) SaveManager.current.ForceSave();
+    }
+
+	public void LoadSettings()
+	{
+		if (SaveManager.current != null) SaveManager.current.ForceLoad();
+        if (SaveData.Current == null) return;
+		volumeSlider.value = SaveData.Current.MaxVolume;
+        ControllerSenSlider.value = SaveData.Current.Sensitivity;
+		crouchToggle.isOn = SaveData.Current.ToggleCrouch;
+    }
 
 	public IEnumerator ConfirmationBox()
 	{
