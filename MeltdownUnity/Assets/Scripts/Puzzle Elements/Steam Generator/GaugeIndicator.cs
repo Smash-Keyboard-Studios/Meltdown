@@ -37,6 +37,7 @@ public class GaugeIndicator : MonoBehaviour
     private float _smallIncrement, _smallDelay;
     private Quaternion _defaultRotation, _finalRotation, _descendRotation;
     private bool _didForwardRot = false, _didBackRot = false, _runTimeRepositionStandby = false;
+    private float _maxDegreesCopy, _equalHeatCopy, _equalCoolCopy;
 
     // [Editor Variables]
 
@@ -120,20 +121,12 @@ public class GaugeIndicator : MonoBehaviour
     private void OnValidate()
     {
         // Allows Central Position and Tolerance to be recalculated.
+
         RebuildDestinations();
 
-        // Prevents _minDegreesBelowStart from reaching maxDegrees.
-        if (_minDegreesBelowStart >= _maxDegrees && !_customScale)
+        if ((!Application.isPlaying || RunTimeReposition))
         {
-            _minDegreesBelowStart = _maxDegrees - 1f;
-        }
-        else if (_minDegreesBelowStart >= _equalHeatEndPoint)
-        {
-            _minDegreesBelowStart = _equalHeatEndPoint - 1f;
-        }
-        else if (_minDegreesBelowStart >= _equalCoolEndPoint)
-        {
-            _minDegreesBelowStart = _equalCoolEndPoint - 1f;
+            Invoke("MinDegreesAutoAdjustment", _smallDelay);
         }
     }
 
@@ -163,9 +156,9 @@ public class GaugeIndicator : MonoBehaviour
         _startCoolIndex = 0;
         _secondHeatIndex = _firstHeatIndex + 1;
         _initialHeatIndex = GetInitialIndex();
-        _startHeatIndex = _initialHeatIndex + 1;
         _finalHeatIndex = _heatRotationPoints.Length - 1;
         _finalCoolIndex = _coolRotationPoints.Length - 1;
+        _startHeatIndex = _initialHeatIndex != _finalHeatIndex ? _initialHeatIndex + 1 : _initialHeatIndex;
         _heatIndex = _startHeatIndex;
 
         // Elements of Array
@@ -483,10 +476,10 @@ public class GaugeIndicator : MonoBehaviour
 
         for (int i = _firstHeatIndex; i < _heatRotationPoints.Length; i++)
         {
-            // Finds a rotation point near the min degrees below.
+            // Finds a rotation point near zero.
             if (_heatRotationPoints[i] >= approxStartingPoint)
             {
-                // checks which point is closer if there's a previous point.
+                // checks which point is closer to zero if there's a previous point.
                 if (i > _firstHeatIndex)
                 {
                     float prevDif = Mathf.Abs(_heatRotationPoints[i - 1] - approxStartingPoint);
@@ -619,14 +612,14 @@ public class GaugeIndicator : MonoBehaviour
         }
         else if (status == IncrementStatus.Reset)
         {
-            _defaultRotation = _finalRotation * Quaternion.Euler(_rotationAxis * (_initialHeatPoint - _finalHeatPoint));
+            _defaultRotation = _finalRotation * Quaternion.Euler(_rotationAxis * (_finalHeatPoint - _initialHeatPoint));
         }
 
         // Rotation to final point.
-        _finalRotation = _defaultRotation * Quaternion.Euler(_rotationAxis * (_finalHeatPoint - _initialHeatPoint));
+        _finalRotation = _defaultRotation * Quaternion.Euler(_rotationAxis * (_initialHeatPoint - _finalHeatPoint));
 
         // Rotation to minimum point.
-        _descendRotation = _defaultRotation * Quaternion.Euler(_rotationAxis * (_firstCoolPoint - _initialHeatPoint));
+        _descendRotation = _defaultRotation * Quaternion.Euler(_rotationAxis * (_initialHeatPoint - _firstCoolPoint));
     }
 
     private void SetRotationPoints(int i, int j)
@@ -678,7 +671,6 @@ public class GaugeIndicator : MonoBehaviour
         }
     }
 
-
     // Function to find a heat rotation point nearest the previous cool point to rotate to.
 
     private int FindHeatIndex(int j)
@@ -718,7 +710,6 @@ public class GaugeIndicator : MonoBehaviour
 
         int nextIndex = _coolIndex;
         float minDifference = sign == pos ? _finalHeatPoint - _firstCoolPoint : _firstCoolPoint - _finalHeatPoint;
-        bool noResult = true;
 
         for (int j = _startCoolIndex; j < _coolRotationPoints.Length; j++)
         {
@@ -735,15 +726,7 @@ public class GaugeIndicator : MonoBehaviour
                     nextIndex = j;
                 }
             }
-
-            noResult = false;
         }
-
-        if (noResult)
-        {
-            nextIndex--;
-        }
-
         return nextIndex;
     }
 
@@ -848,5 +831,56 @@ public class GaugeIndicator : MonoBehaviour
                 _coolRotationPoints[i] = i * (_equalCoolEndPoint / _equalCoolPoints) - _minDegreesBelowStart;
             }
         }
+    }
+
+    private void MinDegreesAutoAdjustment()
+    {
+        // Prevents _minDegreesBelowStart from reaching maxDegrees (or EndPoints) and adjusts accordingly when maxDegrees changes.
+
+        const float zeroDegrees = 0f, oneDegree = 1f, threeSixtyDegrees = 360f;
+
+        // Gives them initial values.
+        _maxDegreesCopy = _maxDegreesCopy == zeroDegrees ? _maxDegrees : _maxDegreesCopy;
+        _equalHeatCopy = _equalHeatCopy == zeroDegrees ? _equalHeatEndPoint : _equalHeatCopy;
+        _equalCoolCopy = _equalCoolCopy == zeroDegrees ? _equalCoolEndPoint : _equalCoolCopy;
+
+        if (!_customScale)
+        {
+            if (_minDegreesBelowStart >= _maxDegrees)
+            {
+                _minDegreesBelowStart = _maxDegrees - oneDegree;
+            }
+            else if (_maxDegrees != _maxDegreesCopy && _maxDegreesCopy != zeroDegrees)
+            {
+                _minDegreesBelowStart += (_maxDegrees - _maxDegreesCopy);
+                _maxDegreesCopy = _maxDegrees;
+            }
+        }
+        else if (_customScale)
+        {
+            if (_minDegreesBelowStart >= _equalHeatEndPoint)
+            {
+                _minDegreesBelowStart = _equalHeatEndPoint - oneDegree;
+            }
+            else if (_equalHeatEndPoint != _equalHeatCopy && _equalHeatCopy != zeroDegrees)
+            {
+                _minDegreesBelowStart += (_equalHeatEndPoint - _equalHeatCopy);
+
+                _equalHeatCopy = _equalHeatEndPoint;
+
+            }
+            else if (_minDegreesBelowStart >= _equalCoolEndPoint)
+            {
+                _minDegreesBelowStart = _equalCoolEndPoint - oneDegree;
+            }
+            else if (_equalCoolEndPoint != _equalCoolCopy && _equalCoolCopy != zeroDegrees)
+            {
+                _minDegreesBelowStart += (_equalCoolEndPoint - _equalCoolCopy);
+                _equalCoolCopy = _equalCoolEndPoint;
+            }
+        }
+        // Clamping to the 360 degree range.
+        _minDegreesBelowStart = _minDegreesBelowStart > threeSixtyDegrees ? (threeSixtyDegrees - oneDegree) : _minDegreesBelowStart;
+        _minDegreesBelowStart = _minDegreesBelowStart < zeroDegrees ? zeroDegrees : _minDegreesBelowStart;
     }
 }
