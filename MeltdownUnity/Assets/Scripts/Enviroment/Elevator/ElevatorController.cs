@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 
@@ -45,6 +47,8 @@ public class ElevatorController : MonoBehaviour
 	// whehter teh player is in the elevator or not.
 	private bool _playerEntered = false;
 
+	private bool _leaving = false;
+
 	private ParticleSystem particleSystemConfetti;
 
 	// Start is called before the first frame update
@@ -68,6 +72,12 @@ public class ElevatorController : MonoBehaviour
 			_timeCounter -= Time.deltaTime * DoorSpeed;
 		}
 
+
+		if (!IsEnabled)
+		{
+			Closed = !_playerEntered;
+		}
+
 		// move doors.
 		LeftElevatorDoor.localPosition = Vector3.Lerp(LeftDoorOpenPos, LeftDoorClosedPos, _timeCounter);
 		RightElevatorDoor.localPosition = Vector3.Lerp(RightDoorOpenPos, RightDoorClosedPos, _timeCounter);
@@ -87,11 +97,20 @@ public class ElevatorController : MonoBehaviour
 		}
 	}
 
+	void OnTriggerStay(Collider other)
+	{
+		if (other.tag == "Player" && !IsEnabled)
+		{
+			_playerEntered = true;
+		}
+	}
+
 	void OnTriggerExit(Collider other)
 	{
 		if (other.tag == "Player")
 		{
 			_playerEntered = false;
+
 		}
 	}
 
@@ -110,7 +129,11 @@ public class ElevatorController : MonoBehaviour
 		Closed = true;
 
 		// rise elevator - ienumerator here
-		StartCoroutine(Leave());
+		if (!_leaving)
+		{
+			_leaving = true;
+			StartCoroutine(Leave());
+		}
 	}
 
 	/// <summary>
@@ -128,6 +151,11 @@ public class ElevatorController : MonoBehaviour
 	IEnumerator Leave()
 	{
 		yield return new WaitForSeconds(WaitTime);
+
+
+		FadeToBlack.Current.FadeOut();
+
+		yield return new WaitForSeconds(1 / FadeToBlack.Current.Speed);
 
 		if (LevelLoading.Instance != null) LevelLoading.Instance.LoadScene(SceneBuildIndex);
 		else SceneManager.LoadScene(SceneBuildIndex, LoadSceneMode.Single);

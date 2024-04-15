@@ -38,6 +38,13 @@ public class Projectile : MonoBehaviour
 	[Tooltip("Ingored layers")]
 	public LayerMask IgnoredLayers;
 
+	[Header("Light Settings")]
+	public Light attachedLight;
+
+	public float EndRadiusCollision = 10f;
+
+	public float DurationOfCollisionLight = 0.1f;
+
 
 	[Header("Variables")]
 
@@ -101,7 +108,7 @@ public class Projectile : MonoBehaviour
 		}
 
 		// destroy us.
-		Destroy(gameObject);
+		StartCoroutine(EndProjectile());
 	}
 
 	// Function to compare tag of a collision.
@@ -116,5 +123,17 @@ public class Projectile : MonoBehaviour
 		}
 
 		return false;
+	}
+
+	private IEnumerator EndProjectile()
+	{
+		attachedLight.intensity = EndRadiusCollision;
+		attachedLight.range = EndRadiusCollision;
+
+		Rigidbody rigidbody = GetComponent<Rigidbody>();
+		rigidbody.velocity = Vector3.zero;
+
+		yield return new WaitForSeconds(DurationOfCollisionLight);
+		Destroy(this.gameObject);
 	}
 }
