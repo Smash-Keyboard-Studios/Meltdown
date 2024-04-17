@@ -35,7 +35,7 @@ public class GaugeIndicator : MonoBehaviour
     private int _startCoolIndex, _coolIndex, _finalCoolIndex;
     private float _firstHeatPoint, _initialHeatPoint, _finalHeatPoint, _firstCoolPoint, _finalCoolPoint;
     private float _smallIncrement, _smallDelay;
-    private Quaternion _defaultRotation, _finalRotation, _descendRotation;
+    private Quaternion _zeroRotation, _defaultRotation, _finalRotation, _descendRotation;
     private bool _didForwardRot = false, _didBackRot = false, _runTimeRepositionStandby = false;
     private float _maxDegreesCopy, _equalHeatCopy, _equalCoolCopy;
 
@@ -65,9 +65,10 @@ public class GaugeIndicator : MonoBehaviour
     [Space]
     [Tooltip("Moves according to one fire hit.")] public bool MoveToNextPoint = false;
     [Tooltip("Moves according to one ice hit.")] public bool MoveToPrevPoint = false;
-    [Tooltip("Resets to the start position.")] public bool ResetPinLocation = false;
+    [Tooltip("Resets to the start position.")] public bool DefaultPinLocation = false;
     [Tooltip("Moves to the final position.")] public bool FinalPinLocation = false;
     [Tooltip("Moves to the minimum position.")] public bool MinLocation = false;
+    [Tooltip("Last movement used.")][SerializeField][ShowOnly] private string _lastMovement = "";
 
     [Header("<size=15>Repetition Parameters</size>")]
     [Space]
@@ -155,7 +156,7 @@ public class GaugeIndicator : MonoBehaviour
         _firstHeatIndex = 0;
         _startCoolIndex = 0;
         _secondHeatIndex = _firstHeatIndex + 1;
-        _initialHeatIndex = GetInitialIndex();
+        _initialHeatIndex = GetInitialIndex(); // gets nearest index to 0 degrees.
         _finalHeatIndex = _heatRotationPoints.Length - 1;
         _finalCoolIndex = _coolRotationPoints.Length - 1;
         _startHeatIndex = _initialHeatIndex != _finalHeatIndex ? _initialHeatIndex + 1 : _initialHeatIndex;
@@ -180,9 +181,13 @@ public class GaugeIndicator : MonoBehaviour
         SetIceCalls();
 
         // Rotations
-        _defaultRotation = transform.rotation;
-        _finalRotation = _defaultRotation * Quaternion.Euler(_rotationAxis * _finalHeatPoint);
-        _descendRotation = _defaultRotation * Quaternion.Euler(_rotationAxis * _firstCoolPoint);
+        _zeroRotation = transform.rotation; // 0 degrees on the scales.
+
+        _defaultRotation = _zeroRotation * Quaternion.Euler(_rotationAxis * _initialHeatPoint);
+        _finalRotation = _zeroRotation * Quaternion.Euler(_rotationAxis * _finalHeatPoint);
+        _descendRotation = _zeroRotation * Quaternion.Euler(_rotationAxis * _firstCoolPoint);
+
+        transform.rotation = _defaultRotation; // goes to starting point.
 
         // Corrective Variables
         _smallIncrement = 0.2f;
@@ -191,9 +196,9 @@ public class GaugeIndicator : MonoBehaviour
 
     private void Update()
     {
-        if (ResetPinLocation)
+        if (DefaultPinLocation)
         {
-            ResetPinLocation = false;
+            DefaultPinLocation = false;
             ResetGauge();
         }
         else if (FinalPinLocation)
@@ -253,6 +258,12 @@ public class GaugeIndicator : MonoBehaviour
             bool completeNegRotation = sign == neg && _currentRotationPoint <= _nextRotationPoint;
             if (incPosRotation || incNegRotation)
             {
+                if (RunTimeReposition && !_runTimeRepositionStandby)
+                {
+                    UpdateRotationPoints(IncrementStatus.Transitioned);
+                    _runTimeRepositionStandby = true;
+                }
+
                 if (!InstantRotation)
                 {
                     transform.Rotate(_rotationAxis, _heatingSpeed * Time.deltaTime * sign);
@@ -276,12 +287,6 @@ public class GaugeIndicator : MonoBehaviour
                     }
                 }
                 _didForwardRot = true;
-
-                if (RunTimeReposition && !_runTimeRepositionStandby)
-                {
-                    UpdateRotationPoints(IncrementStatus.Changed);
-                    _runTimeRepositionStandby = true;
-                }
             }
 
             // When the point is reached, rotation is disabled, and the next point (to rotate to) is assigned.
@@ -326,6 +331,7 @@ public class GaugeIndicator : MonoBehaviour
                 }
             }
         }
+        _lastMovement = "Next Point";
     }
 
     public void DecrementGauge()
@@ -341,6 +347,12 @@ public class GaugeIndicator : MonoBehaviour
 
         if (decPosRotation || decNegRotation) // active rotation towards the previous point.
         {
+            if (RunTimeReposition && !_runTimeRepositionStandby)
+            {
+                UpdateRotationPoints(IncrementStatus.Transitioned);
+                _runTimeRepositionStandby = true;
+            }
+
             if (!InstantRotation)
             {
                 transform.Rotate(_rotationAxis, _coolingSpeed * Time.deltaTime * sign);
@@ -373,12 +385,6 @@ public class GaugeIndicator : MonoBehaviour
             }
 
             _didBackRot = true;
-
-            if (RunTimeReposition && !_runTimeRepositionStandby)
-            {
-                UpdateRotationPoints(IncrementStatus.Changed);
-                _runTimeRepositionStandby = true;
-            }
         }
 
         // If the cooling takes it back below a previous rotation point, that will then become the next point to reach.
@@ -441,6 +447,7 @@ public class GaugeIndicator : MonoBehaviour
                 }
             }
         }
+        _lastMovement = "Previous Point";
     }
 
     public void AwakenCoolDown()
@@ -499,7 +506,7 @@ public class GaugeIndicator : MonoBehaviour
     {
         if (RunTimeReposition)
         {
-            UpdateRotationPoints(IncrementStatus.Reset);
+            UpdateRotationPoints(IncrementStatus.Set);
         }
 
         // Resets rotation.
@@ -518,13 +525,14 @@ public class GaugeIndicator : MonoBehaviour
         MoveToPrevPoint = false;
         _didForwardRot = false;
         _didBackRot = false;
+        _lastMovement = "Default Point";
     }
 
     public void MinGauge()
     {
         if (RunTimeReposition)
         {
-            UpdateRotationPoints(IncrementStatus.Max);
+            UpdateRotationPoints(IncrementStatus.Set);
         }
 
         // Completes rotation.
@@ -544,13 +552,14 @@ public class GaugeIndicator : MonoBehaviour
         _didForwardRot = false;
         _didBackRot = false;
         AutoCoolOn = false;
+        _lastMovement = "Min Point";
     }
 
     public void MaxGauge()
     {
         if (RunTimeReposition)
         {
-            UpdateRotationPoints(IncrementStatus.Max);
+            UpdateRotationPoints(IncrementStatus.Set);
         }
 
         // Completes rotation.
@@ -574,9 +583,10 @@ public class GaugeIndicator : MonoBehaviour
         {
             Invoke("AwakenCoolDown", _autoCoolDelay);
         }
+        _lastMovement = "Final Point";
     }
 
-    public enum IncrementStatus { Reset, Max, Changed};
+    public enum IncrementStatus {Set, Transitioned};
 
     private void UpdateRotationPoints(IncrementStatus status)
     {
@@ -599,27 +609,16 @@ public class GaugeIndicator : MonoBehaviour
         // if out of bounds, set to the last point. Minus one if it will be incremented afterwards.
         if (_heatIndex > _finalHeatIndex)
         {
-            bool isEndPoint = (status == IncrementStatus.Reset || status == IncrementStatus.Max);
+            bool isEndPoint = status == IncrementStatus.Set;
             _heatIndex = isEndPoint ? _finalHeatIndex : _finalHeatIndex - 1;
             _coolIndex = FindCoolIndex(_heatIndex);
         }
 
-        // Rotation to default point adjusted depending on current rotation point.
+        // Rotations
 
-        if (status == IncrementStatus.Changed)
-        {
-            _defaultRotation = transform.rotation * Quaternion.Euler(_rotationAxis * (_initialHeatPoint - _currentRotationPoint));
-        }
-        else if (status == IncrementStatus.Reset)
-        {
-            _defaultRotation = _finalRotation * Quaternion.Euler(_rotationAxis * (_finalHeatPoint - _initialHeatPoint));
-        }
-
-        // Rotation to final point.
-        _finalRotation = _defaultRotation * Quaternion.Euler(_rotationAxis * (_initialHeatPoint - _finalHeatPoint));
-
-        // Rotation to minimum point.
-        _descendRotation = _defaultRotation * Quaternion.Euler(_rotationAxis * (_initialHeatPoint - _firstCoolPoint));
+        _defaultRotation = _zeroRotation * Quaternion.Euler(_rotationAxis * _initialHeatPoint);
+        _finalRotation = _zeroRotation * Quaternion.Euler(_rotationAxis * _finalHeatPoint);
+        _descendRotation = _zeroRotation * Quaternion.Euler(_rotationAxis * _firstCoolPoint);
     }
 
     private void SetRotationPoints(int i, int j)
