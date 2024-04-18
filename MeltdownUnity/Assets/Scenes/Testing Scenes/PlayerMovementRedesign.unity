@@ -42390,17 +42390,13 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1043268619}
-    - target: {fileID: 3752023460075477858, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 1007621145}
     - target: {fileID: 4579161379247660502, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1043268619}
     - target: {fileID: 4579161379247660502, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
       propertyPath: m_VersionIndex
-      value: 384
+      value: 417
       objectReference: {fileID: 0}
     - target: {fileID: 5107562930961206842, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
       propertyPath: m_Name
@@ -42412,22 +42408,18 @@ PrefabInstance:
       objectReference: {fileID: 1347237872}
     - target: {fileID: 6865033428560288176, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
       propertyPath: m_VersionIndex
-      value: 387
+      value: 420
       objectReference: {fileID: 0}
     - target: {fileID: 9056440363664688849, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1347237872}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 3930837628687981525, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
---- !u!1 &1007621145 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6067497010342986816, guid: acc340a5d3b30bb418f66787f8616794, type: 3}
-  m_PrefabInstance: {fileID: 1007621144}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1016074524 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2399162036559673767, guid: e3097634a42a53c4f8fd5870a81198f3, type: 3}
@@ -48338,7 +48330,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh720228
+  m_Name: pb_Mesh454022
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -58018,7 +58010,7 @@ GameObject:
   - component: {fileID: 2054036733}
   - component: {fileID: 2054036732}
   - component: {fileID: 2054036731}
-  - component: {fileID: 2054036730}
+  - component: {fileID: 2054036735}
   m_Layer: 0
   m_Name: Cube (46)
   m_TagString: InteractableObject
@@ -58026,20 +58018,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2054036730
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2054036729}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12d0c1d46de496e47be6743f61e168f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  note: {fileID: 11400000, guid: 723ac62bdf871a04fb32a4501d7b89c2, type: 2}
-  ObjectName: Note
 --- !u!65 &2054036731
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -58126,6 +58104,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2054036735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2054036729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 373f61e0d763a9f40a0458b281ce65d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Text: 
+  PriorityLevel: 0
+  Duration: 5
 --- !u!1 &2068070096
 GameObject:
   m_ObjectHideFlags: 0

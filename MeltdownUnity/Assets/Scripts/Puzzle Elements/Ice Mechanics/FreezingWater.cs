@@ -6,15 +6,35 @@ public class FreezingWater : MonoBehaviour
 {
 	public GameObject IceCube;
 
+	public float UnFreezTimer = 15f;
+
+	GameObject go;
+
+
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.gameObject.GetComponent<Ice>() != null)
 		{
 
-			GameObject go = Instantiate(IceCube, transform.localPosition, Quaternion.identity, transform);
+			go = Instantiate(IceCube, transform.localPosition, Quaternion.identity, transform);
 			//call Audio Manager (SFX)
 
 			go.transform.localScale = new Vector3(10f, 0.1f, 10f);
+
+			StartCoroutine(FreezRun());
 		}
+
+		if (other.gameObject.GetComponent<Fire>() != null)
+		{
+			StopCoroutine(FreezRun());
+			if (go != null) Destroy(go);
+		}
+	}
+
+	private IEnumerator FreezRun()
+	{
+		yield return new WaitForSeconds(UnFreezTimer);
+		if (go != null) Destroy(go);
+		StopCoroutine(FreezRun());
 	}
 }

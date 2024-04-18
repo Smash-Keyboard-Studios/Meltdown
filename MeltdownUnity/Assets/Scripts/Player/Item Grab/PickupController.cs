@@ -30,15 +30,20 @@ public class PickupController : MonoBehaviour
 
 
 	public GameObject mainGun;
+	private bool GunDefultState = true;
 
 	Gun gun;
 	public GameObject player;
 
-	public TMP_Text text;
+	// public TMP_Text text;
 
 
 
 	private Camera _camera;
+
+
+	private string _textToDisplay = "";
+
 
 	void Awake()
 	{
@@ -47,9 +52,7 @@ public class PickupController : MonoBehaviour
 
 		_camera = Camera.main;
 
-		text.enabled = true;
-		text.text = "Press '" + InputManager.GetKey(InputActions.KeyAction.Interact).ToString() + "' to pick up object";
-		text.enabled = false;
+		_textToDisplay = "Press '" + InputManager.GetKey(InputActions.KeyAction.Interact).ToString() + "' to pick up object";
 	}
 
 	private void Update()
@@ -57,11 +60,10 @@ public class PickupController : MonoBehaviour
 		RaycastHit tempHit;
 		if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out tempHit, pickupRange) && heldObj == null && tempHit.transform.GetComponent<Rigidbody>() != null && tempHit.transform.CompareTag("MoveableObject"))
 		{
-			text.enabled = true;
+			Display.Current.CreateDisplayText(_textToDisplay, 0, 0.05f);
 		}
 		else
 		{
-			text.enabled = false;
 		}
 
 		//Checks all of the time when the player is going to pick something up.
@@ -141,6 +143,7 @@ public class PickupController : MonoBehaviour
 
 
 					//Disables the mainGun as well as allowing the player to fire their ice and/or fire when the object is picked up.
+					GunDefultState = mainGun.activeSelf;
 					mainGun.SetActive(false);
 				}
 			}
@@ -167,8 +170,8 @@ public class PickupController : MonoBehaviour
 			heldObjRB.isKinematic = false;
 
 			//Enables the mainGun as well as allowing the player to fire their ice and/or fire when the object is dropped
-			// FFS
-			mainGun.SetActive(true);
+			// fixed :)
+			mainGun.SetActive(GunDefultState);
 
 			// isObjPickUp = false;
 
