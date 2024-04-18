@@ -5,7 +5,10 @@ using UnityEngine;
 
 public class FlammableObject : MonoBehaviour
 {
-	public ParticleSystem FireParticles;
+	public Vector3 FireStartLocation;
+
+	private ParticleSystem FireParticles;
+	private GameObject FireParticlesObject;
 
 	// public float BurnTime = 3f;
 
@@ -20,6 +23,10 @@ public class FlammableObject : MonoBehaviour
 
 	void Start()
 	{
+		FireParticlesObject = Instantiate(Resources.Load<GameObject>("Particles/Fire"), FireStartLocation, Quaternion.identity, transform);
+		FireParticlesObject.transform.localPosition = FireStartLocation;
+		FireParticles = FireParticlesObject.GetComponent<ParticleSystem>();
+
 		_scaleSpeed = 1f / FireParticles.main.duration;
 		_startScale = transform.localScale;
 	}
