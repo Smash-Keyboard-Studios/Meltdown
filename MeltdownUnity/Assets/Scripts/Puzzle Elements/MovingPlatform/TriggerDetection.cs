@@ -109,7 +109,10 @@ public class TriggerDetection : MonoBehaviour
 			// want to add force.
 			PlayerMovementController pmc = entities[_playerID].self.GetComponent<PlayerMovementController>();
 
-			pmc.velocity += _velocity;
+			Vector3 velNoY = new Vector3(_velocity.x, pmc.velocity.y, _velocity.z);
+
+
+			pmc.velocity += velNoY;
 		}
 	}
 }
