@@ -8,7 +8,7 @@ public class InteractiveObject : MonoBehaviour, IInteractable
 {
 	public UnityEvent OnInteract;
 
-	[Header("Object Name when Looking at it")] public string ObjectName = "Please Change the Object Name in the InteractiveObject script";
+	[Header("Object Name when Looking at it")] public string ObjectName = "Object";
 
 	string IInteractable.ObjectName { get => ObjectName; set => ObjectName = value; }
 

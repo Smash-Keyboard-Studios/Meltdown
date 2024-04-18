@@ -61,10 +61,10 @@ public class Display : MonoBehaviour
 
 
 
-	public int CreateDisplayText(string text, int id, int priorityLevel, float duration)
-	{
+	// public int CreateDisplayText(string text, int id, int priorityLevel, float duration)
+	// {
 
-	}
+	// }
 
 	public bool ContainsDisplayText(int id)
 	{
