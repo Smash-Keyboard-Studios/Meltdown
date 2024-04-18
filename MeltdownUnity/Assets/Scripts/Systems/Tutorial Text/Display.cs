@@ -51,6 +51,30 @@ public class Display : MonoBehaviour
 
 	}
 
+	public string GetDisplayTextToDisplay()
+	{
+		if (displayTexts.Count <= 0)
+		{
+			return "";
+		}
+		else if (displayTexts.Count == 1)
+		{
+			return displayTexts[0].Text;
+		}
+
+		DisplayText dp = new DisplayText("", -1, -1, -1);
+
+		foreach (DisplayText displayText in displayTexts)
+		{
+			if (displayText.PriorityLevel > dp.PriorityLevel)
+			{
+				dp = displayText;
+			}
+		}
+
+		return dp.Text;
+	}
+
 	public bool AddDisplayTextToList(DisplayText displayText)
 	{
 		if (displayTexts.Contains(displayText)) return false;
@@ -61,10 +85,21 @@ public class Display : MonoBehaviour
 
 
 
-	// public int CreateDisplayText(string text, int id, int priorityLevel, float duration)
-	// {
+	public int CreateDisplayText(string text, int priorityLevel = 0, float duration = 5f)
+	{
+		DisplayText displayText = new DisplayText(text, GetID(), priorityLevel, duration);
 
-	// }
+		bool b = AddDisplayTextToList(displayText);
+
+		if (b)
+		{
+			return displayText.ID;
+		}
+		else
+		{
+			return -1;
+		}
+	}
 
 	public bool ContainsDisplayText(int id)
 	{
@@ -94,7 +129,7 @@ public class Display : MonoBehaviour
 
 	public int GetID()
 	{
-		int highestNum = displayTexts.Count;
+		int highestNum = 0;
 
 		foreach (DisplayText displayText in displayTexts)
 		{
