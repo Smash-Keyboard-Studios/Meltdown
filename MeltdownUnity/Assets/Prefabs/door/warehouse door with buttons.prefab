@@ -55,6 +55,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
       propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
       objectReference: {fileID: 0}
@@ -63,19 +67,67 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1155529098054448731}
     - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
       propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2838776375402590978}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1155529098054448731}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
       propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ToggleDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StartTimer
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: SetClosed
       objectReference: {fileID: 0}
     - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
       propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: masterDoorController, Scripts
       objectReference: {fileID: 0}
     - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: TimedElement, Scripts
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: masterDoorController, Scripts
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
       propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4129259599266154955, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
@@ -129,13 +181,53 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2231170115860404144, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3266747950442865656}
   m_SourcePrefab: {fileID: 100100000, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
 --- !u!4 &1950591111368071937 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4129259599266154955, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
   m_PrefabInstance: {fileID: 2476970989171331786}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4371098149340759418 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2231170115860404144, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+  m_PrefabInstance: {fileID: 2476970989171331786}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3266747950442865656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4371098149340759418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c3f9c9f80c184d48ba0d2470b956864, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnStart:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEnd:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1155529098054448731}
+        m_TargetAssemblyTypeName: masterDoorController, Scripts
+        m_MethodName: SetClosed
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  Duration: 3
+  OneTimeUse: 0
 --- !u!1001 &2841266096234743219
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -157,6 +249,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
       propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
       objectReference: {fileID: 0}
@@ -165,19 +261,67 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1155529098054448731}
     - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
       propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2838776375402590978}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1155529098054448731}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
       propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ToggleDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StartTimer
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: SetClosed
       objectReference: {fileID: 0}
     - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
       propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: masterDoorController, Scripts
       objectReference: {fileID: 0}
     - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: TimedElement, Scripts
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: masterDoorController, Scripts
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
       propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4129259599266154955, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
@@ -231,13 +375,53 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2231170115860404144, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2838776375402590978}
   m_SourcePrefab: {fileID: 100100000, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
 --- !u!4 &2170778793454554232 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4129259599266154955, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
   m_PrefabInstance: {fileID: 2841266096234743219}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4150208978837393923 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2231170115860404144, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+  m_PrefabInstance: {fileID: 2841266096234743219}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2838776375402590978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4150208978837393923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c3f9c9f80c184d48ba0d2470b956864, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnStart:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEnd:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1155529098054448731}
+        m_TargetAssemblyTypeName: masterDoorController, Scripts
+        m_MethodName: SetClosed
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  Duration: 3
+  OneTimeUse: 0
 --- !u!1001 &7933675904500569886
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -121,12 +121,12 @@ MonoBehaviour:
   isSlidingDoor: 1
   Closed: 1
   isPlayerInteractable: 1
-  LeftDoor: {fileID: 0}
+  LeftDoor: {fileID: 2952225195949275315}
   leftDoorClosePos: {x: 0, y: 0, z: -0.6}
   leftDoorOpenPos: {x: 0, y: 0, z: -1.77}
   leftDoorCloseRotation: {x: 0, y: 90, z: 0}
   leftDoorOpenRotation: {x: 0, y: 90, z: 0}
-  RightDoor: {fileID: 0}
+  RightDoor: {fileID: 4161733837207099061}
   rightDoorClosePos: {x: 0, y: 0, z: 0.6}
   rightDoorOpenPos: {x: 0, y: 0, z: 1.77}
   rightDoorCloseRotation: {x: 0, y: 90, z: 0}
@@ -152,6 +152,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
       propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 6
       objectReference: {fileID: 0}
@@ -168,6 +172,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1026745279159215006}
     - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
       propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
@@ -176,11 +188,35 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3536701003983787373}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1026745279159215006}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
       propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetClosed
       objectReference: {fileID: 0}
     - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
       propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: StartTimer
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetClosed
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: StartTimer
       objectReference: {fileID: 0}
     - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
@@ -192,11 +228,27 @@ PrefabInstance:
       value: TimedElement, Scripts
       objectReference: {fileID: 0}
     - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: masterDoorController, Scripts
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: TimedElement, Scripts
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
       propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
       propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4129259599266154955, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
@@ -267,10 +319,10 @@ MonoBehaviour:
   OnStart:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: LightChange, Scripts
-        m_MethodName: ToggleLight
-        m_Mode: 1
+      - m_Target: {fileID: 7632646158585041165}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -279,10 +331,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: LightChange, Scripts
-        m_MethodName: ToggleLight
-        m_Mode: 1
+      - m_Target: {fileID: 6737270509287636960}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -291,10 +343,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: LightChange, Scripts
-        m_MethodName: ToggleLight
-        m_Mode: 1
+      - m_Target: {fileID: 6264492044094229454}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -303,10 +355,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: LightChange, Scripts
-        m_MethodName: ToggleLight
-        m_Mode: 1
+      - m_Target: {fileID: 1406091686794048066}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -318,7 +370,7 @@ MonoBehaviour:
   OnEnd:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 3536701003983787373}
         m_TargetAssemblyTypeName: masterDoorController, Scripts
         m_MethodName: SetClosed
         m_Mode: 6
@@ -330,10 +382,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: LightChange, Scripts
-        m_MethodName: ToggleLight
-        m_Mode: 1
+      - m_Target: {fileID: 7632646158585041165}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -342,10 +394,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: LightChange, Scripts
-        m_MethodName: ToggleLight
-        m_Mode: 1
+      - m_Target: {fileID: 6737270509287636960}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -354,10 +406,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: LightChange, Scripts
-        m_MethodName: ToggleLight
-        m_Mode: 1
+      - m_Target: {fileID: 6264492044094229454}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -366,10 +418,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: LightChange, Scripts
-        m_MethodName: ToggleLight
-        m_Mode: 1
+      - m_Target: {fileID: 1406091686794048066}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -378,7 +430,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  Duration: 6
+  Duration: 3
   OneTimeUse: 0
 --- !u!4 &3641130866512460588 stripped
 Transform:
@@ -452,17 +504,12 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 30201597262246551, guid: ea85027e273f98446b7c758ffc0f06d7, type: 3}
   m_PrefabInstance: {fileID: 1434463281691099349}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4803653991830179451}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b77cf125beb360b44a1911609212c523, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &4803653991830179451 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5855309655506865838, guid: ea85027e273f98446b7c758ffc0f06d7, type: 3}
-  m_PrefabInstance: {fileID: 1434463281691099349}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6239099207137941437 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5007307263387031400, guid: ea85027e273f98446b7c758ffc0f06d7, type: 3}
@@ -592,6 +639,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
       propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 6
       objectReference: {fileID: 0}
@@ -632,6 +683,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 869933411868796598}
     - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
       propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
@@ -652,6 +711,14 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3536701003983787373}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1026745279159215006}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
       propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetClosed
       objectReference: {fileID: 0}
@@ -670,6 +737,22 @@ PrefabInstance:
     - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
       propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[4].m_MethodName
       value: SetClosed
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetClosed
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: StartTimer
       objectReference: {fileID: 0}
     - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
       propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -692,6 +775,14 @@ PrefabInstance:
       value: masterDoorController, Scripts
       objectReference: {fileID: 0}
     - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: masterDoorController, Scripts
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: TimedElement, Scripts
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
       propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
@@ -709,6 +800,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
       propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+      propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4129259599266154955, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
@@ -847,9 +946,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 4090933222461402420}
-        m_TargetAssemblyTypeName: masterDoorController, Scripts
-        m_MethodName: SetClosed
+      - m_Target: {fileID: 7632646158585041165}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -859,9 +958,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 4691373923278438315}
-        m_TargetAssemblyTypeName: masterDoorController, Scripts
-        m_MethodName: SetClosed
+      - m_Target: {fileID: 6737270509287636960}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -871,9 +970,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 5371525784286006149}
-        m_TargetAssemblyTypeName: masterDoorController, Scripts
-        m_MethodName: SetClosed
+      - m_Target: {fileID: 6264492044094229454}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -883,9 +982,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 4803653991830179451}
-        m_TargetAssemblyTypeName: masterDoorController, Scripts
-        m_MethodName: SetClosed
+      - m_Target: {fileID: 1406091686794048066}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1058,17 +1157,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8108662595856276420, guid: c7dbe776b70a9e0489630d7c2479431a, type: 3}
   m_PrefabInstance: {fileID: 7027017876984872186}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &4691373923278438315 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2350844084878967633, guid: c7dbe776b70a9e0489630d7c2479431a, type: 3}
-  m_PrefabInstance: {fileID: 7027017876984872186}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6737270509287636960 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4394224962514010906, guid: c7dbe776b70a9e0489630d7c2479431a, type: 3}
   m_PrefabInstance: {fileID: 7027017876984872186}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4691373923278438315}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b77cf125beb360b44a1911609212c523, type: 3}
@@ -1285,17 +1379,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8108662595856276420, guid: c7dbe776b70a9e0489630d7c2479431a, type: 3}
   m_PrefabInstance: {fileID: 7643908193272334548}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &5371525784286006149 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2350844084878967633, guid: c7dbe776b70a9e0489630d7c2479431a, type: 3}
-  m_PrefabInstance: {fileID: 7643908193272334548}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6264492044094229454 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4394224962514010906, guid: c7dbe776b70a9e0489630d7c2479431a, type: 3}
   m_PrefabInstance: {fileID: 7643908193272334548}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5371525784286006149}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b77cf125beb360b44a1911609212c523, type: 3}

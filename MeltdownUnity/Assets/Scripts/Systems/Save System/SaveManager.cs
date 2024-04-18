@@ -9,6 +9,8 @@ using System;
 /// <summary>
 /// This handles loading and saving the save data to the save file.
 /// </summary>
+
+[DefaultExecutionOrder(-5)]
 public class SaveManager : MonoBehaviour
 {
 	public static SaveManager current;
@@ -50,7 +52,8 @@ public class SaveManager : MonoBehaviour
 
 		if (SerializationManager.Load(Application.persistentDataPath + "/saves/0.save") == null)
 		{
-			SerializationManager.Save("0", SaveData.Current);
+            SaveData.Current = new SaveData();
+            SerializationManager.Save("0", SaveData.Current);
 		}
 		else
 		{
@@ -65,7 +68,8 @@ public class SaveManager : MonoBehaviour
 	/// </summary>
 	public void ForceSave()
 	{
-		SerializationManager.Save(saveName, SaveData.Current);
+        if (SerializationManager.Load(Application.persistentDataPath + "/saves/0.save") == null) { SaveData.Current = new SaveData(); }
+        SerializationManager.Save(saveName, SaveData.Current);
 		GameSaveInvoke();
 	}
 
