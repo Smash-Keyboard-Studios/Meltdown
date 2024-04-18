@@ -10,6 +10,11 @@ public class InteractiveObject : MonoBehaviour, IInteractable
 
 	[Header("Object Name when Looking at it")] public string ObjectName = "Please Change the Object Name in the InteractiveObject script";
 
+	void Start()
+	{
+		gameObject.tag = "InteractableObject";
+	}
+
 	public void Interact()
 	{
 		OnInteract.Invoke();
