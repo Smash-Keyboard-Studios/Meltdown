@@ -6,6 +6,10 @@ using UnityEngine.Events;
 
 public class buttonScript : MonoBehaviour, IInteractable
 {
+	public string ObjectName = "Button";
+
+	string IInteractable.ObjectName { get => ObjectName; set => ObjectName = value; }
+
 	public UnityEvent getInteract;
 
 	[SerializeField] public bool ToggleButton;

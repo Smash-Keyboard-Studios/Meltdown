@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class InteractableButton : MonoBehaviour, IInteractable
 {
-	public string ObjectName = "Note";
+	public string ObjectName = "Button";
 
 	string IInteractable.ObjectName { get => ObjectName; set => ObjectName = value; }
 
