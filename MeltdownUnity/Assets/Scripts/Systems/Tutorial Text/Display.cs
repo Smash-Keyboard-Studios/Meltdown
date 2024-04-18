@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -11,6 +12,7 @@ public class Display : MonoBehaviour
 
 	public List<DisplayText> displayTexts = new List<DisplayText>();
 
+	[Serializable]
 	public struct DisplayText
 	{
 		public int ID;
@@ -26,6 +28,11 @@ public class Display : MonoBehaviour
 			Duration = duration;
 		}
 	}
+
+	private bool displayingText = false;
+
+	private float _localTime = 0;
+	private DisplayText _currentDisplay;
 
 	void Awake()
 	{
@@ -49,17 +56,51 @@ public class Display : MonoBehaviour
 	void Update()
 	{
 
+		if (GetDisplayTextToDisplay() != null)
+		{
+			_currentDisplay = GetDisplayTextToDisplay().Value;
+			displayingText = true;
+		}
+		else
+		{
+			displayingText = false;
+		}
+
+		if (displayingText)
+		{
+			display.gameObject.SetActive(true);
+
+			_localTime += Time.deltaTime;
+
+			if (_localTime > _currentDisplay.Duration)
+			{
+				displayTexts.Clear();
+				// RemoveDisplayText(_currentDisplay);
+				_localTime = 0;
+			}
+			else
+			{
+				display.text = _currentDisplay.Text;
+			}
+
+		}
+		else
+		{
+			display.text = "";
+			display.gameObject.SetActive(false);
+		}
+
 	}
 
-	public string GetDisplayTextToDisplay()
+	public DisplayText? GetDisplayTextToDisplay()
 	{
 		if (displayTexts.Count <= 0)
 		{
-			return "";
+			return null;
 		}
 		else if (displayTexts.Count == 1)
 		{
-			return displayTexts[0].Text;
+			return displayTexts[0];
 		}
 
 		DisplayText dp = new DisplayText("", -1, -1, -1);
@@ -72,18 +113,29 @@ public class Display : MonoBehaviour
 			}
 		}
 
-		return dp.Text;
+		return dp;
 	}
 
 	public bool AddDisplayTextToList(DisplayText displayText)
 	{
 		if (displayTexts.Contains(displayText)) return false;
 
+		if (displayText.ID < 0) displayText.ID = GetID();
+
 		displayTexts.Add(displayText);
 		return true;
 	}
 
+	public bool RemoveDisplayText(DisplayText displayText)
+	{
+		if (displayTexts.Contains(displayText))
+		{
+			displayTexts.Remove(displayText);
+			return true;
+		}
 
+		return false;
+	}
 
 	public int CreateDisplayText(string text, int priorityLevel = 0, float duration = 5f)
 	{
@@ -99,6 +151,12 @@ public class Display : MonoBehaviour
 		{
 			return -1;
 		}
+	}
+
+	public DisplayText CreateDisplayTextForRef(string text, int priorityLevel = 0, float duration = 5f)
+	{
+		DisplayText displayText = new DisplayText(text, -1, priorityLevel, duration);
+		return displayText;
 	}
 
 	public bool ContainsDisplayText(int id)
