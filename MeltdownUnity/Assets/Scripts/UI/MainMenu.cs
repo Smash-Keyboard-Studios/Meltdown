@@ -35,8 +35,8 @@ public class MainMenu : MonoBehaviour
 
 	public void StartNewGame()
 	{
-		SaveData.Current = new SaveData();
-		if (SaveManager.current != null) SaveManager.current.ForceSave();
+        SaveData.Current.CurrentLevel = 2;
+        if (SaveManager.current != null) SaveManager.current.ForceSave();
 		LoadGameDialogYes();
 
 	}

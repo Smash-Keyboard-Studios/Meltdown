@@ -12,15 +12,10 @@ public class SaveData
 		{
 			if (_current == null)
 			{
-				_current = new SaveData();
-				if (SaveManager.current != null)
-				{
-					SaveManager.current.ForceSave();
-				}
-				else
-				{
+				
 					Debug.LogError("Save Manager does not exist. Cannot save any data!");
-				}
+				return null;
+				
 			}
 
 			return _current;
