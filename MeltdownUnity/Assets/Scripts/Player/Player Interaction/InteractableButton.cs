@@ -5,10 +5,14 @@ using UnityEngine.Events;
 
 public class InteractableButton : MonoBehaviour, IInteractable
 {
-    public UnityEvent OnInteract;
+	public string ObjectName = "Note";
 
-    public void Interact()
-    {
-        OnInteract.Invoke();
-    }
+	string IInteractable.ObjectName { get => ObjectName; set => ObjectName = value; }
+
+	public UnityEvent OnInteract;
+
+	public void Interact()
+	{
+		OnInteract.Invoke();
+	}
 }
