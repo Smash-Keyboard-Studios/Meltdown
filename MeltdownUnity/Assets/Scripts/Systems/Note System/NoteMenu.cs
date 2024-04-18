@@ -12,6 +12,8 @@ public class NoteMenu : MonoBehaviour
 	private PlayerMovementController pmc;
 	private MouseLookController mlc;
 
+	private bool CanOpenUI = true;
+
 	[Serializable]
 	public struct PageType
 	{
@@ -57,6 +59,9 @@ public class NoteMenu : MonoBehaviour
 
 			pmc.Locked = false;
 			mlc.Locked = false;
+
+			CanOpenUI = false;
+
 
 			StartCoroutine(EnablePauseLater());
 
@@ -134,5 +139,7 @@ public class NoteMenu : MonoBehaviour
 
 		PauseMenu.Overiding = false;
 		PauseMenu.Paused = false;
+
+		CanOpenUI = true;
 	}
 }
