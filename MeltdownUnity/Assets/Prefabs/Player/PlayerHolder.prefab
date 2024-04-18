@@ -1154,7 +1154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ffda60e17ccd354eb824f0d5021daf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _smooth: 0.1
+  _smooth: 7
   _swayMultiplier: 1
 --- !u!1 &1737716628551991856
 GameObject:
@@ -5279,10 +5279,10 @@ MonoBehaviour:
   Locked: 1
   CameraHolder: {fileID: 2724384780940018379}
   HeadBobObject: {fileID: 2669559923784767949}
-  HeadBobHorizontalAmplitude: 0
-  HeadBobVerticalAmplitude: 0
-  MaxBobFreq: 4.5
-  HeadBobSmoothing: 0
+  HeadBobHorizontalAmplitude: 0.03
+  HeadBobVerticalAmplitude: 0.03
+  MaxBobFreq: 6
+  HeadBobSmoothing: 0.194
 --- !u!114 &2874830188577350306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5300,6 +5300,7 @@ MonoBehaviour:
   WalkSpeed: 4
   SprintSpeed: 7
   AirMovementMultiplier: 4
+  AccelRate: 5
   MaxAirSpeed: 7
   Gravity: 9.81
   IdleGravity: 4
