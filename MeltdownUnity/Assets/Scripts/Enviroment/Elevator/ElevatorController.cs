@@ -90,7 +90,7 @@ public class ElevatorController : MonoBehaviour
 		{
 			if (!IsEnabled) return;
 			_playerEntered = true;
-			SaveData.Current.CurrentLevel = SceneBuildIndex;
+			if (SaveData.Current != null) SaveData.Current.CurrentLevel = SceneBuildIndex;
 			if (SaveManager.current != null) SaveManager.current.ForceSave();
 			TriggerLeave();
 		}
