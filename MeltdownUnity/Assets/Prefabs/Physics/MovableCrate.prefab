@@ -62,11 +62,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2870630303301765659, guid: 5f0ef029846568840a1836df5456a2fc, type: 3}
   m_PrefabInstance: {fileID: 3043085747982575527}
   m_PrefabAsset: {fileID: 0}
---- !u!198 &9142567536015984143 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 6114721580779987368, guid: 5f0ef029846568840a1836df5456a2fc, type: 3}
-  m_PrefabInstance: {fileID: 3043085747982575527}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7747090403560613387
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -127,6 +122,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 0cd8122a56cabd44ca9246baf3bed8fd, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: ec8f895bfab5a3b4f82b5a9a0279ce87, type: 2}
     - target: {fileID: 919132149155446097, guid: 0cd8122a56cabd44ca9246baf3bed8fd, type: 3}
       propertyPath: m_Name
       value: MovableCrate
@@ -173,8 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24db59bec8a6533429c7aaa51c6df558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FireParticles: {fileID: 9142567536015984143}
-  BurnTime: 3
+  FireStartLocation: {x: 0, y: 0, z: 0}
 --- !u!65 &6201784796061227262
 BoxCollider:
   m_ObjectHideFlags: 0
