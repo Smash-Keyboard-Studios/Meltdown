@@ -14,7 +14,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2397535845680019657, guid: adef0d641601aca4e8a7fe33f4a92ba3, type: 3}
       propertyPath: Closed
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2397535845680019657, guid: adef0d641601aca4e8a7fe33f4a92ba3, type: 3}
       propertyPath: LeftDoor
@@ -30,7 +30,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2397535845680019657, guid: adef0d641601aca4e8a7fe33f4a92ba3, type: 3}
       propertyPath: leftDoorOpenPos.x
-      value: 1.95
+      value: 1.972
       objectReference: {fileID: 0}
     - target: {fileID: 2397535845680019657, guid: adef0d641601aca4e8a7fe33f4a92ba3, type: 3}
       propertyPath: leftDoorOpenPos.y
@@ -38,11 +38,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2397535845680019657, guid: adef0d641601aca4e8a7fe33f4a92ba3, type: 3}
       propertyPath: leftDoorOpenPos.z
-      value: -0.0395
+      value: -0.039
       objectReference: {fileID: 0}
     - target: {fileID: 2397535845680019657, guid: adef0d641601aca4e8a7fe33f4a92ba3, type: 3}
       propertyPath: leftDoorClosePos.x
-      value: 1.015
+      value: 1.0004174
       objectReference: {fileID: 0}
     - target: {fileID: 2397535845680019657, guid: adef0d641601aca4e8a7fe33f4a92ba3, type: 3}
       propertyPath: leftDoorClosePos.y
@@ -54,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2397535845680019657, guid: adef0d641601aca4e8a7fe33f4a92ba3, type: 3}
       propertyPath: rightDoorOpenPos.x
-      value: -1.95
+      value: -2.027
       objectReference: {fileID: 0}
     - target: {fileID: 2397535845680019657, guid: adef0d641601aca4e8a7fe33f4a92ba3, type: 3}
       propertyPath: rightDoorOpenPos.y
@@ -62,11 +62,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2397535845680019657, guid: adef0d641601aca4e8a7fe33f4a92ba3, type: 3}
       propertyPath: rightDoorOpenPos.z
-      value: -0.0395
+      value: -0.04
       objectReference: {fileID: 0}
     - target: {fileID: 2397535845680019657, guid: adef0d641601aca4e8a7fe33f4a92ba3, type: 3}
       propertyPath: rightDoorClosePos.x
-      value: -1.015
+      value: -1.0265342
       objectReference: {fileID: 0}
     - target: {fileID: 2397535845680019657, guid: adef0d641601aca4e8a7fe33f4a92ba3, type: 3}
       propertyPath: rightDoorClosePos.y
@@ -76,17 +76,21 @@ PrefabInstance:
       propertyPath: rightDoorClosePos.z
       value: -0.0395
       objectReference: {fileID: 0}
+    - target: {fileID: 2397535845680019657, guid: adef0d641601aca4e8a7fe33f4a92ba3, type: 3}
+      propertyPath: isPlayerInteractable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3671813376616635347, guid: adef0d641601aca4e8a7fe33f4a92ba3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -7.5
       objectReference: {fileID: 0}
     - target: {fileID: 3671813376616635347, guid: adef0d641601aca4e8a7fe33f4a92ba3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 2.125
       objectReference: {fileID: 0}
     - target: {fileID: 3671813376616635347, guid: adef0d641601aca4e8a7fe33f4a92ba3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -20.15
       objectReference: {fileID: 0}
     - target: {fileID: 3671813376616635347, guid: adef0d641601aca4e8a7fe33f4a92ba3, type: 3}
       propertyPath: m_LocalRotation.w
@@ -94,15 +98,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3671813376616635347, guid: adef0d641601aca4e8a7fe33f4a92ba3, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3671813376616635347, guid: adef0d641601aca4e8a7fe33f4a92ba3, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3671813376616635347, guid: adef0d641601aca4e8a7fe33f4a92ba3, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3671813376616635347, guid: adef0d641601aca4e8a7fe33f4a92ba3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -141,6 +145,17 @@ PrefabInstance:
       addedObject: {fileID: 7773965929131231989}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: adef0d641601aca4e8a7fe33f4a92ba3, type: 3}
+--- !u!114 &3407771832582903588 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2397535845680019657, guid: adef0d641601aca4e8a7fe33f4a92ba3, type: 3}
+  m_PrefabInstance: {fileID: 1013050753917022189}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c28c2496b310434c998e90ef1559029, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &3640269771233965174 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4362794360108243867, guid: adef0d641601aca4e8a7fe33f4a92ba3, type: 3}
@@ -221,9 +236,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8675354136699531232, guid: c9e2962e7272c7747ab7a667c7c357f5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7897226381105348882}
+    - targetCorrespondingSourceObject: {fileID: -8675354136699531232, guid: c9e2962e7272c7747ab7a667c7c357f5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3718648855614403672}
     - targetCorrespondingSourceObject: {fileID: -4319308234465296568, guid: c9e2962e7272c7747ab7a667c7c357f5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4728977971518705907}
+    - targetCorrespondingSourceObject: {fileID: -4319308234465296568, guid: c9e2962e7272c7747ab7a667c7c357f5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9102907747694400503}
   m_SourcePrefab: {fileID: 100100000, guid: c9e2962e7272c7747ab7a667c7c357f5, type: 3}
 --- !u!4 &1438677819823128492 stripped
 Transform:
@@ -257,6 +278,34 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4671432219108279755, guid: c9e2962e7272c7747ab7a667c7c357f5, type: 3}
+--- !u!114 &9102907747694400503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2911200738935870038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e815300fb8000b24ca70deadd9b12717, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnInteract:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3407771832582903588}
+        m_TargetAssemblyTypeName: masterDoorController, Scripts
+        m_MethodName: ToggleDoor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  ObjectName: Object
 --- !u!4 &5258829727029661106 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -6587912585822592852, guid: c9e2962e7272c7747ab7a667c7c357f5, type: 3}
@@ -294,3 +343,31 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -3783979185931082698, guid: c9e2962e7272c7747ab7a667c7c357f5, type: 3}
+--- !u!114 &3718648855614403672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7778533279231720766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e815300fb8000b24ca70deadd9b12717, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnInteract:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3407771832582903588}
+        m_TargetAssemblyTypeName: masterDoorController, Scripts
+        m_MethodName: ToggleDoor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  ObjectName: Object

@@ -238,7 +238,7 @@ public class PlayerMovementController : MonoBehaviour
 			float y = velocity.y;
 			// we add to the velocity
 
-			Vector3 target = moveDirection.normalized * speed;
+			Vector3 target = moveDirection.normalized * AirMovementMultiplier;
 
 			Vector3 add = (target - velocity) * AccelRate;
 
