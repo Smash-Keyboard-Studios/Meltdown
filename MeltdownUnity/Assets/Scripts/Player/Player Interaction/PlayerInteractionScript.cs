@@ -14,7 +14,6 @@ public class PlayerInteractionScript : MonoBehaviour
 	public Sprite Crosshair;
 	public Sprite Crosshair2; // Images for the crosshairs (to enlarge)
 	public Image crosshairImage;
-	public TMP_Text tutorialText; // Text that appears under the crosshair
 
 	private Camera _camera;
 
@@ -30,9 +29,8 @@ public class PlayerInteractionScript : MonoBehaviour
 			if (hit.transform.CompareTag("InteractableObject")) // Checks the object has an "InteractableObject" tag
 			{
 				crosshairImage.sprite = Crosshair2;
-				tutorialText.enabled = true;
-				string temp = hit.transform.GetComponent<InteractiveObject>() != null ? hit.transform.GetComponent<InteractiveObject>().ObjectName : "Null";
-				tutorialText.text = "Press '" + interactKeycode.ToString() + "' to interact with " + temp; // Brings up the tutorial text and changes it to both the keycode assigned and what has been hit
+				string _ = hit.collider.gameObject.GetComponent<IInteractable>() != null ? hit.collider.gameObject.GetComponent<IInteractable>().ObjectName : "Null";
+				Display.Current.CreateDisplayText("Press '" + interactKeycode.ToString() + "' to interact with " + _, 0, 0.05f); // Brings up the tutorial text and changes it to both the keycode assigned and what has been hit
 				if (Input.GetKeyDown(InputManager.GetKey(InputActions.KeyAction.Interact)))
 				{
 					hit.collider.gameObject.GetComponent<IInteractable>()?.Interact();
@@ -41,13 +39,11 @@ public class PlayerInteractionScript : MonoBehaviour
 			else
 			{
 				crosshairImage.sprite = Crosshair;
-				tutorialText.enabled = false;
 			}
 		}
 		else
 		{
 			crosshairImage.sprite = Crosshair;
-			tutorialText.enabled = false;
 		}     // Just sets the crosshair sprite to the smaller one
 	}
 }

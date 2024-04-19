@@ -252,7 +252,7 @@ MonoBehaviour:
   LengthOfOneSegment: 2
   MaxExtents: 12
   Extending: 0
-  Loop: 1
+  Loop: 0
   IsPaused: 0
   PauseTime: 1
   NormalSpeed: 1
@@ -329,6 +329,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerTag: Player
+  IgnoredLayers:
+    serializedVersion: 2
+    m_Bits: 640
+  IgnoredTags:
+  - MoveableObject
+  _velocity: {x: 0, y: 0, z: 0}
+  _lastPos: {x: 0, y: 0, z: 0}
 --- !u!1 &8818873280431656236
 GameObject:
   m_ObjectHideFlags: 0

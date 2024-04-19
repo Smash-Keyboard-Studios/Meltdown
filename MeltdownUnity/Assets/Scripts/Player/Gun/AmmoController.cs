@@ -11,6 +11,12 @@ public class AmmoController : MonoBehaviour
 
 	public bool InfAmmo = false;
 
+	public Material NormalMat;
+	public Material IceMat;
+	public Material FireMat;
+
+	public GameObject[] FireCanisters;
+	public GameObject[] IceCanisters;
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -38,6 +44,18 @@ public class AmmoController : MonoBehaviour
 		{
 			FireAmmo = 3;
 		}
+
+		for (int i = 1; i <= 3; i++)
+		{
+			if (i <= IceAmmo) IceCanisters[i - 1].SetActive(true);
+			if (i > IceAmmo) IceCanisters[i - 1].SetActive(false);
+		}
+
+		for (int i = 1; i <= 3; i++)
+		{
+			if (i <= FireAmmo) FireCanisters[i - 1].SetActive(true);
+			if (i > FireAmmo) FireCanisters[i - 1].SetActive(false);
+		}
 	}
 
 	public int RefillPedestal(int Ammo, int RefillAmount)
@@ -47,5 +65,10 @@ public class AmmoController : MonoBehaviour
 			Ammo = RefillAmount;
 		}
 		return Ammo;
+	}
+
+	public void SetMat(GameObject canister, Material mat)
+	{
+		canister.GetComponent<Renderer>().material = mat;
 	}
 }

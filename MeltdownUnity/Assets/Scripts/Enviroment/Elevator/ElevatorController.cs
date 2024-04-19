@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -91,7 +90,7 @@ public class ElevatorController : MonoBehaviour
 		{
 			if (!IsEnabled) return;
 			_playerEntered = true;
-			SaveData.Current.CurrentLevel = SceneBuildIndex;
+			if (SaveData.Current != null) SaveData.Current.CurrentLevel = SceneBuildIndex;
 			if (SaveManager.current != null) SaveManager.current.ForceSave();
 			TriggerLeave();
 		}
@@ -159,5 +158,15 @@ public class ElevatorController : MonoBehaviour
 
 		if (LevelLoading.Instance != null) LevelLoading.Instance.LoadScene(SceneBuildIndex);
 		else SceneManager.LoadScene(SceneBuildIndex, LoadSceneMode.Single);
+	}
+
+	public void SetEnabled(bool enabled)
+	{
+		IsEnabled = enabled;
+	}
+
+	public void ToggleEnabled()
+	{
+		IsEnabled = !IsEnabled;
 	}
 }

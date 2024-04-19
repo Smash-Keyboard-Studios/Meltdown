@@ -29,6 +29,8 @@ public class PlayerMovementController : MonoBehaviour
 	[Tooltip("The multiplyer for movement speed in the air, 0 = nothing, 1 = normal")]
 	public float AirMovementMultiplier = 0.2f;
 
+	public float AccelRate = 0.5f;
+
 	[Tooltip("The max speed allowed in the air")]
 	public float MaxAirSpeed = 10f;
 
@@ -235,7 +237,13 @@ public class PlayerMovementController : MonoBehaviour
 			// we seperate the y as we want to keep its' values.
 			float y = velocity.y;
 			// we add to the velocity
-			if (moveDirection != Vector3.zero) velocity += moveDirection.normalized * AirMovementMultiplier * (Time.deltaTime);
+
+			Vector3 target = moveDirection.normalized * AirMovementMultiplier;
+
+			Vector3 add = (target - velocity) * AccelRate;
+
+
+			if (moveDirection != Vector3.zero) velocity += add * (Time.deltaTime);
 
 			// we return the y.
 			velocity.y = y;

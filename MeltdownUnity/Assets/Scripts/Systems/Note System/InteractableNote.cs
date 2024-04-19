@@ -7,6 +7,10 @@ public class InteractableNote : MonoBehaviour, IInteractable
 {
 	public NoteObject note;
 
+	public string ObjectName = "Note";
+
+	string IInteractable.ObjectName { get => ObjectName; set => ObjectName = value; }
+
 	// Start is called before the first frame update
 	void Start()
 	{

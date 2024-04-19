@@ -8,6 +8,12 @@ public class NoteMenu : MonoBehaviour
 {
 	public static NoteMenu Current;
 
+	public GameObject player;
+	private PlayerMovementController pmc;
+	private MouseLookController mlc;
+
+	private bool CanOpenUI = true;
+
 	[Serializable]
 	public struct PageType
 	{
@@ -38,15 +44,24 @@ public class NoteMenu : MonoBehaviour
 		CloseAll();
 
 		MenuOpen = false;
+
+		pmc = player.GetComponent<PlayerMovementController>();
+		mlc = player.GetComponent<MouseLookController>();
 	}
 
 	void Update()
 	{
-		if (MenuOpen && Input.GetKeyDown(KeyCode.Escape))
+		if (MenuOpen && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.F)))
 		{
 			CloseAll();
 
 			MenuOpen = false;
+
+			pmc.Locked = false;
+			mlc.Locked = false;
+
+			CanOpenUI = false;
+
 
 			StartCoroutine(EnablePauseLater());
 
@@ -113,6 +128,9 @@ public class NoteMenu : MonoBehaviour
 
 		PauseMenu.Overiding = true;
 		PauseMenu.Paused = false;
+
+		pmc.Locked = true;
+		mlc.Locked = true;
 	}
 
 	IEnumerator EnablePauseLater()
@@ -121,5 +139,7 @@ public class NoteMenu : MonoBehaviour
 
 		PauseMenu.Overiding = false;
 		PauseMenu.Paused = false;
+
+		CanOpenUI = true;
 	}
 }
