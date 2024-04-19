@@ -22,8 +22,6 @@ public class PlayerAudio : MonoBehaviour
 
     public void StopPlayerAudio(int i)
     {
-        AudioClip PlayerClip = AudioLibraryArray[i].Clip;
-
         PlayerAudioSource.Stop();
     }
 

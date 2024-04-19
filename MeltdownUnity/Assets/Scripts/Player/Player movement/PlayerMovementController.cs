@@ -263,7 +263,11 @@ public class PlayerMovementController : MonoBehaviour
 	{
 		PlayingWalkSound = true;
         PlayerAudio.PlayPlayerAudio(0);
-		yield return new WaitForSeconds(11.4f);
+		//for loop checks if moving every 0.5 seconds of the clip
+		for (int i = 0; i < 114; i++)
+		{
+			if(IsMoving) { yield return new WaitForSeconds(0.1f); }
+        }
 		PlayingWalkSound = false;
     }
 
