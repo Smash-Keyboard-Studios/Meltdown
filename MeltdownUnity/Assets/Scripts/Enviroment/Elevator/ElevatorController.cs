@@ -169,4 +169,14 @@ public class ElevatorController : MonoBehaviour
 	{
 		IsEnabled = !IsEnabled;
 	}
+
+	public void ToggleDoor()
+	{
+		Closed = !Closed;
+	}
+
+	public void SetDoor(bool b)
+	{
+		Closed = b;
+	}
 }

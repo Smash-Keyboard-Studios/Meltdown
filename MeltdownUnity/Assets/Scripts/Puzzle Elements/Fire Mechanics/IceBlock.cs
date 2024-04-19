@@ -81,8 +81,8 @@ public class IceBlock : MonoBehaviour
         //object scale is object set scale x 100
         objectScale = objectSetScale * 100;
 
-		//create instance of water puddle after shrinking
-		Instantiate(WaterPuddle, transform.position + new Vector3(0, 0.01f, 0), Quaternion.identity);
+		//create instance of water puddle after shrinking, cancelled for now
+		//Instantiate(WaterPuddle, transform.position + new Vector3(0, 0.01f, 0), Quaternion.identity);
     }
 
     private IEnumerator RemoveIceBlock()
