@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FreezeElectrifiedWater : MonoBehaviour
 {
-    [SerializeField] private bool CurrentFrozenState;
+    [SerializeField] public bool CurrentFrozenState;
 
     public GameObject UnfrozenWater;
     public GameObject FrozenWater;

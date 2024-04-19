@@ -17,8 +17,8 @@ public class TriggerDetector : MonoBehaviour
 		//if collide with ice then slow fan
 		if (collision.gameObject.GetComponent<Ice>() != null)
 		{
-			parentFanSpin.FreezFan();
-		}
+			parentFanSpin.StartCoroutine("SlowFan");
+        }
 
 		if (collision.gameObject.GetComponent<Fire>() != null)
 		{
