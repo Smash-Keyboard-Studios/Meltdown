@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//stop changing my code dumbass, if u have a problem with it then tell me
+//Please let me (Soph) know about issues, thank you.
 
 public class FanSpin : MonoBehaviour
 {
