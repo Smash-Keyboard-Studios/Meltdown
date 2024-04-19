@@ -106,6 +106,10 @@ public class PlayerMovementController : MonoBehaviour
 	public bool LimitMovementSpeedToMaxSpeed = true;
 	#endregion
 
+	[Header("Player Audio Reference")]
+	public PlayerAudio PlayerAudio;
+	private bool PlayingWalkSound = false;
+
 
 	void Start()
 	{
@@ -210,10 +214,12 @@ public class PlayerMovementController : MonoBehaviour
 		if (moveDirection.normalized != Vector3.zero)
 		{
 			IsMoving = true;
+			if(!PlayingWalkSound) { StartCoroutine("PlayWalkSoundWithDelay"); }
 		}
 		else
 		{
 			IsMoving = false;
+			PlayerAudio.StopPlayerAudio(0);
 		}
 		// end of useless
 
@@ -252,6 +258,14 @@ public class PlayerMovementController : MonoBehaviour
 
 
 	}
+
+	IEnumerator PlayWalkSoundWithDelay()
+	{
+		PlayingWalkSound = true;
+        PlayerAudio.PlayPlayerAudio(0);
+		yield return new WaitForSeconds(11.4f);
+		PlayingWalkSound = false;
+    }
 
 	// we check to see if we collided into somthing and add force because character contoller cannot do that.
 	void OnCollisionEnter(Collision other)
