@@ -34165,6 +34165,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 733976292517919205, guid: a4b74c7b57f2bcc428a64abf3d267e22, type: 3}
+      propertyPath: IsEnabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 733976292517919205, guid: a4b74c7b57f2bcc428a64abf3d267e22, type: 3}
       propertyPath: SceneBuildIndex
       value: 5
       objectReference: {fileID: 0}
@@ -35453,37 +35457,17 @@ PrefabInstance:
       value: Button pedistal
       objectReference: {fileID: 0}
     - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
-      propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
       propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
-      propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
-      propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1368468295}
     - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
       propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
-      propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
       propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1368468295}
-    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
-      propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetClosed
-      objectReference: {fileID: 0}
     - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
       propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -35493,16 +35477,8 @@ PrefabInstance:
       value: SetClosed
       objectReference: {fileID: 0}
     - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
-      propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: masterDoorController, Scripts
-      objectReference: {fileID: 0}
-    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
       propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: masterDoorController, Scripts
-      objectReference: {fileID: 0}
-    - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
-      propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 2507882476970415274, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
       propertyPath: OnButtonPress.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -35549,8 +35525,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 94672829605605574, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5bd778ef8d5a65946a83bdc6afb98b8b, type: 3}
