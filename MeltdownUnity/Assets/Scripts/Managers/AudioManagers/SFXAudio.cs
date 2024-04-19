@@ -3,7 +3,7 @@ using UnityEngine;
 public class SFXAudio : MonoBehaviour
 {
     public AudioClipLibrary[] AudioLibraryArray;
-    bool loopaudio = false;
+    public bool loopaudio = false;
 
     public void PlaySFXAudio(int i, AudioSource source = null)
     {
