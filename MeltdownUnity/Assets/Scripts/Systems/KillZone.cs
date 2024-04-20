@@ -21,7 +21,6 @@ public class KillZone : MonoBehaviour
 
 	private void OnCollisionEnter(Collision other)
 	{
-		print(other.transform.tag);
 
 		if (other.transform.CompareTag("Player") && IsEnabled && CanUseCollisions)
 		{
