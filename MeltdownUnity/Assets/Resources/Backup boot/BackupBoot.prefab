@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: -3695180194270937220}
   - component: {fileID: 2087959908999040605}
   - component: {fileID: 5312250299232685500}
+  - component: {fileID: 3749242288022861760}
   m_Layer: 0
   m_Name: BackupBoot
   m_TagString: Untagged
@@ -86,6 +87,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: debd16ea62f645b48ba3e7123174857c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3749242288022861760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7825906555790417612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11eea82cdb30e6846a34f0729eea968f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerCanGoBack: 0
+  CheckpointPos: {x: 0, y: 0, z: 0}
 --- !u!1001 &4106374591198641126
 PrefabInstance:
   m_ObjectHideFlags: 0

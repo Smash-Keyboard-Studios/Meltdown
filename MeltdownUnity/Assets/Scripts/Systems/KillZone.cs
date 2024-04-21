@@ -12,10 +12,10 @@ public class KillZone : MonoBehaviour
 
 		if (collision.transform.CompareTag("Player") && IsEnabled)
 		{
-			int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-
-			if (LevelLoading.Instance == null) SceneManager.LoadScene(currentSceneIndex);
-			else LevelLoading.Instance.LoadScene(currentSceneIndex);
+			if (CheckpointManager.Current == null)
+				ReloadScene();
+			else
+				CheckpointManager.Current.ReStartAtCheckpoint();
 		}
 	}
 
@@ -24,10 +24,18 @@ public class KillZone : MonoBehaviour
 
 		if (other.transform.CompareTag("Player") && IsEnabled && CanUseCollisions)
 		{
-			int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-
-			if (LevelLoading.Instance == null) SceneManager.LoadScene(currentSceneIndex);
-			else LevelLoading.Instance.LoadScene(currentSceneIndex);
+			if (CheckpointManager.Current == null)
+				ReloadScene();
+			else
+				CheckpointManager.Current.ReStartAtCheckpoint();
 		}
+	}
+
+	private void ReloadScene()
+	{
+		int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+		if (LevelLoading.Instance == null) SceneManager.LoadScene(currentSceneIndex);
+		else LevelLoading.Instance.LoadScene(currentSceneIndex);
 	}
 }

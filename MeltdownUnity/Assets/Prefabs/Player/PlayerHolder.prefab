@@ -5284,6 +5284,7 @@ GameObject:
   - component: {fileID: 8643972227606793046}
   - component: {fileID: 705772530737012553}
   - component: {fileID: 4571351336483045258}
+  - component: {fileID: 9125450896351125383}
   - component: {fileID: 1562913032083953613}
   m_Layer: 6
   m_Name: Player
@@ -5493,6 +5494,18 @@ MonoBehaviour:
   minMassObject: 2
   mainGun: {fileID: 7830398120349929833}
   player: {fileID: 6067497010342986816}
+--- !u!114 &9125450896351125383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6067497010342986816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dffcd041c5b8d004f9fd3a576642ae07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!64 &1562913032083953613
 MeshCollider:
   m_ObjectHideFlags: 0
