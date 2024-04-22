@@ -42,7 +42,7 @@ public class InteractableCat : MonoBehaviour, IInteractable
 		{
 			CatTracker.Current.CollectCat();
 
-			Display.Current.CreateDisplayText($"Collected cat {CatTracker.Current.CurrentCollected}/{CatTracker.Current.CatAmmountOnLevel}", 3, 3);
+			Display.Current.CreateDisplayText($"Collected cat {CatTracker.Current.CurrentCollected}/{CatTracker.Current.CatAmmountOnLevel}", 3, 1.8f);
 
 			Collected = true;
 
