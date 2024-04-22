@@ -1,6 +1,6 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -39,9 +39,16 @@ public class CatTracker : MonoBehaviour
 	{
 		if (SaveData.Current != null && SaveManager.current != null && !_alreadyChangedSaveData && CurrentCollected >= CatAmmountOnLevel)
 		{
-			int buildIndex = SceneManager.GetActiveScene().buildIndex;
-			SaveData.Current.CollectedOnLevel[buildIndex] = true;
-			SaveManager.current.ForceSave();
+			try
+			{
+				int buildIndex = SceneManager.GetActiveScene().buildIndex;
+				SaveData.Current.CollectedOnLevel[buildIndex] = true;
+				SaveManager.current.ForceSave();
+			}
+			catch (Exception ex)
+			{
+				Debug.LogWarning(ex);
+			}
 		}
 	}
 
