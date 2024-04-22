@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Please let me (Soph) know about issues, thank you.
+
 public class FanSpin : MonoBehaviour
 {
 	const float FastSpinSpeed = 1;
@@ -73,11 +75,6 @@ public class FanSpin : MonoBehaviour
 		}
 	}
 
-	public void FreezFan()
-	{
-		StartCoroutine(SlowFan());
-	}
-
 	public void WarmUpFan()
 	{
 		CurrentSpinSpeed = FastSpinSpeed;
@@ -99,8 +96,8 @@ public class FanSpin : MonoBehaviour
 		//if collide with ice then slow fan
 		if (collision.gameObject.GetComponent<Ice>() != null)
 		{
-			FreezFan();
-		}
+            StartCoroutine("SlowFan");
+        }
 
 		if (collision.gameObject.GetComponent<Fire>() != null)
 		{

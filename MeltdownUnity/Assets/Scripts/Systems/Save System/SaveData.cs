@@ -12,10 +12,9 @@ public class SaveData
 		{
 			if (_current == null)
 			{
-				
-					Debug.LogError("Save Manager does not exist. Cannot save any data!");
+
 				return null;
-				
+
 			}
 
 			return _current;
@@ -32,6 +31,20 @@ public class SaveData
 	public float MaxVolume = 50f;
 	public bool ToggleCrouch = false;
 
+	// touch and die
+	public Dictionary<int, bool> CollectedOnLevel = new Dictionary<int, bool>
+	{
+		{2, false},
+		{3, false},
+		{4, false},
+		{5, false},
+		{6, false},
+		{7, false},
+		{8, false},
+		{9, false},
+	};
+
+	// used to know the last level the player was on.
 	public int CurrentLevel = 0;
 
 	// keybinds

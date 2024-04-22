@@ -311,8 +311,62 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8391409883662074821, guid: 6dac162bacef43b42921a1214f779772, type: 3}
       insertIndex: -1
       addedObject: {fileID: 999357760858424025}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6dac162bacef43b42921a1214f779772, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3262945234017039721}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6dac162bacef43b42921a1214f779772, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7387926928585633793}
   m_SourcePrefab: {fileID: 100100000, guid: 6dac162bacef43b42921a1214f779772, type: 3}
+--- !u!1 &5332663118581488721 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 6dac162bacef43b42921a1214f779772, type: 3}
+  m_PrefabInstance: {fileID: 5098080325904195840}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &3262945234017039721
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5332663118581488721}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5942086413982268935, guid: 6dac162bacef43b42921a1214f779772, type: 3}
+--- !u!65 &7387926928585633793
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5332663118581488721}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.1416814, y: 1.3959409, z: 1.5393479}
+  m_Center: {x: 0.034216255, y: 0.29846436, z: -0.4654897}
 --- !u!4 &5569752210645179707 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8391409883662074821, guid: 6dac162bacef43b42921a1214f779772, type: 3}
