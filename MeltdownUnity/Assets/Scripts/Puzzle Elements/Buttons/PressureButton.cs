@@ -12,6 +12,9 @@ public class PressureButton : MonoBehaviour
 	private bool _isPressed = false;
 
 	private Animator animator;
+
+	private FlammableObject flammableObject = null;
+
 	void Start()
 	{
 		animator = GetComponent<Animator>();
@@ -22,6 +25,12 @@ public class PressureButton : MonoBehaviour
 		if (collision.gameObject.GetComponent<Rigidbody>() != null || collision.gameObject.GetComponent<PlayerMovementController>() != null)
 		{
 			Press();
+			if (collision.gameObject.GetComponent<FlammableObject>() != null)
+			{
+				if (flammableObject != null) flammableObject.DestoryedObject -= CubeDied;
+				flammableObject = collision.gameObject.GetComponent<FlammableObject>();
+				flammableObject.DestoryedObject += Unpress;
+			}
 		}
 	}
 
@@ -38,6 +47,12 @@ public class PressureButton : MonoBehaviour
 		if (collision.gameObject.GetComponent<Rigidbody>() != null || collision.gameObject.GetComponent<PlayerMovementController>() != null)
 		{
 			Unpress();
+
+			if (collision.gameObject.GetComponent<FlammableObject>() != null && flammableObject != null)
+			{
+				flammableObject.DestoryedObject -= CubeDied;
+				flammableObject = null;
+			}
 		}
 	}
 
@@ -50,6 +65,14 @@ public class PressureButton : MonoBehaviour
 			_isPressed = true;
 			animator.SetBool("IsPressed", true);
 		}
+	}
+
+	public void CubeDied()
+	{
+		flammableObject.DestoryedObject -= CubeDied;
+		flammableObject = null;
+
+		Unpress();
 	}
 
 	public void Unpress()

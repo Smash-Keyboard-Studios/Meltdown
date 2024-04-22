@@ -1,6 +1,6 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class FlammableObject : MonoBehaviour
@@ -20,6 +20,9 @@ public class FlammableObject : MonoBehaviour
 	private float _currentBurnTime = 0f;
 
 	private Vector3 _startScale;
+
+	public event Action DestoryedObject;
+	public delegate void FlammableObjectDestroyedDelegate();
 
 	void Start()
 	{
@@ -60,6 +63,14 @@ public class FlammableObject : MonoBehaviour
 		{
 
 			StartCoroutine(StartBurn());
+		}
+	}
+
+	void OnDestroy()
+	{
+		if (DestoryedObject != null)
+		{
+			DestoryedObject.Invoke();
 		}
 	}
 
