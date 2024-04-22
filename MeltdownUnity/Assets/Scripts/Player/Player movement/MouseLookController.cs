@@ -87,7 +87,7 @@ public class MouseLookController : MonoBehaviour
 		lookDirection.y = Input.GetAxisRaw("Mouse Y");
 
 		// we invert because screens start are top left, so positive means down.
-		_yRotation -= lookDirection.y;
+		_yRotation -= lookDirection.y * _sensitivity;
 
 		// we clamp the rotation. obvious why we do this.
 		_yRotation = Mathf.Clamp(_yRotation, -80f, 90f);
@@ -96,7 +96,7 @@ public class MouseLookController : MonoBehaviour
 		_playerBody.Rotate(Vector3.up * lookDirection.x * _sensitivity);
 
 		// we rotate the cam holder. (child of the player)
-		CameraHolder.localRotation = Quaternion.Euler(_yRotation * _sensitivity, 0, 0);
+		CameraHolder.localRotation = Quaternion.Euler(_yRotation, 0, 0);
 	}
 
 	// I refuse to explain the math behind this.
