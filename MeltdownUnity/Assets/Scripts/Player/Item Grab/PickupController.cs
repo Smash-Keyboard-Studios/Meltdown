@@ -58,7 +58,7 @@ public class PickupController : MonoBehaviour
 	private void Update()
 	{
 		RaycastHit tempHit;
-		if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out tempHit, pickupRange) && heldObj == null && tempHit.transform.GetComponent<Rigidbody>() != null && tempHit.transform.CompareTag("MoveableObject"))
+		if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out tempHit, playerDistance) && heldObj == null && tempHit.transform.GetComponent<Rigidbody>() != null && tempHit.transform.CompareTag("MoveableObject"))
 		{
 			Display.Current.CreateDisplayText(_textToDisplay, 0, 0.05f);
 		}
@@ -130,6 +130,7 @@ public class PickupController : MonoBehaviour
 					heldObjRB.constraints = RigidbodyConstraints.FreezeRotation;
 
 					heldObjRB.isKinematic = true;
+					heldObjRB.isKinematic = false;
 
 					//Parents the object to the hold area.
 					heldObjRB.transform.parent = holdArea;
