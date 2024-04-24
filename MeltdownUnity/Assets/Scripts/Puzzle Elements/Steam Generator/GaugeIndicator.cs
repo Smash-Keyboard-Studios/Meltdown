@@ -16,8 +16,19 @@ public struct Destination
     public float maxPosition;
     [ShowOnly] public float centralPosition;
     [ShowOnly] public float tolerance;
+    public UnityEvent onReached;
 
     public Destination(string name, float minPosition, float maxPosition)
+    {
+        this.name = name;
+        this.minPosition = minPosition;
+        this.maxPosition = maxPosition;
+        this.centralPosition = (minPosition + maxPosition) / 2f;
+        this.tolerance = Mathf.Abs(this.minPosition - this.maxPosition);
+        this.onReached = new UnityEvent();
+    }
+
+    public void Recalculate(string name, float minPosition, float maxPosition)
     {
         this.name = name;
         this.minPosition = minPosition;
@@ -60,7 +71,7 @@ public class GaugeIndicator : MonoBehaviour
     [SerializeField]
     public Destination[] _destinations =
     {
-        new Destination ("On", 160.0f, 180.0f)
+        new Destination("On", 160.0f, 180.0f)
     };
     [Space]
     [Tooltip("Moves according to one fire hit.")] public bool MoveToNextPoint = false;
@@ -114,8 +125,6 @@ public class GaugeIndicator : MonoBehaviour
     [Space]
     [Tooltip("Whether setting the local start rotation is enabled.")][SerializeField] private bool _setStartRotation = false;
     [Tooltip("The co-ordinates to set the local start rotation.")][SerializeField] private Vector3 _startRotation = Vector3.zero;
-    [Space]
-    public UnityEvent<string> OnComplete;
 
     // [Events]
 
@@ -123,7 +132,7 @@ public class GaugeIndicator : MonoBehaviour
     {
         // Allows Central Position and Tolerance to be recalculated.
 
-        RebuildDestinations();
+        RecalcDestinations();
 
         if ((!Application.isPlaying || RunTimeReposition))
         {
@@ -152,7 +161,7 @@ public class GaugeIndicator : MonoBehaviour
         SetEqualHeatPoints();
         SetEqualCoolPoints();
 
-        RebuildDestinations();
+        RecalcDestinations();
 
         // Local Start Co-ordinates override.
         if (_setStartPosition)
@@ -860,11 +869,11 @@ public class GaugeIndicator : MonoBehaviour
         return Mathf.Round(valueToRound * 10) / 10;
     }
 
-    private void RebuildDestinations()
+    private void RecalcDestinations()
     {
         for (int i = 0; i < _destinations.Length; i++)
         {
-            _destinations[i] = new Destination(_destinations[i].name, _destinations[i].minPosition, _destinations[i].maxPosition);
+            _destinations[i].Recalculate(_destinations[i].name, _destinations[i].minPosition, _destinations[i].maxPosition);
         }
     }
 
@@ -874,7 +883,7 @@ public class GaugeIndicator : MonoBehaviour
         {
             if (_currentRotationPoint >= destination.minPosition && _currentRotationPoint <= destination.maxPosition)
             {
-                OnComplete.Invoke(destination.name);
+                destination.onReached.Invoke();
             }
         }
     }
