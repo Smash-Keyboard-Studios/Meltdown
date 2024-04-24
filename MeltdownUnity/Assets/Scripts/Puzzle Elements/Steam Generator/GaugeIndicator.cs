@@ -134,6 +134,16 @@ public class GaugeIndicator : MonoBehaviour
         {
             _lastMovement = "Default Point";
         }
+
+        // Prevent less than 1 rotation point
+        if (_heatRotationPoints.Length == 0) 
+        {
+            _heatRotationPoints = new float[] {0.0f};
+        }
+        if (_coolRotationPoints.Length == 0)
+        {
+            _coolRotationPoints = new float[] {0.0f};
+        }
     }
 
     private void Awake()
@@ -754,7 +764,7 @@ public class GaugeIndicator : MonoBehaviour
                 return i;
             }
         }
-        return 1;
+        return 0;
     }
 
     // Function to find a heat rotation point nearest the previous cool point to rotate to.
