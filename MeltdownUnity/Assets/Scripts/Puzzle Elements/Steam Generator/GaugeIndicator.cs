@@ -16,8 +16,19 @@ public struct Destination
     public float maxPosition;
     [ShowOnly] public float centralPosition;
     [ShowOnly] public float tolerance;
+    public UnityEvent onReached;
 
     public Destination(string name, float minPosition, float maxPosition)
+    {
+        this.name = name;
+        this.minPosition = minPosition;
+        this.maxPosition = maxPosition;
+        this.centralPosition = (minPosition + maxPosition) / 2f;
+        this.tolerance = Mathf.Abs(this.minPosition - this.maxPosition);
+        this.onReached = new UnityEvent();
+    }
+
+    public void Recalculate(string name, float minPosition, float maxPosition)
     {
         this.name = name;
         this.minPosition = minPosition;
@@ -32,8 +43,8 @@ public class GaugeIndicator : MonoBehaviour
     // [Non-Editor Variables]
 
     private int _heatIndex, _firstHeatIndex, _secondHeatIndex, _initialHeatIndex, _startHeatIndex, _finalHeatIndex;
-    private int _startCoolIndex, _coolIndex, _finalCoolIndex;
-    private float _firstHeatPoint, _initialHeatPoint, _finalHeatPoint, _firstCoolPoint, _finalCoolPoint;
+    private int _firstCoolIndex, _startCoolIndex, _coolIndex, _finalCoolIndex;
+    private float _firstHeatPoint, _initialHeatPoint, _finalHeatPoint, _firstCoolPoint, _finalCoolPoint, _fixedCurrentRotationPoint;
     private float _smallIncrement, _smallDelay;
     private Quaternion _zeroRotation, _defaultRotation, _finalRotation, _descendRotation;
     private bool _didForwardRot = false, _didBackRot = false, _runTimeRepositionStandby = false;
@@ -60,7 +71,7 @@ public class GaugeIndicator : MonoBehaviour
     [SerializeField]
     public Destination[] _destinations =
     {
-        new Destination ("On", 160.0f, 180.0f)
+        new Destination("On", 160.0f, 180.0f)
     };
     [Space]
     [Tooltip("Moves according to one fire hit.")] public bool MoveToNextPoint = false;
@@ -114,8 +125,6 @@ public class GaugeIndicator : MonoBehaviour
     [Space]
     [Tooltip("Whether setting the local start rotation is enabled.")][SerializeField] private bool _setStartRotation = false;
     [Tooltip("The co-ordinates to set the local start rotation.")][SerializeField] private Vector3 _startRotation = Vector3.zero;
-    [Space]
-    public UnityEvent<string> OnComplete;
 
     // [Events]
 
@@ -123,16 +132,26 @@ public class GaugeIndicator : MonoBehaviour
     {
         // Allows Central Position and Tolerance to be recalculated.
 
-        RebuildDestinations();
+        RecalcDestinations();
 
         if ((!Application.isPlaying || RunTimeReposition))
         {
             Invoke("MinDegreesAutoAdjustment", _smallDelay);
         }
-        
+
         if (_lastMovement == "") // empty by default.
         {
             _lastMovement = "Default Point";
+        }
+
+        // Prevent less than 1 rotation point
+        if (_heatRotationPoints.Length == 0) 
+        {
+            _heatRotationPoints = new float[] {0.0f};
+        }
+        if (_coolRotationPoints.Length == 0)
+        {
+            _coolRotationPoints = new float[] {0.0f};
         }
     }
 
@@ -142,10 +161,7 @@ public class GaugeIndicator : MonoBehaviour
         SetEqualHeatPoints();
         SetEqualCoolPoints();
 
-        for (int i = 0; i < _destinations.Length; i++)
-        {
-            _destinations[i] = new Destination(_destinations[i].name, _destinations[i].minPosition, _destinations[i].maxPosition);
-        }
+        RecalcDestinations();
 
         // Local Start Co-ordinates override.
         if (_setStartPosition)
@@ -159,7 +175,7 @@ public class GaugeIndicator : MonoBehaviour
 
         // Indexes of Arrays.
         _firstHeatIndex = 0;
-        _startCoolIndex = 0;
+        _firstCoolIndex = 0;
         _secondHeatIndex = _firstHeatIndex + 1;
         _initialHeatIndex = GetInitialIndex(); // gets nearest index to 0 degrees.
         _finalHeatIndex = _heatRotationPoints.Length - 1;
@@ -169,17 +185,19 @@ public class GaugeIndicator : MonoBehaviour
 
         // Elements of Array
         _firstHeatPoint = _heatRotationPoints[_firstHeatIndex];
-        _firstCoolPoint = _coolRotationPoints[_startCoolIndex];
+        _firstCoolPoint = _coolRotationPoints[_firstCoolIndex];
         _initialHeatPoint = _heatRotationPoints[_initialHeatIndex];
         _finalHeatPoint = _heatRotationPoints[_finalHeatIndex];
         _finalCoolPoint = _coolRotationPoints[_finalCoolIndex];
         _nextRotationPoint = _heatRotationPoints[_heatIndex];
         _prevRotationPoint = _firstCoolPoint; // Value for the purpose of FindCoolIndex.
         _currentRotationPoint = _heatRotationPoints[_initialHeatIndex];
+        _fixedCurrentRotationPoint = _currentRotationPoint;
         _currentStop = _currentRotationPoint;
 
         // Prev/Current Rotation Points need to be known.
-        _coolIndex = FindCoolIndex(_initialHeatIndex);
+        _startCoolIndex = FindCoolIndex(_initialHeatIndex);
+        _coolIndex = _startCoolIndex;
         SetRotationPoints(_heatIndex, _coolIndex);
 
         // Sets Number of Calls to Repeat.
@@ -191,7 +209,14 @@ public class GaugeIndicator : MonoBehaviour
 
         _defaultRotation = _zeroRotation * Quaternion.Euler(_rotationAxis * _initialHeatPoint);
         _finalRotation = _zeroRotation * Quaternion.Euler(_rotationAxis * _finalHeatPoint);
-        _descendRotation = _zeroRotation * Quaternion.Euler(_rotationAxis * _firstCoolPoint);
+        if (HeatOnlyScale)
+        {
+            _descendRotation = _zeroRotation * Quaternion.Euler(_rotationAxis * _firstHeatPoint);
+        }
+        else
+        {
+            _descendRotation = _zeroRotation * Quaternion.Euler(_rotationAxis * _firstCoolPoint);
+        }
 
         transform.rotation = _defaultRotation; // goes to starting point.
 
@@ -255,7 +280,7 @@ public class GaugeIndicator : MonoBehaviour
     {
         if (_heatIndex <= _finalHeatIndex) // Determines if there is a valid point to rotate to.
         {
-            float sign = Mathf.Sign(_nextRotationPoint - _prevRotationPoint);
+            float sign = Mathf.Sign(_nextRotationPoint - _fixedCurrentRotationPoint);
             const float pos = 1.0f, neg = -1.0f;
 
             bool incPosRotation = sign == pos && _currentRotationPoint < _nextRotationPoint;
@@ -264,6 +289,7 @@ public class GaugeIndicator : MonoBehaviour
             // Greater than symbol is necessary because of imprecision.
             bool completePosRotation = sign == pos && _currentRotationPoint >= _nextRotationPoint;
             bool completeNegRotation = sign == neg && _currentRotationPoint <= _nextRotationPoint;
+
             if (incPosRotation || incNegRotation)
             {
                 if (RunTimeReposition && !_runTimeRepositionStandby)
@@ -281,25 +307,26 @@ public class GaugeIndicator : MonoBehaviour
                     // corrects rotation to default/end point. Needs to be this long because it won't get assigned quick enough in a local variable.
                     if (_nextRotationPoint == _finalHeatPoint && ((sign == pos && _currentRotationPoint > _finalHeatPoint - _smallIncrement) || (sign == neg && _currentRotationPoint < _finalHeatPoint + _smallIncrement)))
                     {
-                        Invoke("MaxGauge", _smallDelay);
+                        CorrectPoint("MaxGauge", _heatIndex, _finalHeatIndex, "Next Point");
                     }
                     else if (_nextRotationPoint == _initialHeatPoint && _remainingFireCalls == 0 && ((sign == pos && _currentRotationPoint > _initialHeatPoint - _smallIncrement) || (sign == neg && _currentRotationPoint < _initialHeatPoint + _smallIncrement)))
                     {
-                        Invoke("ResetGauge", _smallDelay);
+                        CorrectPoint("ResetGauge", _heatIndex, _firstHeatIndex, "Next Point");
                     }
                 }
                 else
                 {
                     JumpToNextRotationPoint();
+                    _lastMovement = "Next Point";
 
                     // corrects rotation to default/end point.
                     if (_nextRotationPoint == _finalHeatPoint)
                     {
-                        Invoke("MaxGauge", _smallDelay);
+                        CorrectPoint("MaxGauge", _heatIndex, _finalHeatIndex, "Next Point");
                     }
                     else if (_nextRotationPoint == _initialHeatPoint && _remainingFireCalls == 0)
                     {
-                        Invoke("ResetGauge", _smallDelay);
+                        CorrectPoint("ResetGauge", _heatIndex, _firstHeatIndex, "Next Point");
                     }
                 }
                 _didForwardRot = true;
@@ -310,7 +337,8 @@ public class GaugeIndicator : MonoBehaviour
             else if (completePosRotation || completeNegRotation)
             {
                 JumpToNextRotationPoint(); // corrects the imprecision
-                
+                _lastMovement = "Next Point";
+
                 // Previous backward rotation check.
                 if (!_didBackRot || !HeatOnlyScale)
                 {
@@ -351,12 +379,11 @@ public class GaugeIndicator : MonoBehaviour
                 }
             }
         }
-        _lastMovement = "Next Point";
     }
 
     public void DecrementGauge()
     {
-        float sign = Mathf.Sign(_prevRotationPoint - _nextRotationPoint);
+        float sign = Mathf.Sign(_prevRotationPoint - _fixedCurrentRotationPoint);
         const float pos = 1.0f, neg = -1.0f;
 
         bool decPosRotation = sign == pos && _currentRotationPoint < _prevRotationPoint;
@@ -384,28 +411,29 @@ public class GaugeIndicator : MonoBehaviour
                 {
                     if ((_prevRotationPoint == _firstHeatPoint) && ((sign == pos && _currentRotationPoint > _firstHeatPoint - _smallIncrement) || (sign == neg && _currentRotationPoint < _firstHeatPoint + _smallIncrement)))
                     {
-                        Invoke("MinGauge", _smallDelay);
+                        CorrectPoint("MinGauge", _heatIndex, _secondHeatIndex, "Previous Point");
                     }
-                    else if ((_prevRotationPoint == _initialHeatPoint) && _remainingFireCalls == -1 && ((sign == pos && _currentRotationPoint > _initialHeatPoint - _smallIncrement) || (sign == neg && _currentRotationPoint < _initialHeatPoint + _smallIncrement)))
+                    else if ((_prevRotationPoint == _initialHeatPoint) && _remainingFireCalls == 0 && ((sign == pos && _currentRotationPoint > _initialHeatPoint - _smallIncrement) || (sign == neg && _currentRotationPoint < _initialHeatPoint + _smallIncrement)))
                     {
-                        Invoke("ResetGauge", _smallDelay);
+                        CorrectPoint("ResetGauge", _heatIndex, _startHeatIndex, "Previous Point");
                     }
                 }
                 else
                 {
                     if ((_prevRotationPoint == _firstCoolPoint) && ((sign == pos && _currentRotationPoint > _firstCoolPoint - _smallIncrement) || (sign == neg && _currentRotationPoint < _firstCoolPoint + _smallIncrement)))
                     {
-                        Invoke("MinGauge", _smallDelay);
+                        CorrectPoint("MinGauge", _coolIndex, _firstCoolIndex, "Previous Point");
                     }
                     else if ((_prevRotationPoint == _initialHeatPoint) && _remainingIceCalls == 0 && ((sign == pos && _currentRotationPoint > _initialHeatPoint - _smallIncrement) || (sign == neg && _currentRotationPoint < _initialHeatPoint + _smallIncrement)))
                     {
-                        Invoke("ResetGauge", _smallDelay);
+                        CorrectPoint("ResetGauge", _coolIndex - 1, _startCoolIndex, "Previous Point");
                     }
                 }
             }
             else
             {
                 JumpToPrevRotationPoint();
+                _lastMovement = "Previous Point";
 
                 // corrects rotation to default/minimum.
 
@@ -413,22 +441,22 @@ public class GaugeIndicator : MonoBehaviour
                 {
                     if (_prevRotationPoint == _firstHeatPoint)
                     {
-                        Invoke("MinGauge", _smallDelay);
+                        CorrectPoint("MinGauge", _heatIndex, _secondHeatIndex, "Previous Point");
                     }
                     else if (_prevRotationPoint == _initialHeatPoint && _remainingFireCalls == 0)
                     {
-                        Invoke("ResetGauge", _smallDelay);
+                        CorrectPoint("ResetGauge", _heatIndex, _startHeatIndex, "Previous Point");
                     }
                 }
                 else
                 {
                     if (_prevRotationPoint == _firstCoolPoint)
                     {
-                        Invoke("MinGauge", _smallDelay);
+                        CorrectPoint("MinGauge", _coolIndex, _firstCoolIndex, "Previous Point");
                     }
                     else if (_prevRotationPoint == _initialHeatPoint && _remainingIceCalls == 0)
                     {
-                        Invoke("ResetGauge", _smallDelay);
+                        CorrectPoint("ResetGauge", _coolIndex - 1, _startCoolIndex, "Previous Point");
                     }
                 }
             }
@@ -441,6 +469,7 @@ public class GaugeIndicator : MonoBehaviour
         else if (completePosRotation || completeNegRotation)
         {
             JumpToPrevRotationPoint(); // corrects the imprecision.
+            _lastMovement = "Previous Point";
 
             // Previous forward rotation check.
             if (_nextRotationPoint == _finalHeatPoint || !HeatOnlyScale)
@@ -464,7 +493,7 @@ public class GaugeIndicator : MonoBehaviour
             {
                 _heatIndex -= (_heatIndex > _secondHeatIndex) ? 1 : 0; // decreases _heatIndex unless earliest.
             }
-            _coolIndex -= (_coolIndex > _startCoolIndex) ? 1 : 0; // decreases _coolIndex unless start.
+            _coolIndex -= (_coolIndex > _firstCoolIndex) ? 1 : 0; // decreases _coolIndex unless start.
             SetRotationPoints(_heatIndex, _coolIndex);
 
             // Repeated Decrement calls.
@@ -497,7 +526,6 @@ public class GaugeIndicator : MonoBehaviour
                 }
             }
         }
-        _lastMovement = "Previous Point";
     }
 
     public void AwakenCoolDown()
@@ -516,7 +544,7 @@ public class GaugeIndicator : MonoBehaviour
         _nextStop = (_heatIndex + _remainingFireCalls) > _finalHeatIndex ? _finalHeatPoint : _heatRotationPoints[_heatIndex + _remainingFireCalls];
         if (HeatOnlyScale)
         {
-            _prevStop = (_heatIndex - 1 - _remainingFireCalls)  < _firstHeatIndex ? _firstHeatPoint : _heatRotationPoints[_heatIndex - 1 - _remainingFireCalls];
+            _prevStop = (_heatIndex - 1 - _remainingFireCalls) < _firstHeatIndex ? _firstHeatPoint : _heatRotationPoints[_heatIndex - 1 - _remainingFireCalls];
 
             // Back/Forward Rotation Adjustments
             _nextStop = (_nextStop != _finalHeatPoint && _didBackRot) ? _heatRotationPoints[_heatIndex + _remainingFireCalls + 1] : _nextStop;
@@ -528,7 +556,7 @@ public class GaugeIndicator : MonoBehaviour
     {
         IceCalls = _customScale ? IceCalls : _icePercentage;
         _remainingIceCalls = IceCalls - 1;
-        _prevStop = (_coolIndex - _remainingIceCalls) < _startCoolIndex ? _firstCoolPoint : _coolRotationPoints[_coolIndex - _remainingIceCalls];
+        _prevStop = (_coolIndex - _remainingIceCalls) < _firstCoolIndex ? _firstCoolPoint : _coolRotationPoints[_coolIndex - _remainingIceCalls];
     }
 
     public void ResetGauge()
@@ -543,9 +571,10 @@ public class GaugeIndicator : MonoBehaviour
 
         // Resets tracking-related variables
         _currentRotationPoint = _initialHeatPoint;
+        _fixedCurrentRotationPoint = _currentRotationPoint;
         _currentStop = _currentRotationPoint;
         _heatIndex = _startHeatIndex;
-        _coolIndex = FindCoolIndex(_initialHeatIndex);
+        _coolIndex = _startCoolIndex;
         SetRotationPoints(_heatIndex, _coolIndex);
         Invoke("SetFireCalls", _smallDelay);
         if (!HeatOnlyScale)
@@ -571,10 +600,11 @@ public class GaugeIndicator : MonoBehaviour
         transform.rotation = _descendRotation;
 
         // Sets tracking-related variables to final destinations.
-        _currentRotationPoint = _firstCoolPoint;
+        _currentRotationPoint = HeatOnlyScale ? _firstHeatPoint : _firstCoolPoint;
+        _fixedCurrentRotationPoint = _currentRotationPoint;
         _currentStop = _currentRotationPoint;
-        _coolIndex = _startCoolIndex;
-        _heatIndex = _firstCoolPoint == _firstHeatPoint ? _secondHeatIndex : _firstHeatIndex;
+        _coolIndex = _firstCoolIndex;
+        _heatIndex = (_firstCoolPoint == _firstHeatPoint || HeatOnlyScale) ? _secondHeatIndex : _firstHeatIndex;
         SetRotationPoints(_heatIndex, _coolIndex);
         Invoke("SetFireCalls", _smallDelay);
         if (!HeatOnlyScale)
@@ -602,7 +632,9 @@ public class GaugeIndicator : MonoBehaviour
 
         // Sets tracking-related variables to final destinations.
         _currentRotationPoint = _finalHeatPoint;
+        _fixedCurrentRotationPoint = _currentRotationPoint;
         _currentStop = _currentRotationPoint;
+        _nextRotationPoint = _currentRotationPoint;
         _heatIndex = _finalHeatIndex;
         _coolIndex = FindCoolIndex(_heatIndex);
         SetRotationPoints(_heatIndex, _coolIndex);
@@ -624,7 +656,7 @@ public class GaugeIndicator : MonoBehaviour
         _lastMovement = "Final Point";
     }
 
-    public enum IncrementStatus {Set, Transitioned};
+    public enum IncrementStatus { Set, Transitioned };
 
     private void UpdateRotationPoints(IncrementStatus status)
     {
@@ -633,16 +665,20 @@ public class GaugeIndicator : MonoBehaviour
 
         // Indexes of Array
         _initialHeatIndex = GetInitialIndex();
-        _startHeatIndex = _initialHeatIndex != _finalHeatIndex ? _initialHeatIndex + 1 : _initialHeatIndex;
         _finalHeatIndex = _heatRotationPoints.Length - 1;
         _finalCoolIndex = _coolRotationPoints.Length - 1;
+        _startHeatIndex = _initialHeatIndex != _finalHeatIndex ? _initialHeatIndex + 1 : _initialHeatIndex;
 
         // Elements of Array
         _firstHeatPoint = _heatRotationPoints[_firstHeatIndex];
-        _firstCoolPoint = _coolRotationPoints[_startCoolIndex];
+        _firstCoolPoint = _coolRotationPoints[_firstCoolIndex];
         _initialHeatPoint = _heatRotationPoints[_initialHeatIndex];
         _finalHeatPoint = _heatRotationPoints[_finalHeatIndex];
         _finalCoolPoint = _coolRotationPoints[_finalCoolIndex];
+
+        // Rotation points need to be known.
+
+        _startCoolIndex = FindCoolIndex(_initialHeatIndex);
 
         // if out of bounds, set to the last point. Minus one if it will be incremented afterwards.
         if (_heatIndex > _finalHeatIndex)
@@ -656,7 +692,14 @@ public class GaugeIndicator : MonoBehaviour
 
         _defaultRotation = _zeroRotation * Quaternion.Euler(_rotationAxis * _initialHeatPoint);
         _finalRotation = _zeroRotation * Quaternion.Euler(_rotationAxis * _finalHeatPoint);
-        _descendRotation = _zeroRotation * Quaternion.Euler(_rotationAxis * _firstCoolPoint);
+        if (HeatOnlyScale)
+        {
+            _descendRotation = _zeroRotation * Quaternion.Euler(_rotationAxis * _firstHeatPoint);
+        }
+        else
+        {
+            _descendRotation = _zeroRotation * Quaternion.Euler(_rotationAxis * _firstCoolPoint);
+        }
     }
 
     private void SetRotationPoints(int i, int j)
@@ -670,7 +713,7 @@ public class GaugeIndicator : MonoBehaviour
             return;
         }
 
-        if (!HeatOnlyScale && (j > newFinalCoolIndex || j < _startCoolIndex))
+        if (!HeatOnlyScale && (j > newFinalCoolIndex || j < _firstCoolIndex))
         {
             MinGauge();
             return;
@@ -690,12 +733,10 @@ public class GaugeIndicator : MonoBehaviour
         // Permutations to set previous rotation point.
         if (HeatOnlyScale)
         {
-            _prevRotationPoint = _heatRotationPoints[i - 1];
-        }
-        else if (_currentRotationPoint == _firstCoolPoint && _coolIndex != _startCoolIndex)
-        {
-            MinGauge();
-            return;
+            if (i > 0)
+            {
+                _prevRotationPoint = _heatRotationPoints[i - 1];
+            }
         }
         else if (_didBackRot || _currentRotationPoint == _firstCoolPoint || _currentRotationPoint == _initialHeatPoint || _currentRotationPoint == _finalHeatPoint)
         {
@@ -712,11 +753,7 @@ public class GaugeIndicator : MonoBehaviour
 
     private int GetInitialIndex()
     {
-        const int off = 0;
-        const float nothing = 0.0f;
-
-        float approxStartingPoint = _heatRotationPoints[_firstHeatIndex];
-        approxStartingPoint += (!_customScale || _equalHeatPoints != off) ? _minDegreesBelowStart : nothing;
+        float approxStartingPoint = 0f;
 
         for (int i = _firstHeatIndex; i < _heatRotationPoints.Length; i++)
         {
@@ -736,14 +773,14 @@ public class GaugeIndicator : MonoBehaviour
                 return i;
             }
         }
-        return 1;
+        return 0;
     }
 
     // Function to find a heat rotation point nearest the previous cool point to rotate to.
 
     private int FindHeatIndex(int j)
     {
-        float sign = Mathf.Sign(_nextRotationPoint - _prevRotationPoint);
+        float sign = Mathf.Sign(_nextRotationPoint - _fixedCurrentRotationPoint);
         const float pos = 1.0f, neg = -1.0f;
 
         int nextIndex = _heatIndex;
@@ -773,13 +810,13 @@ public class GaugeIndicator : MonoBehaviour
 
     private int FindCoolIndex(int i)
     {
-        float sign = Mathf.Sign(_nextRotationPoint - _prevRotationPoint);
+        float sign = Mathf.Sign(_nextRotationPoint - _fixedCurrentRotationPoint);
         const float pos = 1.0f, neg = -1.0f;
 
         int nextIndex = _coolIndex;
         float minDifference = sign == pos ? _finalHeatPoint - _firstCoolPoint : _firstCoolPoint - _finalHeatPoint;
 
-        for (int j = _startCoolIndex; j < _coolRotationPoints.Length; j++)
+        for (int j = _firstCoolIndex; j < _coolRotationPoints.Length; j++)
         {
             float heatRotation = _heatRotationPoints[i];
             float coolRotation = _coolRotationPoints[j];
@@ -804,6 +841,7 @@ public class GaugeIndicator : MonoBehaviour
         transform.Rotate(_rotationAxis, _nextRotationPoint - _currentRotationPoint);
         transform.localRotation = RoundRotationPoint(transform.localRotation);
         _currentRotationPoint = _nextRotationPoint;
+        _fixedCurrentRotationPoint = _currentRotationPoint;
         _currentStop = _currentRotationPoint;
     }
 
@@ -812,6 +850,7 @@ public class GaugeIndicator : MonoBehaviour
         transform.Rotate(_rotationAxis, _prevRotationPoint - _currentRotationPoint);
         transform.localRotation = RoundRotationPoint(transform.localRotation);
         _currentRotationPoint = _prevRotationPoint;
+        _fixedCurrentRotationPoint = _currentRotationPoint;
         _currentStop = _currentRotationPoint;
     }
 
@@ -830,11 +869,11 @@ public class GaugeIndicator : MonoBehaviour
         return Mathf.Round(valueToRound * 10) / 10;
     }
 
-    private void RebuildDestinations()
+    private void RecalcDestinations()
     {
         for (int i = 0; i < _destinations.Length; i++)
         {
-            _destinations[i] = new Destination(_destinations[i].name, _destinations[i].minPosition, _destinations[i].maxPosition);
+            _destinations[i].Recalculate(_destinations[i].name, _destinations[i].minPosition, _destinations[i].maxPosition);
         }
     }
 
@@ -844,7 +883,7 @@ public class GaugeIndicator : MonoBehaviour
         {
             if (_currentRotationPoint >= destination.minPosition && _currentRotationPoint <= destination.maxPosition)
             {
-                OnComplete.Invoke(destination.name);
+                destination.onReached.Invoke();
             }
         }
     }
@@ -894,7 +933,7 @@ public class GaugeIndicator : MonoBehaviour
         if (_equalCoolPoints > nothing)
         {
             _coolRotationPoints = new float[numberOfPoints];
-            for (int i = _startCoolIndex; i < numberOfPoints; i++)
+            for (int i = _firstCoolIndex; i < numberOfPoints; i++)
             {
                 _coolRotationPoints[i] = i * (_equalCoolEndPoint / _equalCoolPoints) - _minDegreesBelowStart;
             }
@@ -950,5 +989,26 @@ public class GaugeIndicator : MonoBehaviour
         // Clamping to the 360 degree range.
         _minDegreesBelowStart = _minDegreesBelowStart > threeSixtyDegrees ? (threeSixtyDegrees - oneDegree) : _minDegreesBelowStart;
         _minDegreesBelowStart = _minDegreesBelowStart < zeroDegrees ? zeroDegrees : _minDegreesBelowStart;
+    }
+
+    private void CorrectPoint(string setFunction, int tempIndex, int positionIndex, string point)
+    {
+        // Invokes Min/Max/Reset Gauge if right index, else jumps to that point without invoking.
+        if (tempIndex == positionIndex)
+        {
+            Invoke(setFunction, _smallDelay);
+        }
+        else
+        {
+            if (point == "Next Point")
+            {
+                JumpToNextRotationPoint();
+            }
+            else if (point == "Previous Point")
+            {
+                JumpToPrevRotationPoint();
+            }
+            _lastMovement = point;
+        }
     }
 }
