@@ -142,10 +142,7 @@ public class GaugeIndicator : MonoBehaviour
         SetEqualHeatPoints();
         SetEqualCoolPoints();
 
-        for (int i = 0; i < _destinations.Length; i++)
-        {
-            _destinations[i] = new Destination(_destinations[i].name, _destinations[i].minPosition, _destinations[i].maxPosition);
-        }
+        RebuildDestinations();
 
         // Local Start Co-ordinates override.
         if (_setStartPosition)
