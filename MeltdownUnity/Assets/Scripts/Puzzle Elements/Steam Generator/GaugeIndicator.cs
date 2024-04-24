@@ -646,9 +646,9 @@ public class GaugeIndicator : MonoBehaviour
 
         // Indexes of Array
         _initialHeatIndex = GetInitialIndex();
-        _startHeatIndex = _initialHeatIndex != _finalHeatIndex ? _initialHeatIndex + 1 : _initialHeatIndex;
         _finalHeatIndex = _heatRotationPoints.Length - 1;
         _finalCoolIndex = _coolRotationPoints.Length - 1;
+        _startHeatIndex = _initialHeatIndex != _finalHeatIndex ? _initialHeatIndex + 1 : _initialHeatIndex;
 
         // Elements of Array
         _firstHeatPoint = _heatRotationPoints[_firstHeatIndex];
