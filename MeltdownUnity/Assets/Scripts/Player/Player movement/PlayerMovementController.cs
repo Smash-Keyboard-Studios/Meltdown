@@ -77,7 +77,7 @@ public class PlayerMovementController : MonoBehaviour
 	[Tooltip("Used to move the camera when crouching")]
 	public Transform CameraHolderTransform;
 
-	private float _cameraStandingHeight = 0.6f;
+	public float _cameraStandingHeight = 0.6f;
 	private float _cameraCrouchHeight;
 
 
@@ -214,7 +214,7 @@ public class PlayerMovementController : MonoBehaviour
 		if (moveDirection.normalized != Vector3.zero)
 		{
 			IsMoving = true;
-			if(!PlayingWalkSound) { StartCoroutine("PlayWalkSoundWithDelay"); }
+			if (!PlayingWalkSound) { StartCoroutine("PlayWalkSoundWithDelay"); }
 		}
 		else
 		{
@@ -262,14 +262,14 @@ public class PlayerMovementController : MonoBehaviour
 	IEnumerator PlayWalkSoundWithDelay()
 	{
 		PlayingWalkSound = true;
-        PlayerAudio.PlayPlayerAudio(0);
+		PlayerAudio.PlayPlayerAudio(0);
 		//for loop checks if moving every 0.5 seconds of the clip
 		for (int i = 0; i < 114; i++)
 		{
-			if(IsMoving) { yield return new WaitForSeconds(0.1f); }
-        }
+			if (IsMoving) { yield return new WaitForSeconds(0.1f); }
+		}
 		PlayingWalkSound = false;
-    }
+	}
 
 	// we check to see if we collided into somthing and add force because character contoller cannot do that.
 	void OnCollisionEnter(Collision other)
