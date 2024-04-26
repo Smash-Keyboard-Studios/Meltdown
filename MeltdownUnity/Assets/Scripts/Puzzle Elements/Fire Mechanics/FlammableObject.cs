@@ -24,6 +24,8 @@ public class FlammableObject : MonoBehaviour
 	public event Action DestoryedObject;
 	public delegate void FlammableObjectDestroyedDelegate();
 
+	public AudioSource ObjectSource;
+
 	void Start()
 	{
 		FireParticlesObject = Instantiate(Resources.Load<GameObject>("Particles/Fire"), FireStartLocation, Quaternion.identity, transform);
@@ -39,7 +41,6 @@ public class FlammableObject : MonoBehaviour
 		if (_isBurning)
 		{
 			_currentBurnTime += Time.deltaTime * _scaleSpeed;
-
 			if (transform.localScale.x >= 0 && transform.localScale.y >= 0 && transform.localScale.z >= 0)
 			{
 				transform.localScale = Vector3.Lerp(_startScale, Vector3.zero, _currentBurnTime);
@@ -53,7 +54,8 @@ public class FlammableObject : MonoBehaviour
 		if (_isBurningOver)
 		{
 			Destroy(this.gameObject);
-		}
+            ObjectSource.Stop();
+        }
 	}
 
 	private void OnCollisionEnter(Collision other)
@@ -63,6 +65,7 @@ public class FlammableObject : MonoBehaviour
 		{
 
 			StartCoroutine(StartBurn());
+			ObjectSource.Play();
 		}
 	}
 

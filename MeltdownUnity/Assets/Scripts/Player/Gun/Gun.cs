@@ -41,6 +41,9 @@ public class Gun : MonoBehaviour
 	// Used for raycasts. Mothing else. [We do this so we dont make C++ Engine calls, it's call caching]
 	private Camera cam;
 
+	//Call Plr Audio Script.
+	public PlayerAudio PlayerAudio;
+
 	void Start()
 	{
 		// Set the referances / variables. We do this so we dont make C++ Engine calls.
@@ -77,8 +80,9 @@ public class Gun : MonoBehaviour
 		// If the player is holding the shoot fire button, there is sufficiant ammo, the local time is greater than the firerate and the current bullet is null.
 		if (Input.GetKeyDown(InputManager.GetKey(InputActions.KeyAction.ShootFire)) && AmmoController.FireAmmo > 0 && _LocalTime > FireRate && currentBullet == null)
 		{
-			// Lower the ammo by 1.
-			AmmoController.FireAmmo -= 1;
+            PlayerAudio.PlayOneShotPlayerAudio(2);
+            // Lower the ammo by 1.
+            AmmoController.FireAmmo -= 1;
 
 			// Instantiate the bullet GameObject and store it for later. We also parent the object to the spawn point.
 			currentBullet = Instantiate(FirePrefab, Vector3.zero, BulletSpawnPoint.rotation, BulletSpawnPoint);
@@ -89,6 +93,7 @@ public class Gun : MonoBehaviour
 
 			// Constantly set the position to zero, keeping it with the player.
 			currentBullet.transform.localPosition = Vector3.zero;
+
 		}
 		// Else if the player lets go of the shoot fire button and the current bullet is null. (Shoot it).
 		else if (Input.GetKeyUp(InputManager.GetKey(InputActions.KeyAction.ShootFire)) && currentBullet != null)
@@ -96,12 +101,12 @@ public class Gun : MonoBehaviour
 			// Reset the time to zero so the plauer will have to wait for the fireate time to shoot again.
 			_LocalTime = 0;
 
-
-			// Check if the bullet GameObject is not null and has the relevant script.
-			if (currentBullet != null && currentBullet.GetComponent<Fire>() != null)
+            // Check if the bullet GameObject is not null and has the relevant script.
+            if (currentBullet != null && currentBullet.GetComponent<Fire>() != null)
 			{
-				// Get the projectile script and activate the projectile.
-				currentBullet.GetComponent<Fire>().Activate();
+                // Get the projectile script and activate the projectile.
+                currentBullet.GetComponent<Fire>().Activate();
+				PlayerAudio.PlayPlayerAudio(2);
 
 				// Enable the rigidbody.
 				currentBullet.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.Interpolate;
@@ -109,7 +114,8 @@ public class Gun : MonoBehaviour
 
 				// Apply velocity to the bullet Rigidbody
 				currentBullet.GetComponent<Rigidbody>().velocity = BulletSpawnPoint.forward * currentBullet.GetComponent<Fire>().Speed;
-			}
+
+            }
 
 			// Set the bullet ref to null, we shoot it.
 			currentBullet = null;
@@ -119,8 +125,9 @@ public class Gun : MonoBehaviour
 		// If the player is holding the shoot ice button, there is sufficiant ammo, the local time is greater than the firerate and the current bullet is null.
 		if (Input.GetKeyDown(InputManager.GetKey(InputActions.KeyAction.ShootIce)) && AmmoController.IceAmmo > 0 && _LocalTime > FireRate && currentBullet == null)
 		{
-			// lower the ammo by 1.
-			AmmoController.IceAmmo -= 1;
+            PlayerAudio.PlayOneShotPlayerAudio(1);
+            // lower the ammo by 1.
+            AmmoController.IceAmmo -= 1;
 
 			// Instantiate the bullet GameObject and store it for later. We also parent the object to the spawn point.
 			currentBullet = Instantiate(IcePrefab, Vector3.zero, BulletSpawnPoint.rotation, BulletSpawnPoint);
@@ -137,16 +144,17 @@ public class Gun : MonoBehaviour
 		{
 			// reset the time to zero so the plauer will have to wait for the fireate time to shoot again.
 			_LocalTime = 0;
+            
 
-
-			// Check if the bullet GameObject is not null and has the relevant script.
-			if (currentBullet != null && currentBullet.GetComponent<Ice>() != null)
+            // Check if the bullet GameObject is not null and has the relevant script.
+            if (currentBullet != null && currentBullet.GetComponent<Ice>() != null)
 			{
-				// Get the projectile script and activate the projectile.
-				currentBullet.GetComponent<Ice>().Activate();
+                Debug.Log("Shot");
+                // Get the projectile script and activate the projectile.
+                currentBullet.GetComponent<Ice>().Activate();
 
-				// Enable the rigidbody.
-				currentBullet.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.Interpolate;
+                // Enable the rigidbody.
+                currentBullet.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.Interpolate;
 				currentBullet.GetComponent<Rigidbody>().isKinematic = false;
 
 				// Apply velocity to the bullet Rigidbody

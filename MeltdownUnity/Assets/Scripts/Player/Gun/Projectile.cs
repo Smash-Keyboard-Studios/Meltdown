@@ -61,6 +61,10 @@ public class Projectile : MonoBehaviour
 	private float _localTime;
 	private float _Scale = 0.05f;
 
+    public AudioSource TravelSource;
+	public AudioClip TravelClip;
+
+
 
 	void Awake()
 	{
@@ -88,7 +92,8 @@ public class Projectile : MonoBehaviour
 	public void Activate()
 	{
 		Destroy(gameObject, lifeTime);
-		Active = true;
+        TravelSource.PlayOneShot(TravelClip);
+        Active = true;
 		transform.parent = null;
 	}
 

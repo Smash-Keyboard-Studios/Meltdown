@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Codice.Client.Commands.Merge;
 using CustomAttributes;
 using UnityEngine;
 
@@ -214,13 +215,15 @@ public class PlayerMovementController : MonoBehaviour
 		if (moveDirection.normalized != Vector3.zero)
 		{
 			IsMoving = true;
-			if (!PlayingWalkSound) { StartCoroutine("PlayWalkSoundWithDelay"); }
+			
+			if (!PlayingWalkSound && isGrounded) { StartCoroutine("PlayWalkSoundWithDelay"); }
 		}
 		else
 		{
 			IsMoving = false;
 			PlayerAudio.StopPlayerAudio(0);
-		}
+            PlayingWalkSound = false;
+        }
 		// end of useless
 
 
@@ -236,12 +239,11 @@ public class PlayerMovementController : MonoBehaviour
 		}
 		else if (!isGrounded && LimitMovementSpeedToMaxSpeed)
 		{
-			// we add to the velocity
-
-
-			// ! This may be from a old speed cap and can be remmoved. the Y.
-			// we seperate the y as we want to keep its' values.
-			float y = velocity.y;
+            // we add to the velocity
+            
+            // ! This may be from a old speed cap and can be remmoved. the Y.
+            // we seperate the y as we want to keep its' values.
+            float y = velocity.y;
 			// we add to the velocity
 
 			Vector3 target = moveDirection.normalized * AirMovementMultiplier;
@@ -362,8 +364,11 @@ public class PlayerMovementController : MonoBehaviour
 		// we check if the player press the jump key. We also check if we are grounded and not on a slope or falling.
 		if (Input.GetKeyDown(InputManager.GetKey(InputActions.KeyAction.Jump)) && isGrounded && !_isOnSlope && velocity.y <= 0)
 		{
-			// we get the 2d movemment vector and store it.
-			Vector3 MovementPlaneXZ = new Vector3(finalMoveDir.x, 0, finalMoveDir.z);
+            PlayerAudio.StopPlayerAudio(0);
+            PlayingWalkSound = false;
+
+            // we get the 2d movemment vector and store it.
+            Vector3 MovementPlaneXZ = new Vector3(finalMoveDir.x, 0, finalMoveDir.z);
 
 			// we normalise the speed.
 			if (MovementPlaneXZ.magnitude > MaxAirSpeed)
@@ -489,9 +494,9 @@ public class PlayerMovementController : MonoBehaviour
 
 		// otherwise after all of that then we are grounded.
 		isGrounded = true;
+        if (!PlayingWalkSound && IsMoving) { StartCoroutine("PlayWalkSoundWithDelay"); }
 
-
-	}
+    }
 
 	// simple fucntion. This just checks if the hit object has a ignored tag.
 	private bool CompareTag(RaycastHit hit)
