@@ -37,7 +37,10 @@ public class TimedElement : MonoBehaviour
 
 	public void StartTimer()
 	{
-		Started = true;
-		OnStart.Invoke();
+		if(!Started)
+		{
+            Started = true;
+            OnStart.Invoke();
+        }
 	}
 }
