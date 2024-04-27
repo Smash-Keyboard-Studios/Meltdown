@@ -16,6 +16,7 @@ public struct Destination
     public float maxPosition;
     [ShowOnly] public float centralPosition;
     [ShowOnly] public float tolerance;
+    public bool hasBeenReached;
     public UnityEvent onReached;
 
     public Destination(string name, float minPosition, float maxPosition)
@@ -25,6 +26,7 @@ public struct Destination
         this.maxPosition = maxPosition;
         this.centralPosition = (minPosition + maxPosition) / 2f;
         this.tolerance = Mathf.Abs(minPosition - maxPosition);
+        this.hasBeenReached = false;
         this.onReached = new UnityEvent();
     }
 
@@ -878,42 +880,27 @@ public class GaugeIndicator : MonoBehaviour
 
     private void CheckForDestination()
     {
-        foreach (Destination destination in _destinations)
+        for (int i = 0; i < _destinations.Length; i++)
         {
-            if (_currentRotationPoint >= destination.minPosition && _currentRotationPoint <= destination.maxPosition)
+            if (!_destinations[i].hasBeenReached && _currentRotationPoint >= _destinations[i].minPosition && _currentRotationPoint <= _destinations[i].maxPosition)
             {
-                destination.onReached.Invoke();
+                _destinations[i].hasBeenReached = true;
+                _destinations[i].onReached.Invoke();
             }
         }
     }
 
     private void SetEqualHeatPoints()
     {
-        const int oneHundredPercent = 100, oneStartPoint = 1, nothing = 0;
-
-        // When the end points are equal and by percent.
-
-        if (!_customScale)
-        {
-            _equalHeatPoints = oneHundredPercent;
-            _equalHeatEndPoint = _maxDegrees;
-        }
-
-        // Sets equidistant heat scale rotation points.
-
-        int numberOfPoints = _equalHeatPoints + oneStartPoint;
-
-        if (_equalHeatPoints > nothing)
-        {
-            _heatRotationPoints = new float[numberOfPoints];
-            for (int i = _firstHeatIndex; i < numberOfPoints; i++)
-            {
-                _heatRotationPoints[i] = i * (_equalHeatEndPoint / _equalHeatPoints) - _minDegreesBelowStart;
-            }
-        }
+        SetPoints(ref _heatRotationPoints, ref _firstHeatIndex, ref _equalHeatPoints, ref _equalHeatEndPoint);
     }
 
     private void SetEqualCoolPoints()
+    {
+        SetPoints(ref _coolRotationPoints, ref _firstCoolIndex, ref _equalCoolPoints, ref _equalCoolEndPoint);
+    }
+
+    private void SetPoints(ref float[] rotationPoints, ref int firstIndex, ref int equalPoints, ref float equalEndPoint)
     {
         const int oneHundredPercent = 100, oneStartPoint = 1, nothing = 0;
 
@@ -921,20 +908,20 @@ public class GaugeIndicator : MonoBehaviour
 
         if (!_customScale)
         {
-            _equalCoolPoints = oneHundredPercent;
-            _equalCoolEndPoint = _maxDegrees;
+            equalPoints = oneHundredPercent;
+            equalEndPoint = _maxDegrees;
         }
 
         // Sets equidistant ice scale rotation points.
 
-        int numberOfPoints = _equalCoolPoints + oneStartPoint;
+        int numberOfPoints = equalPoints + oneStartPoint;
 
-        if (_equalCoolPoints > nothing)
+        if (equalPoints > nothing)
         {
-            _coolRotationPoints = new float[numberOfPoints];
-            for (int i = _firstCoolIndex; i < numberOfPoints; i++)
+            rotationPoints = new float[numberOfPoints];
+            for (int i = firstIndex; i < numberOfPoints; i++)
             {
-                _coolRotationPoints[i] = i * (_equalCoolEndPoint / _equalCoolPoints) - _minDegreesBelowStart;
+                rotationPoints[i] = i * (equalEndPoint / equalPoints) - _minDegreesBelowStart;
             }
         }
     }
@@ -990,10 +977,10 @@ public class GaugeIndicator : MonoBehaviour
         _minDegreesBelowStart = _minDegreesBelowStart < zeroDegrees ? zeroDegrees : _minDegreesBelowStart;
     }
 
-    private void CorrectPoint(string setFunction, int tempIndex, int positionIndex, string point)
+    private void CorrectPoint(string setFunction, int rotationIndex, int positionIndex, string point)
     {
         // Invokes Min/Max/Reset Gauge if right index, else jumps to that point without invoking.
-        if (tempIndex == positionIndex)
+        if (rotationIndex == positionIndex)
         {
             Invoke(setFunction, _smallDelay);
         }
