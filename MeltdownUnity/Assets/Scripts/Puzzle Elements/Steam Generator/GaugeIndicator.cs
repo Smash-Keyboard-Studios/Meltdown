@@ -24,17 +24,16 @@ public struct Destination
         this.minPosition = minPosition;
         this.maxPosition = maxPosition;
         this.centralPosition = (minPosition + maxPosition) / 2f;
-        this.tolerance = Mathf.Abs(this.minPosition - this.maxPosition);
+        this.tolerance = Mathf.Abs(minPosition - maxPosition);
         this.onReached = new UnityEvent();
     }
 
-    public void Recalculate(string name, float minPosition, float maxPosition)
+    public void Recalculate(float minPosition, float maxPosition)
     {
-        this.name = name;
         this.minPosition = minPosition;
         this.maxPosition = maxPosition;
         this.centralPosition = (minPosition + maxPosition) / 2f;
-        this.tolerance = Mathf.Abs(this.minPosition - this.maxPosition);
+        this.tolerance = Mathf.Abs(minPosition - maxPosition);
     }
 }
 
@@ -145,13 +144,13 @@ public class GaugeIndicator : MonoBehaviour
         }
 
         // Prevent less than 1 rotation point
-        if (_heatRotationPoints.Length == 0) 
+        if (_heatRotationPoints.Length == 0)
         {
-            _heatRotationPoints = new float[] {0.0f};
+            _heatRotationPoints = new float[] { 0.0f };
         }
         if (_coolRotationPoints.Length == 0)
         {
-            _coolRotationPoints = new float[] {0.0f};
+            _coolRotationPoints = new float[] { 0.0f };
         }
     }
 
@@ -537,7 +536,7 @@ public class GaugeIndicator : MonoBehaviour
         }
     }
 
-    public void SetFireCalls()
+    private void SetFireCalls()
     {
         FireCalls = _customScale ? FireCalls : _firePercentage;
         _remainingFireCalls = FireCalls - 1;
@@ -552,7 +551,7 @@ public class GaugeIndicator : MonoBehaviour
         }
     }
 
-    public void SetIceCalls()
+    private void SetIceCalls()
     {
         IceCalls = _customScale ? IceCalls : _icePercentage;
         _remainingIceCalls = IceCalls - 1;
@@ -581,11 +580,11 @@ public class GaugeIndicator : MonoBehaviour
         {
             Invoke("SetIceCalls", _smallDelay);
         }
-        CheckForDestination();
         MoveToNextPoint = false;
         MoveToPrevPoint = false;
         _didForwardRot = false;
         _didBackRot = false;
+        CheckForDestination();
         _lastMovement = "Default Point";
     }
 
@@ -611,12 +610,12 @@ public class GaugeIndicator : MonoBehaviour
         {
             Invoke("SetIceCalls", _smallDelay);
         }
-        CheckForDestination();
         MoveToNextPoint = false;
         MoveToPrevPoint = false;
         _didForwardRot = false;
         _didBackRot = false;
         AutoCoolOn = false;
+        CheckForDestination();
         _lastMovement = "Min Point";
     }
 
@@ -643,7 +642,6 @@ public class GaugeIndicator : MonoBehaviour
         {
             Invoke("SetIceCalls", _smallDelay);
         }
-        CheckForDestination();
         MoveToNextPoint = false;
         MoveToPrevPoint = false;
         _didForwardRot = false;
@@ -653,6 +651,7 @@ public class GaugeIndicator : MonoBehaviour
         {
             Invoke("AwakenCoolDown", _autoCoolDelay);
         }
+        CheckForDestination();
         _lastMovement = "Final Point";
     }
 
@@ -873,7 +872,7 @@ public class GaugeIndicator : MonoBehaviour
     {
         for (int i = 0; i < _destinations.Length; i++)
         {
-            _destinations[i].Recalculate(_destinations[i].name, _destinations[i].minPosition, _destinations[i].maxPosition);
+            _destinations[i].Recalculate(_destinations[i].minPosition, _destinations[i].maxPosition);
         }
     }
 
