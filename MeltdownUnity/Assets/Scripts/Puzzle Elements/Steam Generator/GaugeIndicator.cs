@@ -11,13 +11,13 @@ using CustomAttributes;
 [System.Serializable]
 public struct Destination
 {
-    public string name;
-    public float minPosition;
-    public float maxPosition;
-    [ShowOnly] public float centralPosition;
-    [ShowOnly] public float tolerance;
-    public bool hasBeenReached;
-    public UnityEvent onReached;
+    [Tooltip("The name of the range.")] public string name;
+    [Tooltip("The minimum of the range.")] public float minPosition;
+    [Tooltip("The maximum of the range.")] public float maxPosition;
+    [Tooltip("The midpoint of the range.")][ShowOnly] public float centralPosition;
+    [Tooltip("The size of the range.")] [ShowOnly] public float tolerance;
+    [Tooltip("Whether the event has been triggered.")] public bool hasBeenReached;
+    [Tooltip("The event to trigger.")] public UnityEvent onReached;
 
     public Destination(string name, float minPosition, float maxPosition)
     {
@@ -57,7 +57,7 @@ public class GaugeIndicator : MonoBehaviour
     [Space]
     [Tooltip("The axis of rotation in x, y, z.")][SerializeField] private Vector3 _rotationAxis = Vector3.back;
     [Space]
-    [Tooltip("The degrees before the start where the minimum point is.")][SerializeField][Range(0f, 360f)] private float _minDegreesBelowStart = 90.0f;
+    [Tooltip("The degrees offset of the minimum point below the start.")][SerializeField][Range(0f, 360f)] private float _minDegreesBelowStart = 90.0f;
     [Space]
     [Tooltip("The progression a fire hit does in the dual fire-ice scale.")][Range(0, 100)] public int _firePercentage = 40;
     [Tooltip("The regression an ice hit does in the dual fire-ice scale.")][Range(0, 100)] public int _icePercentage = 20;
@@ -68,7 +68,7 @@ public class GaugeIndicator : MonoBehaviour
 
     [Header("<size=15>Location Parameters</size>")]
     [Space]
-    [Tooltip("The destination range at which events occur.")]
+    [Tooltip("The range of points where events occur at.")]
     [SerializeField]
     public Destination[] _destinations =
     {
@@ -131,28 +131,43 @@ public class GaugeIndicator : MonoBehaviour
 
     private void OnValidate()
     {
-        // Allows Central Position and Tolerance to be recalculated.
+        const int zeroLength = 0, tenLength = 10, hundredLength = 100 + 1;
+        const float zeroPoint = 0.0f;
 
-        RecalcDestinations();
+        RecalcDestinations(); // Recalculates Central Position and Tolerance.
 
-        if ((!Application.isPlaying || RunTimeReposition))
+        if ((!Application.isPlaying || RunTimeReposition)) // Adjusts the min degrees based on the max.
         {
             Invoke("MinDegreesAutoAdjustment", _smallDelay);
         }
 
-        if (_lastMovement == "") // empty by default.
+        if (_lastMovement == "") // Sets last movement to default point instead of empty.
         {
             _lastMovement = "Default Point";
         }
 
-        // Prevent less than 1 rotation point
-        if (_heatRotationPoints.Length == 0)
+        // Prevents less than 1 rotation point and more than 101 (starting point + 100).
+        if (_heatRotationPoints.Length == zeroLength)
         {
-            _heatRotationPoints = new float[] { 0.0f };
+            _heatRotationPoints = new float[] { zeroPoint };
         }
-        if (_coolRotationPoints.Length == 0)
+        if (_heatRotationPoints.Length > hundredLength)
         {
-            _coolRotationPoints = new float[] { 0.0f };
+            Array.Resize(ref _heatRotationPoints, hundredLength);
+        }
+        if (_coolRotationPoints.Length == zeroLength)
+        {
+            _coolRotationPoints = new float[] { zeroPoint };
+        }
+        if (_coolRotationPoints.Length > hundredLength)
+        {
+            Array.Resize(ref _coolRotationPoints, hundredLength);
+        }
+
+        // Prevents more than 10 destinations.
+        if (_destinations.Length > tenLength)
+        {
+            Array.Resize(ref _destinations, tenLength);
         }
     }
 
@@ -162,6 +177,7 @@ public class GaugeIndicator : MonoBehaviour
         SetEqualHeatPoints();
         SetEqualCoolPoints();
 
+        // Recalculates Central Position and Tolerance.
         RecalcDestinations();
 
         // Local Start Co-ordinates override.
@@ -220,7 +236,6 @@ public class GaugeIndicator : MonoBehaviour
         }
 
         transform.rotation = _defaultRotation; // goes to starting point.
-
         _lastMovement = "Default Point";
 
         // Corrective Variables
@@ -332,10 +347,7 @@ public class GaugeIndicator : MonoBehaviour
                 }
                 _didForwardRot = true;
             }
-
-            // When the point is reached, rotation is disabled, and the next point (to rotate to) is assigned.
-
-            else if (completePosRotation || completeNegRotation)
+            else if (completePosRotation || completeNegRotation)  // When the point is reached, rotation is disabled, and the next points (to rotate to) are assigned.
             {
                 JumpToNextRotationPoint(); // corrects the imprecision
                 _lastMovement = "Next Point";
@@ -464,10 +476,7 @@ public class GaugeIndicator : MonoBehaviour
 
             _didBackRot = true;
         }
-
-        // If the cooling takes it back below a previous rotation point, that will then become the next point to reach.
-
-        else if (completePosRotation || completeNegRotation)
+        else if (completePosRotation || completeNegRotation) // When the point is reached, rotation is disabled, and the next points (to rotate to) are assigned.
         {
             JumpToPrevRotationPoint(); // corrects the imprecision.
             _lastMovement = "Previous Point";
@@ -558,6 +567,16 @@ public class GaugeIndicator : MonoBehaviour
         IceCalls = _customScale ? IceCalls : _icePercentage;
         _remainingIceCalls = IceCalls - 1;
         _prevStop = (_coolIndex - _remainingIceCalls) < _firstCoolIndex ? _firstCoolPoint : _coolRotationPoints[_coolIndex - _remainingIceCalls];
+    }
+
+    public void HeatGauge()
+    {
+        MoveToNextPoint = true;
+    }
+
+    public void CoolGauge()
+    {
+        MoveToPrevPoint = true;
     }
 
     public void ResetGauge()
@@ -751,7 +770,6 @@ public class GaugeIndicator : MonoBehaviour
     }
 
     // Function to dind the initial point (first point near 0).
-
     private int GetInitialIndex()
     {
         float approxStartingPoint = 0f;
@@ -778,7 +796,6 @@ public class GaugeIndicator : MonoBehaviour
     }
 
     // Function to find a heat rotation point nearest the previous cool point to rotate to.
-
     private int FindHeatIndex(int j)
     {
         float sign = Mathf.Sign(_nextRotationPoint - _fixedCurrentRotationPoint);
@@ -808,7 +825,6 @@ public class GaugeIndicator : MonoBehaviour
     }
 
     // Function to find a cool rotation point nearest the previous heat point to rotate to.
-
     private int FindCoolIndex(int i)
     {
         float sign = Mathf.Sign(_nextRotationPoint - _fixedCurrentRotationPoint);
@@ -904,16 +920,14 @@ public class GaugeIndicator : MonoBehaviour
     {
         const int oneHundredPercent = 100, oneStartPoint = 1, nothing = 0;
 
-        // When the end points are equal and by percent.
-
+        // When the heat/cool end points are equal but with different numbers of calls.
         if (!_customScale)
         {
             equalPoints = oneHundredPercent;
             equalEndPoint = _maxDegrees;
         }
 
-        // Sets equidistant ice scale rotation points.
-
+        // Sets equidistant rotation points.
         int numberOfPoints = equalPoints + oneStartPoint;
 
         if (equalPoints > nothing)
@@ -929,7 +943,6 @@ public class GaugeIndicator : MonoBehaviour
     private void MinDegreesAutoAdjustment()
     {
         // Prevents _minDegreesBelowStart from reaching maxDegrees (or EndPoints) and adjusts accordingly when maxDegrees changes.
-
         const float zeroDegrees = 0f, oneDegree = 1f, threeSixtyDegrees = 360f;
 
         // Gives them initial values.
@@ -972,7 +985,7 @@ public class GaugeIndicator : MonoBehaviour
                 _equalCoolCopy = _equalCoolEndPoint;
             }
         }
-        // Clamping to the 360 degree range.
+        // Clamps to the 360 degree range.
         _minDegreesBelowStart = _minDegreesBelowStart > threeSixtyDegrees ? (threeSixtyDegrees - oneDegree) : _minDegreesBelowStart;
         _minDegreesBelowStart = _minDegreesBelowStart < zeroDegrees ? zeroDegrees : _minDegreesBelowStart;
     }
