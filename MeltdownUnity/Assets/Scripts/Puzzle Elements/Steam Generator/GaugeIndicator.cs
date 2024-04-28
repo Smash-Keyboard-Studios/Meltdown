@@ -196,7 +196,7 @@ public class GaugeIndicator : MonoBehaviour
         _firstHeatIndex = 0;
         _firstCoolIndex = 0;
         _secondHeatIndex = _firstHeatIndex + 1;
-        _initialHeatIndex = GetInitialIndex(); // gets nearest index to 0 degrees.
+        _initialHeatIndex = GetInitialIndex(); // Gets nearest index to 0 degrees.
         _finalHeatIndex = _heatRotationPoints.Length - 1;
         _finalCoolIndex = _coolRotationPoints.Length - 1;
         _startHeatIndex = _initialHeatIndex != _finalHeatIndex ? _initialHeatIndex + 1 : _initialHeatIndex;
@@ -236,7 +236,7 @@ public class GaugeIndicator : MonoBehaviour
             _descendRotation = _zeroRotation * Quaternion.Euler(_rotationAxis * _firstCoolPoint);
         }
 
-        transform.rotation = _defaultRotation; // goes to starting point.
+        transform.rotation = _defaultRotation; // Goes to starting point.
         _lastMovement = "Default Point";
 
         // ##### Sets Corrective Variables
@@ -798,7 +798,7 @@ public class GaugeIndicator : MonoBehaviour
         float minDifference = sign == pos ? _finalCoolPoint - _firstHeatPoint : _firstHeatPoint - _finalCoolPoint;
 
         // ##### Finds a heat rotation point nearest the previous cool point to rotate to)
-        for (int i = _startHeatIndex; i < _heatRotationPoints.Length; i++)
+        for (int i = _firstHeatIndex; i < _heatRotationPoints.Length; i++)
         {
             float heatRotation = _heatRotationPoints[i];
             float coolRotation = _coolRotationPoints[j];
