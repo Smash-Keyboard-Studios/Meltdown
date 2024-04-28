@@ -14,8 +14,8 @@ using CustomAttributes;
 public struct Destination
 {
     [Tooltip("The name of the range.")] public string name;
-    [Tooltip("The minimum of the range.")] public float minPosition;
-    [Tooltip("The maximum of the range.")] public float maxPosition;
+    [Tooltip("The minimum of the range.")][Range(-360.0f, 360.0f)] public float minPosition;
+    [Tooltip("The maximum of the range.")][Range(-360.0f, 360.0f)] public float maxPosition;
     [Tooltip("The midpoint of the range.")][ShowOnly] public float centralPosition;
     [Tooltip("The size of the range.")] [ShowOnly] public float tolerance;
     [Tooltip("Whether the event has been triggered.")] public bool hasBeenReached;
@@ -34,8 +34,8 @@ public struct Destination
 
     public void Recalculate(float minPosition, float maxPosition)
     {
-        this.minPosition = minPosition;
-        this.maxPosition = maxPosition;
+        this.minPosition = Mathf.Round(minPosition > maxPosition ? maxPosition : minPosition * 10)/10; // Swap if more and round to 1 d.p. for scrubbing.
+        this.maxPosition = Mathf.Round(maxPosition < minPosition ? minPosition : maxPosition * 10)/10; // Swap if less and round to 1 d.p. for scrubbing.
         this.centralPosition = (minPosition + maxPosition) / 2f;
         this.tolerance = Mathf.Abs(minPosition - maxPosition);
     }
@@ -59,7 +59,7 @@ public class GaugeIndicator : MonoBehaviour
     [Space]
     [Tooltip("The axis of rotation in x, y, z.")][SerializeField] private Vector3 _rotationAxis = Vector3.back;
     [Space]
-    [Tooltip("The degrees offset of the minimum point below the start.")][SerializeField][Range(0f, 360f)] private float _minDegreesBelowStart = 90.0f;
+    [Tooltip("The degrees offset of the minimum point below the start.")][SerializeField][Range(0f, 360f)] private float _minDegreesBelowStart = 90f;
     [Space]
     [Tooltip("The progression a fire hit does in the dual fire-ice scale.")][Range(0, 100)] public int _firePercentage = 40;
     [Tooltip("The regression an ice hit does in the dual fire-ice scale.")][Range(0, 100)] public int _icePercentage = 20;
@@ -99,10 +99,10 @@ public class GaugeIndicator : MonoBehaviour
     [Tooltip("Whether to override with custom scales.")][SerializeField] private bool _customScale = false;
     [Space]
     [Tooltip("The number of equidistant fire rotation points.")][SerializeField][Range(0, 100)] private int _equalHeatPoints = 3;
-    [Tooltip("The size of the fire scale.")][SerializeField][Range(20f, 360f)] private float _equalHeatEndPoint = 210.0f;
+    [Tooltip("The size of the fire scale.")][SerializeField][Range(20f, 360f)] private float _equalHeatEndPoint = 210f;
     [Space]
     [Tooltip("The number of equidistant ice rotation points.")][SerializeField][Range(0, 100)] private int _equalCoolPoints = 7;
-    [Tooltip("The size of the ice scale.")][SerializeField][Range(20f, 360f)] private float _equalCoolEndPoint = 210.0f;
+    [Tooltip("The size of the ice scale.")][SerializeField][Range(20f, 360f)] private float _equalCoolEndPoint = 210f;
     [Space]
     [Tooltip("The fire rotation points.")][SerializeField] private float[] _heatRotationPoints = { 0.0f, 70f, 140.0f, 210.0f };
     [Tooltip("The ice rotation points.")][SerializeField] private float[] _coolRotationPoints = { 0.0f, 35.0f, 70.0f, 105.0f, 140.0f, 175.0f, 210.0f };
@@ -171,6 +171,14 @@ public class GaugeIndicator : MonoBehaviour
         {
             Array.Resize(ref _destinations, tenLength);
         }
+
+        // Rounding when scrubbing.
+        _minDegreesBelowStart = Mathf.Round(_minDegreesBelowStart);
+        _maxDegrees = Mathf.Round(_maxDegrees);
+        _equalHeatEndPoint = Mathf.Round(_equalHeatEndPoint);
+        _equalCoolEndPoint = Mathf.Round(_equalCoolEndPoint);
+        _heatingSpeed = RoundToOneDP(_heatingSpeed);
+        _coolingSpeed = RoundToOneDP(_coolingSpeed);
     }
 
     private void Awake()
@@ -872,6 +880,7 @@ public class GaugeIndicator : MonoBehaviour
 
         return Quaternion.Euler(eulerAngles);
     }
+
     private float RoundToOneDP(float valueToRound)
     {
         return Mathf.Round(valueToRound * 10) / 10;
@@ -922,10 +931,12 @@ public class GaugeIndicator : MonoBehaviour
     {
         SetPoints(ref _heatRotationPoints, ref _firstHeatIndex, ref _equalHeatPoints, ref _equalHeatEndPoint);
     }
+
     private void SetEqualCoolPoints()
     {
         SetPoints(ref _coolRotationPoints, ref _firstCoolIndex, ref _equalCoolPoints, ref _equalCoolEndPoint);
     }
+
     private void SetPoints(ref float[] rotationPoints, ref int firstIndex, ref int equalPoints, ref float equalEndPoint)
     {
         const int oneHundredPercent = 100, oneStartPoint = 1, nothing = 0;
