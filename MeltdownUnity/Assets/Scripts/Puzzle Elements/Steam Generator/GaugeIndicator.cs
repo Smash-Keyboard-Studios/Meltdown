@@ -17,7 +17,7 @@ public struct Destination
     [Tooltip("The minimum of the range.")][Range(-360.0f, 360.0f)] public float minPosition;
     [Tooltip("The maximum of the range.")][Range(-360.0f, 360.0f)] public float maxPosition;
     [Tooltip("The midpoint of the range.")][ShowOnly] public float centralPosition;
-    [Tooltip("The size of the range.")] [ShowOnly] public float tolerance;
+    [Tooltip("The size of the range.")][ShowOnly] public float tolerance;
     [Tooltip("Whether the event has been triggered.")] public bool hasBeenReached;
     [Tooltip("The event to trigger.")] public UnityEvent onReached;
 
@@ -34,8 +34,8 @@ public struct Destination
 
     public void Recalculate(float minPosition, float maxPosition)
     {
-        this.minPosition = Mathf.Round(minPosition * 10)/10; // Round to 1 d.p. for scrubbing.
-        this.maxPosition = Mathf.Round(maxPosition * 10)/10; // Round to 1 d.p. for scrubbing.
+        this.minPosition = Mathf.Round(minPosition * 10) / 10; // Round to 1 d.p. for scrubbing.
+        this.maxPosition = Mathf.Round(maxPosition * 10) / 10; // Round to 1 d.p. for scrubbing.
         this.centralPosition = (minPosition + maxPosition) / 2f;
         this.tolerance = Mathf.Abs(minPosition - maxPosition);
     }
@@ -268,10 +268,9 @@ public class GaugeIndicator : MonoBehaviour
         else if (MinLocation)
         {
             MinLocation = false;
-            if (!HeatOnlyScale)
-            {
-                MinGauge();
-            }
+
+            MinGauge();
+
         }
         else if (MoveToNextPoint && FireCalls != noCalls) // Determines if forward rotation is enabled.
         {
@@ -892,8 +891,8 @@ public class GaugeIndicator : MonoBehaviour
         // ##### Invokes Min/Max/Reset Gauge if right index, else jumps to the correct point without invoking.
         if (rotationIndex == positionIndex)
         {
-                Invoke(setFunction, _smallDelay);
-                _correctedPoint = true;
+            Invoke(setFunction, _smallDelay);
+            _correctedPoint = true;
         }
         else
         {
@@ -957,7 +956,7 @@ public class GaugeIndicator : MonoBehaviour
         const int oneHundredPercent = 100, oneStartPoint = 1, nothing = 0;
 
         // ##### Uses a unified percentage scale by default and calls x number of times for the 100 + 1 points.
-        if (!_customScale) 
+        if (!_customScale)
         {
             equalPoints = oneHundredPercent;
             equalEndPoint = _maxDegrees;
