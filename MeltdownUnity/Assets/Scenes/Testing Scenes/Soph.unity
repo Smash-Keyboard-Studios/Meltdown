@@ -428,7 +428,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-215340
+  m_Name: pb_Mesh-17468
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -868,7 +868,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-215352
+  m_Name: pb_Mesh-17480
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -1215,16 +1215,28 @@ PrefabInstance:
       value: WaterPuddle
       objectReference: {fileID: 0}
     - target: {fileID: 8607273666505079589, guid: 1e4a1f1717b324c46add0991f53acf02, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8607273666505079589, guid: 1e4a1f1717b324c46add0991f53acf02, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8607273666505079589, guid: 1e4a1f1717b324c46add0991f53acf02, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8607273666505079589, guid: 1e4a1f1717b324c46add0991f53acf02, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.66
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8607273666505079589, guid: 1e4a1f1717b324c46add0991f53acf02, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.6644514
+      value: -3.75
       objectReference: {fileID: 0}
     - target: {fileID: 8607273666505079589, guid: 1e4a1f1717b324c46add0991f53acf02, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.27
+      value: -3.5
       objectReference: {fileID: 0}
     - target: {fileID: 8607273666505079589, guid: 1e4a1f1717b324c46add0991f53acf02, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1252,6 +1264,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8607273666505079589, guid: 1e4a1f1717b324c46add0991f53acf02, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8607273666505079589, guid: 1e4a1f1717b324c46add0991f53acf02, type: 3}
+      propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
