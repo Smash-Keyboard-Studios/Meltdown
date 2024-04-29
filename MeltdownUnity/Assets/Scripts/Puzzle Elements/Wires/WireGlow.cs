@@ -32,7 +32,7 @@ public class WireGlow : MonoBehaviour
     public void Glow()
     {
         b = !b;
-        //MaterialGlow.globalIlluminationFlags = MaterialGlobalIlluminationFlags.None;
+        
 
     }
 
