@@ -712,7 +712,7 @@ public class GaugeIndicator : MonoBehaviour
         if (_heatIndex > _finalHeatIndex)
         {
             bool isEndPoint = status == IncrementStatus.Set;
-            _heatIndex = isEndPoint ? _finalHeatIndex : _finalHeatIndex - 1;
+            _heatIndex = (isEndPoint || _initialHeatIndex == _finalHeatIndex) ? _finalHeatIndex : _finalHeatIndex - 1;
             _coolIndex = FindCoolIndex(_heatIndex);
         }
 
@@ -759,18 +759,15 @@ public class GaugeIndicator : MonoBehaviour
         }
 
         // ##### Permutations to set previous rotation point.
-        if (HeatOnlyScale)
+        if (HeatOnlyScale && i > 0)
         {
-            if (i > 0)
-            {
-                _prevRotationPoint = _heatRotationPoints[i - 1];
-            }
+            _prevRotationPoint = _heatRotationPoints[i - 1];
         }
         else if (_didBackRot || _currentRotationPoint == _firstCoolPoint || _currentRotationPoint == _initialHeatPoint || _currentRotationPoint == _finalHeatPoint)
         {
             _prevRotationPoint = _coolRotationPoints[j];
         }
-        else if (_didForwardRot)
+        else if (_didForwardRot && i > 0)
         {
             _coolIndex = FindCoolIndex(i - 1);
             _prevRotationPoint = _coolRotationPoints[_coolIndex];
