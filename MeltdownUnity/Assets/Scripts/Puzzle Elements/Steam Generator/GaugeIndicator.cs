@@ -34,8 +34,8 @@ public struct Destination
 
     public void Recalculate(float minPosition, float maxPosition)
     {
-        this.minPosition = Mathf.Round((minPosition > maxPosition ? maxPosition : minPosition) * 10)/10; // Swap if more and round to 1 d.p. for scrubbing.
-        this.maxPosition = Mathf.Round((maxPosition < minPosition ? minPosition : maxPosition) * 10)/10; // Swap if less and round to 1 d.p. for scrubbing.
+        this.minPosition = Mathf.Round(minPosition * 10)/10; // Round to 1 d.p. for scrubbing.
+        this.maxPosition = Mathf.Round(maxPosition * 10)/10; // Round to 1 d.p. for scrubbing.
         this.centralPosition = (minPosition + maxPosition) / 2f;
         this.tolerance = Mathf.Abs(minPosition - maxPosition);
     }
@@ -188,7 +188,7 @@ public class GaugeIndicator : MonoBehaviour
         SetEqualCoolPoints();
 
         // ##### Recalculates Central Position and Tolerance.
-        RecalcDestinations();
+        SwapPointsForDestinations();
 
         // ##### Sets Local Start Co-ordinates to override.
         if (_setStartPosition)
@@ -687,6 +687,9 @@ public class GaugeIndicator : MonoBehaviour
         SetEqualHeatPoints();
         SetEqualCoolPoints();
 
+        // ##### Recalculates Central Position and Tolerance.
+        SwapPointsForDestinations();
+
         // ##### Sets Indexes of Array
         _initialHeatIndex = GetInitialIndex();
         _finalHeatIndex = _heatRotationPoints.Length - 1;
@@ -907,6 +910,18 @@ public class GaugeIndicator : MonoBehaviour
     }
 
     // ########## Functions to handle the destination triggers.
+    private void SwapPointsForDestinations()
+    {
+        for (int i = 0; i < _destinations.Length; i++)
+        {
+            if (_destinations[i].minPosition > _destinations[i].maxPosition)
+            {
+                float tempMinPosition = _destinations[i].minPosition;
+                _destinations[i].minPosition = _destinations[i].maxPosition;
+                _destinations[i].maxPosition = tempMinPosition;
+            }
+        }
+    }
     private void RecalcDestinations()
     {
         for (int i = 0; i < _destinations.Length; i++)
