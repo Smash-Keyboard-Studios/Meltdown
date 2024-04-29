@@ -10,8 +10,12 @@ public class FreezingWater : MonoBehaviour
 
 	GameObject go;
 
+    private void Awake()
+    {
+		transform.localEulerAngles = new Vector3(0, Random.Range(0, 360), 0);
+    }
 
-	private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
 	{
 		if (other.gameObject.GetComponent<Ice>() != null)
 		{

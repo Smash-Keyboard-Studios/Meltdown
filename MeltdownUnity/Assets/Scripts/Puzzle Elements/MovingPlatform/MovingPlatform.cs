@@ -21,6 +21,9 @@ public class MovingPlatform : MonoBehaviour
 	[Tooltip("The max distance the moving platform is allowed to move")]
 	public float MaxExtents = 1f;
 
+	[Tooltip("The min distance the moving platform is allowed to move")]
+	public float MinExtents = 0f;
+
 	[Tooltip("Weather the pistion is extending or retraction")]
 	public bool Extending = false;
 
@@ -36,8 +39,11 @@ public class MovingPlatform : MonoBehaviour
 	public float PauseTime = 1f;
 
 	[Header("Speed Variables")]
-	[Tooltip("The defult speed of the moving platform")]
-	public float NormalSpeed = 1f;
+	[Tooltip("The defult speed of the moving platform extending")]
+	public float NormalExtendingSpeed = 1f;
+
+	[Tooltip("The defult speed of the moving platform retracting")]
+	public float NormalRetractingSpeed = 1f;
 
 	[Tooltip("The speed when frozen, use 0 to stop")]
 	public float SlowSpeed = 0.2f;
@@ -56,20 +62,22 @@ public class MovingPlatform : MonoBehaviour
 	private float _time;
 
 	// Used to multily max distance to get desired distance. (math is done in update)
-	private float _multForLength = 0;
+	private float _multForMaxLength = 0;
+	private float _multForMinLength = 0;
 
 	// Start is called before the first frame update
 	void Start()
 	{
 		// set the speed to defualt.
-		_speed = NormalSpeed;
+		_speed = NormalExtendingSpeed;
 	}
 
 	// Very important. A void returns nothing, that what it means and does. It tells anything calling the function "I dont return anything, so dont expect anything".
 	void Update()
 	{
 		// get the percent value for the max distance given, Making sure that if the maxed extents is over max length, then defult to 1 otherwise get the percentage. (ternary operation)
-		_multForLength = MaxExtents / (LengthOfOneSegment * Segments.Length) >= (LengthOfOneSegment * Segments.Length) ? 1f : MaxExtents / (LengthOfOneSegment * Segments.Length);
+		_multForMaxLength = MaxExtents / (LengthOfOneSegment * Segments.Length);
+		_multForMinLength = MinExtents / (LengthOfOneSegment * Segments.Length);
 		// Fuck no, I will not make this into a if statement.
 
 		// if the moving platform is looping, not pause, extending and the time is greater than 1.
@@ -90,6 +98,16 @@ public class MovingPlatform : MonoBehaviour
 		// if the game is paused. This should pause, but just in case. (delta time should be paused if time scale is set to 0)
 		if (IsPaused) return;
 
+		// set the speed according to whether the moving platform is extending or not.
+		if (Extending && !IsForzen)
+		{
+			_speed = NormalExtendingSpeed;
+		}
+		else if (!Extending && !IsForzen)
+		{
+			_speed = NormalRetractingSpeed;
+		}
+
 		// if the time is less than 1 and is extending than increment the time.
 		if (_time <= 1 && Extending)
 		{
@@ -105,7 +123,7 @@ public class MovingPlatform : MonoBehaviour
 		foreach (var segments in Segments)
 		{
 			// can fix incase the platform is not handled correctly. Change 0 to local pos y and add local pos y on the other sid.
-			segments.localPosition = Vector3.Lerp(new Vector3(segments.localPosition.x, 0, segments.localPosition.z), new Vector3(segments.localPosition.x, LengthOfOneSegment * _multForLength, segments.localPosition.z), _time);
+			segments.localPosition = Vector3.Lerp(new Vector3(segments.localPosition.x, _multForMinLength, segments.localPosition.z), new Vector3(segments.localPosition.x, LengthOfOneSegment * _multForMaxLength, segments.localPosition.z), _time);
 		}
 	}
 
@@ -123,7 +141,7 @@ public class MovingPlatform : MonoBehaviour
 		IsForzen = true;
 		_speed = SlowSpeed;
 		yield return new WaitForSeconds(FrozenDuration);
-		_speed = NormalSpeed;
+		_speed = NormalExtendingSpeed;
 		IsForzen = false;
 	}
 
@@ -144,7 +162,7 @@ public class MovingPlatform : MonoBehaviour
 		if (IsForzen)
 		{
 			StopCoroutine(Slow());
-			_speed = NormalSpeed;
+			_speed = NormalExtendingSpeed;
 			IsForzen = false;
 		}
 	}

@@ -4,14 +4,19 @@ using UnityEngine;
 
 public class FreezeElectrifiedWater : MonoBehaviour
 {
+    const int TimerResetTime = 20;
+
     [SerializeField] public bool CurrentFrozenState;
 
     public GameObject UnfrozenWater;
     public GameObject FrozenWater;
 
+    private int Timer;
+
     private void Start()
     {
         CurrentFrozenState = false;
+        Timer = TimerResetTime;
     }
 
     private void Update()
@@ -33,7 +38,27 @@ public class FreezeElectrifiedWater : MonoBehaviour
         if (other.gameObject.GetComponent<Ice>() != null)
         {
             //change frozen state to active
-            CurrentFrozenState = true;            
+            CurrentFrozenState = true;
+
+            //reset timer and run melt timer
+            Timer = TimerResetTime;
+            StartCoroutine("MeltTimer");
         }
+
+        if (other.gameObject.GetComponent<Fire>() != null)
+        {
+            //change frozen state to active
+            CurrentFrozenState = false;
+        }
+    }
+
+    IEnumerator MeltTimer()
+    {
+        while (Timer > 0)
+        {
+            yield return new WaitForSeconds(1);
+            Timer--;
+        }
+        CurrentFrozenState = false;
     }
 }
