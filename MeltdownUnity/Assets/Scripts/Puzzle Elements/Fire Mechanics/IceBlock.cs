@@ -28,6 +28,9 @@ public class IceBlock : MonoBehaviour
 	//water puddle object that will be created when melting the ice
 	[SerializeField] private GameObject WaterPuddle;
 
+	//audio stuff
+	public AudioSource AudioSource;
+
 	// Start is called before the first frame update
 	private void Start()
 	{
@@ -40,6 +43,8 @@ public class IceBlock : MonoBehaviour
 
 		steamParticles = GetComponentInChildren<ParticleSystem>();
 		steamParticles.Stop();
+
+		AudioSource = GetComponent<AudioSource>();
 	}
 
 	// Update is called once per frame
@@ -61,6 +66,7 @@ public class IceBlock : MonoBehaviour
 	private IEnumerator ShrinkIceGradual()
 	{
         //AUDIO GUY PUT SOME SIZZLY SOUNDS FOR STEAM HERE PLS!!!
+		AudioSource.Play();
 
 		isShrinking = true;
         steamParticles.Play();
