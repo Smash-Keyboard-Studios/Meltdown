@@ -268,10 +268,7 @@ public class GaugeIndicator : MonoBehaviour
         else if (MinLocation)
         {
             MinLocation = false;
-            if (!HeatOnlyScale)
-            {
-                MinGauge();
-            }
+            MinGauge();
         }
         else if (MoveToNextPoint && FireCalls != noCalls) // Determines if forward rotation is enabled.
         {
