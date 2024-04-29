@@ -34,8 +34,8 @@ public struct Destination
 
     public void Recalculate(float minPosition, float maxPosition)
     {
-        this.minPosition = Mathf.Round(minPosition > maxPosition ? maxPosition : minPosition * 10)/10; // Swap if more and round to 1 d.p. for scrubbing.
-        this.maxPosition = Mathf.Round(maxPosition < minPosition ? minPosition : maxPosition * 10)/10; // Swap if less and round to 1 d.p. for scrubbing.
+        this.minPosition = (Mathf.Round(minPosition > maxPosition ? maxPosition : minPosition) * 10)/10; // Swap if more and round to 1 d.p. for scrubbing.
+        this.maxPosition = (Mathf.Round(maxPosition < minPosition ? minPosition : maxPosition) * 10)/10; // Swap if less and round to 1 d.p. for scrubbing.
         this.centralPosition = (minPosition + maxPosition) / 2f;
         this.tolerance = Mathf.Abs(minPosition - maxPosition);
     }
@@ -148,7 +148,7 @@ public class GaugeIndicator : MonoBehaviour
             _lastMovement = "Default Point";
         }
 
-        // ### Prevents less than 1 rotation point and more than 101 (starting point + 100).
+        // ##### Prevents less than 1 rotation point and more than 101 (starting point + 100).
         if (_heatRotationPoints.Length == zeroLength)
         {
             _heatRotationPoints = new float[] { zeroPoint };
@@ -166,13 +166,13 @@ public class GaugeIndicator : MonoBehaviour
             Array.Resize(ref _coolRotationPoints, hundredLength);
         }
 
-        // ### Prevents more than 10 destinations.
+        // ##### Prevents more than 10 destinations.
         if (_destinations.Length > tenLength)
         {
             Array.Resize(ref _destinations, tenLength);
         }
 
-        // Rounding when scrubbing.
+        // ##### Rounding when scrubbing.
         _minDegreesBelowStart = Mathf.Round(_minDegreesBelowStart);
         _maxDegrees = Mathf.Round(_maxDegrees);
         _equalHeatEndPoint = Mathf.Round(_equalHeatEndPoint);
