@@ -50,7 +50,7 @@ public class GaugeIndicator : MonoBehaviour
     private float _firstHeatPoint, _initialHeatPoint, _finalHeatPoint, _firstCoolPoint, _finalCoolPoint, _fixedCurrentRotationPoint;
     private float _smallIncrement, _smallDelay;
     private Quaternion _zeroRotation, _defaultRotation, _finalRotation, _descendRotation;
-    private bool _didForwardRot = false, _didBackRot = false, _runTimeRepositionStandby = false;
+    private bool _didForwardRot = false, _didBackRot = false, _runTimeRepositionStandby = false, _correctedPoint = false;
     private float _maxDegreesCopy, _equalHeatCopy, _equalCoolCopy;
 
     // [Editor Variables]
@@ -315,8 +315,8 @@ public class GaugeIndicator : MonoBehaviour
             bool incNegRotation = sign == neg && _currentRotationPoint > _nextRotationPoint;
 
             // ##### Greater than symbol is necessary because of imprecision.
-            bool completePosRotation = sign == pos && _currentRotationPoint >= _nextRotationPoint;
-            bool completeNegRotation = sign == neg && _currentRotationPoint <= _nextRotationPoint;
+            bool completePosRotation = sign == pos && !_correctedPoint && _currentRotationPoint >= _nextRotationPoint;
+            bool completeNegRotation = sign == neg && !_correctedPoint && _currentRotationPoint <= _nextRotationPoint;
 
             if (incPosRotation || incNegRotation)
             {
@@ -358,6 +358,7 @@ public class GaugeIndicator : MonoBehaviour
                     }
                 }
                 _didForwardRot = true;
+                _correctedPoint = false;
             }
             else if (completePosRotation || completeNegRotation)  // When the point is reached, rotation is disabled, and the next points (to rotate to) are assigned.
             {
@@ -413,8 +414,8 @@ public class GaugeIndicator : MonoBehaviour
         bool decPosRotation = sign == pos && _currentRotationPoint < _prevRotationPoint;
         bool decNegRotation = sign == neg && _currentRotationPoint > _prevRotationPoint;
 
-        bool completePosRotation = sign == pos && _currentRotationPoint >= _prevRotationPoint;
-        bool completeNegRotation = sign == neg && _currentRotationPoint <= _prevRotationPoint;
+        bool completePosRotation = sign == pos && !_correctedPoint && _currentRotationPoint >= _prevRotationPoint;
+        bool completeNegRotation = sign == neg && !_correctedPoint && _currentRotationPoint <= _prevRotationPoint;
 
         if (decPosRotation || decNegRotation) // Active rotation towards the previous point.
         {
@@ -485,6 +486,7 @@ public class GaugeIndicator : MonoBehaviour
             }
 
             _didBackRot = true;
+            _correctedPoint = false;
         }
         else if (completePosRotation || completeNegRotation) // When the point is reached, rotation is disabled, and the next points (to rotate to) are assigned.
         {
@@ -894,6 +896,7 @@ public class GaugeIndicator : MonoBehaviour
         if (rotationIndex == positionIndex)
         {
                 Invoke(setFunction, _smallDelay);
+                _correctedPoint = true;
         }
         else
         {
