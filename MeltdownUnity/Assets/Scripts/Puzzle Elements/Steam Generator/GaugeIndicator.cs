@@ -187,7 +187,7 @@ public class GaugeIndicator : MonoBehaviour
         SetEqualHeatPoints();
         SetEqualCoolPoints();
 
-        // ##### Recalculates Central Position and Tolerance.
+        // ##### Swaps Destination Points if the Maximum is less than Minimum.
         SwapPointsForDestinations();
 
         // ##### Sets Local Start Co-ordinates to override.
@@ -687,7 +687,7 @@ public class GaugeIndicator : MonoBehaviour
         SetEqualHeatPoints();
         SetEqualCoolPoints();
 
-        // ##### Recalculates Central Position and Tolerance.
+        // ##### Swaps Destination Points if the Maximum is less than Minimum.
         SwapPointsForDestinations();
 
         // ##### Sets Indexes of Array
