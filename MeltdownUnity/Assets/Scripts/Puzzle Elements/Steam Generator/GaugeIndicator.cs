@@ -34,8 +34,8 @@ public struct Destination
 
     public void Recalculate(float minPosition, float maxPosition)
     {
-        this.minPosition = (Mathf.Round(minPosition > maxPosition ? maxPosition : minPosition) * 10)/10; // Swap if more and round to 1 d.p. for scrubbing.
-        this.maxPosition = (Mathf.Round(maxPosition < minPosition ? minPosition : maxPosition) * 10)/10; // Swap if less and round to 1 d.p. for scrubbing.
+        this.minPosition = Mathf.Round((minPosition > maxPosition ? maxPosition : minPosition) * 10)/10; // Swap if more and round to 1 d.p. for scrubbing.
+        this.maxPosition = Mathf.Round((maxPosition < minPosition ? minPosition : maxPosition) * 10)/10; // Swap if less and round to 1 d.p. for scrubbing.
         this.centralPosition = (minPosition + maxPosition) / 2f;
         this.tolerance = Mathf.Abs(minPosition - maxPosition);
     }
