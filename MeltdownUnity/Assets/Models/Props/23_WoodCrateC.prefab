@@ -86,7 +86,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: fc125da7f798dbe4ca3ca1caae2c347a, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 0
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -117,6 +117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FireStartLocation: {x: 0, y: 0, z: 0}
+  ObjectSource: {fileID: 0}
 --- !u!65 &596310398213285734
 BoxCollider:
   m_ObjectHideFlags: 0
