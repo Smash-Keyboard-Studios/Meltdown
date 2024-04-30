@@ -270,7 +270,7 @@ public class GaugeIndicator : MonoBehaviour
             MinLocation = false;
             MinGauge();
         }
-        else if (MoveToNextPoint && FireCalls != noCalls & !_correctedPoint) // Determines if forward rotation is enabled.
+        else if (MoveToNextPoint && FireCalls != noCalls && !_correctedPoint) // Determines if forward rotation is enabled.
         {
             // ##### Cancels if at the end.
             if (transform.rotation == _finalRotation && _nextRotationPoint == _finalHeatPoint)
