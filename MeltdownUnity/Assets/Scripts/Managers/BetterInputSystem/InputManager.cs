@@ -61,7 +61,15 @@ public class InputManager : MonoBehaviour
 				newKeyData.KeyAction = action;
 
 				// TODO load from save
-				newKeyData.KeyCode = GetDefultValues(newKeyData.KeyAction);
+				if (PlayerPrefs.HasKey(action.ToString()))
+				{
+					newKeyData.KeyCode = (KeyCode)PlayerPrefs.GetInt(action.ToString());
+				}
+				else
+				{
+					newKeyData.KeyCode = GetDefultValues(newKeyData.KeyAction);
+					PlayerPrefs.SetInt(action.ToString(), (int)newKeyData.KeyCode);
+				}
 
 				newKeyData.DisplayText = $"{newKeyData.KeyAction} [{newKeyData.KeyCode}]";
 
@@ -82,7 +90,13 @@ public class InputManager : MonoBehaviour
 	}
 
 
-
+	public static void ResetKeyBinds()
+	{
+		foreach (KeyAction action in Enum.GetValues(typeof(KeyAction)))
+		{
+			ChangeKeyBind(GetDefultValues(action), action);
+		}
+	}
 
 	/// <summary>
 	/// This is how you will get the input instead of Keycode.key as
@@ -113,7 +127,22 @@ public class InputManager : MonoBehaviour
 		data.KeyCode = newKey;
 
 		// should move to BetterInputUI. - nah.
-		data.UIElement.GetComponent<InputKey>().Text.text = $"{data.KeyAction} [{data.KeyCode}]";
+		if (data.UIElement != null)
+			data.UIElement.GetComponent<InputKey>().Text.text = $"{data.KeyAction} [{data.KeyCode}]";
+
+		keyValuePairs[keyAction] = data;
+
+
+		PlayerPrefs.SetInt(data.KeyAction.ToString(), (int)data.KeyCode);
+	}
+
+	public static void SetUIElement(GameObject UIElement, KeyAction keyAction)
+	{
+		KeyData data = new();
+
+		data = keyValuePairs[keyAction];
+
+		data.UIElement = UIElement;
 
 		keyValuePairs[keyAction] = data;
 	}
