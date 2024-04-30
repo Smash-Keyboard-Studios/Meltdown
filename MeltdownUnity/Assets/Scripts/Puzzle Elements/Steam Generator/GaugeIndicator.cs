@@ -1,4 +1,4 @@
-﻿// THIS SCRIPT CONTROLS THE MOVEMENT OF THE PIN (HAND) OF THE GAUGE AND SHOULD BE ATTACHED IT.
+// THIS SCRIPT CONTROLS THE MOVEMENT OF THE PIN (HAND) OF THE GAUGE AND SHOULD BE ATTACHED IT.
 
 using System;
 using System.Collections;
@@ -268,11 +268,9 @@ public class GaugeIndicator : MonoBehaviour
         else if (MinLocation)
         {
             MinLocation = false;
-
             MinGauge();
-
         }
-        else if (MoveToNextPoint && FireCalls != noCalls) // Determines if forward rotation is enabled.
+        else if (MoveToNextPoint && FireCalls != noCalls & !_correctedPoint) // Determines if forward rotation is enabled.
         {
             // ##### Cancels if at the end.
             if (transform.rotation == _finalRotation && _nextRotationPoint == _finalHeatPoint)
@@ -284,7 +282,7 @@ public class GaugeIndicator : MonoBehaviour
             IncrementGauge();
 
         }
-        else if (AutoCoolOn || (MoveToPrevPoint && (HeatOnlyScale && FireCalls != noCalls || !HeatOnlyScale && IceCalls != noCalls))) // Cools down (reverse rotation) to origin if not.
+        else if (AutoCoolOn || (MoveToPrevPoint && (HeatOnlyScale && FireCalls != noCalls || !HeatOnlyScale && IceCalls != noCalls) && !_correctedPoint)) // Cools down (reverse rotation) to origin if not.
         {
             // ##### Cancels if at the start.
             if (transform.rotation == _descendRotation && ((HeatOnlyScale && _prevRotationPoint == _firstHeatPoint) || (_prevRotationPoint == _firstCoolPoint)))
@@ -357,7 +355,6 @@ public class GaugeIndicator : MonoBehaviour
                     }
                 }
                 _didForwardRot = true;
-                _correctedPoint = false;
             }
             else if (completePosRotation || completeNegRotation)  // When the point is reached, rotation is disabled, and the next points (to rotate to) are assigned.
             {
@@ -485,7 +482,6 @@ public class GaugeIndicator : MonoBehaviour
             }
 
             _didBackRot = true;
-            _correctedPoint = false;
         }
         else if (completePosRotation || completeNegRotation) // When the point is reached, rotation is disabled, and the next points (to rotate to) are assigned.
         {
@@ -589,6 +585,7 @@ public class GaugeIndicator : MonoBehaviour
         _didForwardRot = false;
         _didBackRot = false;
         CheckForDestination();
+        _correctedPoint = false;
         _lastMovement = "Default Point";
     }
     public void MinGauge()
@@ -619,6 +616,7 @@ public class GaugeIndicator : MonoBehaviour
         _didBackRot = false;
         AutoCoolOn = false;
         CheckForDestination();
+        _correctedPoint = false;
         _lastMovement = "Min Point";
     }
     public void MaxGauge()
@@ -654,6 +652,7 @@ public class GaugeIndicator : MonoBehaviour
             Invoke("AwakenCoolDown", _autoCoolDelay);
         }
         CheckForDestination();
+        _correctedPoint = false;
         _lastMovement = "Final Point";
     }
 
@@ -762,7 +761,7 @@ public class GaugeIndicator : MonoBehaviour
         {
             _prevRotationPoint = _heatRotationPoints[i - 1];
         }
-        else if (_didBackRot || _currentRotationPoint == _firstCoolPoint || _currentRotationPoint == _initialHeatPoint || _currentRotationPoint == _finalHeatPoint)
+        else if ((_didBackRot && !_didForwardRot) || _currentRotationPoint == _firstCoolPoint || _currentRotationPoint == _initialHeatPoint || _currentRotationPoint == _finalHeatPoint)
         {
             _prevRotationPoint = _coolRotationPoints[j];
         }
@@ -891,8 +890,8 @@ public class GaugeIndicator : MonoBehaviour
         // ##### Invokes Min/Max/Reset Gauge if right index, else jumps to the correct point without invoking.
         if (rotationIndex == positionIndex)
         {
-            Invoke(setFunction, _smallDelay);
             _correctedPoint = true;
+            Invoke(setFunction, _smallDelay);
         }
         else
         {
