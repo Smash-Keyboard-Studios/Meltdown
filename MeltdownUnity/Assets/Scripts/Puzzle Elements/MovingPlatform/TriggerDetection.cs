@@ -11,6 +11,7 @@ public class TriggerDetection : MonoBehaviour
 	{
 		public Transform parent;
 		public Transform self;
+
 		public Entity(Transform theParent, Transform theSelf)
 		{
 			parent = theParent;
@@ -38,19 +39,31 @@ public class TriggerDetection : MonoBehaviour
 
 	void OnTriggerEnter(Collider other)
 	{
-		if (IgnoredLayers == (IgnoredLayers | (1 << other.gameObject.layer))) return;
-		if (CompareTag(other.transform)) return;
+		try
+		{
 
-		entities.Add(new Entity(other.transform.parent, other.transform));
-		if (other.transform.tag == PlayerTag)
-		{
-			_playerID = entities.Count - 1;
-			pmc = other.transform.GetComponent<PlayerMovementController>();
-			pmc.LimitMovementSpeedToMaxSpeed = false;
+			if (IgnoredLayers == (IgnoredLayers | (1 << other.gameObject.layer))) return;
+			if (CompareTag(other.transform)) return;
+
+			// yes I hate it too		
+			if (other.transform.parent != null)
+				if (other.transform.parent.name == "HoldArea") return;
+
+			entities.Add(new Entity(other.transform.parent, other.transform));
+			if (other.transform.tag == PlayerTag)
+			{
+				_playerID = entities.Count - 1;
+				pmc = other.transform.GetComponent<PlayerMovementController>();
+				pmc.LimitMovementSpeedToMaxSpeed = false;
+			}
+			else if (other.GetComponent<Rigidbody>() == null)
+			{
+				other.transform.SetParent(transform, true);
+			}
 		}
-		else
+		catch (Exception e)
 		{
-			other.transform.SetParent(transform, true);
+			Debug.LogError(e.Message);
 		}
 	}
 
@@ -78,8 +91,9 @@ public class TriggerDetection : MonoBehaviour
 							pmc.velocity = pmc.velocity.normalized * pmc.SprintSpeed;
 						}
 					}
-					else
+					else if (other.GetComponent<Rigidbody>() == null)
 					{
+						other.GetComponent<Rigidbody>().angularDrag = 0.05f;
 						other.transform.SetParent(entity.parent, true);
 					}
 
@@ -98,8 +112,57 @@ public class TriggerDetection : MonoBehaviour
 
 	}
 
+	void OnTriggerStay(Collider other)
+	{
+		try
+		{
+			// can optimise this, I wont as time is a pain. :yes:
+			if (other.transform.parent == null)
+			{
+				foreach (var entity in entities)
+				{
+					if (other.transform == entity.self) return;
+				}
+
+				entities.Add(new Entity(other.transform.parent, other.transform));
+			}
+			else
+			{
+				if (other.transform.parent.name == "HoldArea")
+				{
+					foreach (var entity in entities)
+					{
+						if (other.transform == entity.self) entities.Remove(entity);
+					}
+				}
+			}
+		}
+		catch (Exception ex)
+		{
+			Debug.LogWarning(ex.Message);
+		}
+	}
+
 	void Update()
 	{
+		try
+		{
+			if (_playerID != -1)
+			{
+				for (int i = 0; i < entities.Count; i++)
+				{
+					if (entities[i].self == pmc.transform)
+					{
+						_playerID = i;
+					}
+				}
+			}
+		}
+		catch (Exception ex)
+		{
+			Debug.LogWarning(ex.Message);
+		}
+
 		if (_lastPos != transform.position)
 		{
 			_velocity = (transform.position - _lastPos) / Time.deltaTime;
@@ -115,14 +178,32 @@ public class TriggerDetection : MonoBehaviour
 			// want to add force.
 
 
-			PlayerMovementController pmc = entities[_playerID].self.GetComponent<PlayerMovementController>();
+			//PlayerMovementController pmc = entities[_playerID].self.GetComponent<PlayerMovementController>();
 
+			// create the vector with no y velocity.
 			Vector3 velNoY = new Vector3(_velocity.x, 0, _velocity.z);
 
+			if (pmc != null)
+			{
+				// stops y boosting.
+				pmc.velocity += velNoY;
 
-			pmc.velocity += velNoY;
+				// allows the player to go down on vertical moving platforms.
+				pmc.velocity = new Vector3(pmc.velocity.x, (pmc.velocity.y < 0 ? -2 : pmc.velocity.y), pmc.velocity.z);
+			}
+		}
 
-			pmc.velocity = new Vector3(pmc.velocity.x, (pmc.velocity.y < 0 ? -2 : pmc.velocity.y), pmc.velocity.z);
+		foreach (var entity in entities)
+		{
+			if (entity.self.tag != PlayerTag && entity.self.GetComponent<Rigidbody>() != null)
+			{
+				Rigidbody rb = entity.self.GetComponent<Rigidbody>();
+
+				rb.angularDrag = 10000f;
+
+				// allows the player to go down on vertical moving platforms.
+				rb.velocity = new Vector3(_velocity.x, (rb.velocity.y < -2 ? -2 : rb.velocity.y), _velocity.z);
+			}
 		}
 
 

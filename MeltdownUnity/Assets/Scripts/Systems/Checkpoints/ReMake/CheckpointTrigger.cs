@@ -30,6 +30,9 @@ public class CheckpointTrigger : MonoBehaviour
 		{
 			CheckpointManager.Current.CurrentCheckpointID = CheckpointID;
 			CheckpointManager.Current.CheckpointPos = playerSpawnLocation.position;
+			CheckpointManager.Current.FireAmmo = PlayerFinder.Current.GetPlayerTransform().GetComponent<AmmoController>().FireAmmo;
+			CheckpointManager.Current.IceAmmo = PlayerFinder.Current.GetPlayerTransform().GetComponent<AmmoController>().IceAmmo;
+			CheckpointManager.Current.RotationOfPlayer = PlayerFinder.Current.GetPlayerTransform().rotation;
 			GetComponent<BoxCollider>().enabled = false;
 		}
 	}
