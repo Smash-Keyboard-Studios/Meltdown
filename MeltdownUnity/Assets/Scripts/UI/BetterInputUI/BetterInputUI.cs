@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using System;
 using static InputActions;
+using System.Linq;
 
 /// <summary>
 /// This is where the UI is managed.
@@ -50,6 +51,62 @@ public class BetterInputUI : MonoBehaviour
 		GenerateRebindUI();
 	}
 
+	void Update()
+	{
+		if (KeyRebindUI.activeSelf)
+		{
+			if (Input.GetKeyDown(KeyCode.LeftControl))
+			{
+				InputManager.ChangeKeyBind(KeyCode.LeftControl, currentKeyToRebind);
+				Field.readOnly = true;
+
+				KeyRebindUI.SetActive(false);
+			}
+			else if (Input.GetKeyDown(KeyCode.LeftShift))
+			{
+				InputManager.ChangeKeyBind(KeyCode.LeftShift, currentKeyToRebind);
+				Field.readOnly = true;
+
+				KeyRebindUI.SetActive(false);
+			}
+			else if (Input.GetKeyDown(KeyCode.Escape))
+			{
+				InputManager.ChangeKeyBind(KeyCode.Escape, currentKeyToRebind);
+				Field.readOnly = true;
+
+				KeyRebindUI.SetActive(false);
+			}
+			else if (Input.GetKeyDown(KeyCode.Space))
+			{
+				InputManager.ChangeKeyBind(KeyCode.Space, currentKeyToRebind);
+				Field.readOnly = true;
+
+				KeyRebindUI.SetActive(false);
+			}
+			else if (Input.GetKeyDown(KeyCode.Mouse0))
+			{
+				InputManager.ChangeKeyBind(KeyCode.Mouse0, currentKeyToRebind);
+				Field.readOnly = true;
+
+				KeyRebindUI.SetActive(false);
+			}
+			else if (Input.GetKeyDown(KeyCode.Mouse1))
+			{
+				InputManager.ChangeKeyBind(KeyCode.Mouse1, currentKeyToRebind);
+				Field.readOnly = true;
+
+				KeyRebindUI.SetActive(false);
+			}
+			else if (Input.GetKeyDown(KeyCode.Mouse3))
+			{
+				InputManager.ChangeKeyBind(KeyCode.Mouse3, currentKeyToRebind);
+				Field.readOnly = true;
+
+				KeyRebindUI.SetActive(false);
+			}
+		}
+	}
+
 
 	/// <summary>
 	/// This will create the UI elemets for each key action.
@@ -60,24 +117,16 @@ public class BetterInputUI : MonoBehaviour
 		// sets up the input system per key.
 		foreach (KeyAction action in Enum.GetValues(typeof(KeyAction)))
 		{
-			InputManager.KeyData newKeyData = new();
-
-			newKeyData.KeyAction = action;
-
-			// TODO load from save
-			newKeyData.KeyCode = GetDefultValues(newKeyData.KeyAction);
-
-			newKeyData.DisplayText = $"{newKeyData.KeyAction} [{newKeyData.KeyCode}]";
+			InputManager.KeyData keyData = InputManager.keyValuePairs[action];
 
 			GameObject UIElement = Instantiate(Prefab, Parent);
 
-			newKeyData.UIElement = UIElement;
+			InputManager.SetUIElement(UIElement.gameObject, keyData.KeyAction);
 
 			InputKey inputKey = UIElement.GetComponent<InputKey>();
-			inputKey.KeyType = newKeyData.KeyAction;
-			inputKey.Text.text = newKeyData.DisplayText;
+			inputKey.KeyType = keyData.KeyAction;
+			inputKey.Text.text = keyData.DisplayText;
 
-			InputManager.keyValuePairs.Add(newKeyData.KeyAction, newKeyData);
 
 			// keyValuePairs.Add()
 		}
@@ -118,15 +167,28 @@ public class BetterInputUI : MonoBehaviour
 
 		if (result == null)
 		{
-			print("space");
-			result = KeyCode.Space;
+			result = KeyCode.None;
 		}
 
 		InputManager.ChangeKeyBind((KeyCode)result, currentKeyToRebind);
 
+
+
 		Field.readOnly = true;
 
 		KeyRebindUI.SetActive(false);
+	}
+
+	public void Abort()
+	{
+		Field.readOnly = true;
+
+		KeyRebindUI.SetActive(false);
+	}
+
+	public void ResetAll()
+	{
+		InputManager.ResetKeyBinds();
 	}
 
 }
