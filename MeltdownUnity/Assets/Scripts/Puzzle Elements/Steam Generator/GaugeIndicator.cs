@@ -16,8 +16,6 @@ public struct Destination
     [Tooltip("The name of the range.")] public string name;
     [Tooltip("The minimum of the range.")][Range(-360.0f, 360.0f)] public float minPosition;
     [Tooltip("The maximum of the range.")][Range(-360.0f, 360.0f)] public float maxPosition;
-    [Tooltip("The midpoint of the range.")][ShowOnly] public float centralPosition;
-    [Tooltip("The size of the range.")][ShowOnly] public float tolerance;
     [Tooltip("Whether the event has been triggered.")] public bool hasBeenReached;
     [Tooltip("The event to trigger.")] public UnityEvent onReached;
 
@@ -26,18 +24,8 @@ public struct Destination
         this.name = name;
         this.minPosition = minPosition;
         this.maxPosition = maxPosition;
-        this.centralPosition = (minPosition + maxPosition) / 2f;
-        this.tolerance = Mathf.Abs(minPosition - maxPosition);
         this.hasBeenReached = false;
         this.onReached = new UnityEvent();
-    }
-
-    public void Recalculate(float minPosition, float maxPosition)
-    {
-        this.minPosition = Mathf.Round(minPosition * 10) / 10; // Round to 1 d.p. for scrubbing.
-        this.maxPosition = Mathf.Round(maxPosition * 10) / 10; // Round to 1 d.p. for scrubbing.
-        this.centralPosition = (minPosition + maxPosition) / 2f;
-        this.tolerance = Mathf.Abs(minPosition - maxPosition);
     }
 }
 
@@ -50,8 +38,11 @@ public class GaugeIndicator : MonoBehaviour
     private float _firstHeatPoint, _initialHeatPoint, _finalHeatPoint, _firstCoolPoint, _finalCoolPoint, _fixedCurrentRotationPoint;
     private float _smallIncrement, _smallDelay;
     private Quaternion _zeroRotation, _defaultRotation, _finalRotation, _descendRotation;
-    private bool _didForwardRot = false, _didBackRot = false, _runTimeRepositionStandby = false, _correctedPoint = false;
-    private float _maxDegreesCopy, _equalHeatCopy, _equalCoolCopy;
+    private bool _didForwardRot = false, _didBackRot = false, _correctedPoint = false, customScale;
+    private float _prevRotationPoint, _currentRotationPoint, _nextRotationPoint;
+    private float[] _heatRotationPoints = { 0.0f }, _coolRotationPoints = { 0.0f };
+    private float _equalHeatEndPoint, _equalCoolEndPoint, _maxDegreesCopy;
+    private int _equalHeatPoints, _equalCoolPoints, _remainingFireCalls, _remainingIceCalls;
 
     // [Editor Variables]
 
@@ -82,52 +73,6 @@ public class GaugeIndicator : MonoBehaviour
     [Tooltip("Resets to the start position.")] public bool ResetPinLocation = false;
     [Tooltip("Moves to the final position.")] public bool FinalPinLocation = false;
     [Tooltip("Moves to the minimum position.")] public bool MinLocation = false;
-    [Tooltip("Last movement used.")][SerializeField][ShowOnly] private string _lastMovement = "";
-
-    [Header("<size=15>Repetition Parameters</size>")]
-    [Space]
-    [Tooltip("The set number of rotation points to go through by fire.")][Range(0, 100)] public int FireCalls = 1;
-    [Tooltip("The set number of rotation points to go through by ice.")][Range(0, 100)] public int IceCalls = 1;
-    [Tooltip("The remaining number of rotation points to go through by fire.")][SerializeField][Range(0, 100)] private int _remainingFireCalls;
-    [Tooltip("The remaining number of rotation points to go through by ice.")][SerializeField][Range(0, 100)] private int _remainingIceCalls;
-    [Tooltip("The previous rotation point after cooling repetition is done.")][SerializeField][ShowOnly] private float _prevStop;
-    [Tooltip("The current rotation value.")][SerializeField][ShowOnly] private float _currentStop;
-    [Tooltip("The next rotation point after heating repetition is done.")][SerializeField][ShowOnly] private float _nextStop;
-
-    [Header("<size=15>Scale Parameters</size>")]
-    [Space]
-    [Tooltip("Whether to override with custom scales.")][SerializeField] private bool _customScale = false;
-    [Space]
-    [Tooltip("The number of equidistant fire rotation points.")][SerializeField][Range(0, 100)] private int _equalHeatPoints = 3;
-    [Tooltip("The size of the fire scale.")][SerializeField][Range(20f, 360f)] private float _equalHeatEndPoint = 210f;
-    [Space]
-    [Tooltip("The number of equidistant ice rotation points.")][SerializeField][Range(0, 100)] private int _equalCoolPoints = 7;
-    [Tooltip("The size of the ice scale.")][SerializeField][Range(20f, 360f)] private float _equalCoolEndPoint = 210f;
-    [Space]
-    [Tooltip("The fire rotation points.")][SerializeField] private float[] _heatRotationPoints = { 0.0f, 70f, 140.0f, 210.0f };
-    [Tooltip("The ice rotation points.")][SerializeField] private float[] _coolRotationPoints = { 0.0f, 35.0f, 70.0f, 105.0f, 140.0f, 175.0f, 210.0f };
-    [Space]
-    [Tooltip("The previous rotation point.")][SerializeField][ShowOnly] private float _prevRotationPoint;
-    [Tooltip("The current rotation point.")][SerializeField][ShowOnly] private float _currentRotationPoint;
-    [Tooltip("The next rotation point.")][SerializeField][ShowOnly] private float _nextRotationPoint;
-
-    [Header("<size=14>Test-Only Rotation Parameters</size>")]
-    [Space]
-    [Tooltip("The delay at which auto-cooling begins.")][SerializeField][Range(0.0f, 100.0f)] private float _autoCoolDelay = 2.0f;
-    [Tooltip("Whether auto-cooling is active.")] public bool AutoCoolOn = false;
-    [Tooltip("Whether auto-cooling is triggered.")] public bool AutoCoolTriggerOn = false;
-    [Space]
-    [Tooltip("Whether instant movement is on.")] public bool InstantRotation = false;
-    [Tooltip("Whether the rotation points adapat at run-time (currently heat-only).")] public bool RunTimeReposition = false;
-    [Tooltip("Makes the ice hits the same as fire hits.")] public bool HeatOnlyScale = false;
-
-    [Header("<size=14>Test-Only Location Parameters </size>")]
-    [Space]
-    [Tooltip("Whether setting the local start position is enabled.")][SerializeField] private bool _setStartPosition = false;
-    [Tooltip("The co-ordinates to set the local start position.")][SerializeField] private Vector3 _startPosition = Vector3.zero;
-    [Space]
-    [Tooltip("Whether setting the local start rotation is enabled.")][SerializeField] private bool _setStartRotation = false;
-    [Tooltip("The co-ordinates to set the local start rotation.")][SerializeField] private Vector3 _startRotation = Vector3.zero;
 
     // [Events]
 
@@ -135,18 +80,6 @@ public class GaugeIndicator : MonoBehaviour
     {
         const int zeroLength = 0, tenLength = 10, hundredLength = 100 + 1;
         const float zeroPoint = 0.0f;
-
-        RecalcDestinations(); // Recalculates Central Position and Tolerance.
-
-        if ((!Application.isPlaying || RunTimeReposition)) // Adjusts the min degrees based on the max.
-        {
-            Invoke("MinDegreesAutoAdjustment", _smallDelay);
-        }
-
-        if (_lastMovement == "") // Sets last movement to default point instead of empty.
-        {
-            _lastMovement = "Default Point";
-        }
 
         // ##### Prevents less than 1 rotation point and more than 101 (starting point + 100).
         if (_heatRotationPoints.Length == zeroLength)
@@ -175,8 +108,6 @@ public class GaugeIndicator : MonoBehaviour
         // ##### Rounding when scrubbing.
         _minDegreesBelowStart = Mathf.Round(_minDegreesBelowStart);
         _maxDegrees = Mathf.Round(_maxDegrees);
-        _equalHeatEndPoint = Mathf.Round(_equalHeatEndPoint);
-        _equalCoolEndPoint = Mathf.Round(_equalCoolEndPoint);
         _heatingSpeed = RoundToOneDP(_heatingSpeed);
         _coolingSpeed = RoundToOneDP(_coolingSpeed);
     }
@@ -186,19 +117,6 @@ public class GaugeIndicator : MonoBehaviour
         // ##### Sets Equal Points to rotate to.
         SetEqualHeatPoints();
         SetEqualCoolPoints();
-
-        // ##### Swaps Destination Points if the Maximum is less than Minimum.
-        SwapPointsForDestinations();
-
-        // ##### Sets Local Start Co-ordinates to override.
-        if (_setStartPosition)
-        {
-            transform.localPosition = _startPosition;
-        }
-        if (_setStartRotation)
-        {
-            transform.localRotation = Quaternion.Euler(_startRotation);
-        }
 
         // ##### Sets Indexes of Arrays.
         _firstHeatIndex = 0;
@@ -220,7 +138,6 @@ public class GaugeIndicator : MonoBehaviour
         _prevRotationPoint = _firstCoolPoint; // Value for the purpose of FindCoolIndex.
         _currentRotationPoint = _heatRotationPoints[_initialHeatIndex];
         _fixedCurrentRotationPoint = _currentRotationPoint;
-        _currentStop = _currentRotationPoint;
 
         // ##### Sets these Indexes using Prev/Current Rotation points.
         _startCoolIndex = FindCoolIndex(_initialHeatIndex);
@@ -235,17 +152,9 @@ public class GaugeIndicator : MonoBehaviour
         _zeroRotation = transform.rotation; // 0 degrees on the scales.
         _defaultRotation = _zeroRotation * Quaternion.Euler(_rotationAxis * _initialHeatPoint);
         _finalRotation = _zeroRotation * Quaternion.Euler(_rotationAxis * _finalHeatPoint);
-        if (HeatOnlyScale)
-        {
-            _descendRotation = _zeroRotation * Quaternion.Euler(_rotationAxis * _firstHeatPoint);
-        }
-        else
-        {
-            _descendRotation = _zeroRotation * Quaternion.Euler(_rotationAxis * _firstCoolPoint);
-        }
+        _descendRotation = _zeroRotation * Quaternion.Euler(_rotationAxis * _firstCoolPoint);
 
         transform.rotation = _defaultRotation; // Goes to starting point.
-        _lastMovement = "Default Point";
 
         // ##### Sets Corrective Variables
         _smallIncrement = 0.2f;
@@ -254,7 +163,7 @@ public class GaugeIndicator : MonoBehaviour
 
     private void Update()
     {
-        const int noCalls = 0;
+        const int zero = 0;
         if (ResetPinLocation)
         {
             ResetPinLocation = false;
@@ -270,7 +179,7 @@ public class GaugeIndicator : MonoBehaviour
             MinLocation = false;
             MinGauge();
         }
-        else if (MoveToNextPoint && FireCalls != noCalls && !_correctedPoint) // Determines if forward rotation is enabled.
+        else if (MoveToNextPoint && _firePercentage != zero && !_correctedPoint) // Determines if forward rotation is enabled.
         {
             // ##### Cancels if at the end.
             if (transform.rotation == _finalRotation && _nextRotationPoint == _finalHeatPoint)
@@ -282,13 +191,12 @@ public class GaugeIndicator : MonoBehaviour
             IncrementGauge();
 
         }
-        else if (AutoCoolOn || (MoveToPrevPoint && (HeatOnlyScale && FireCalls != noCalls || !HeatOnlyScale && IceCalls != noCalls) && !_correctedPoint)) // Cools down (reverse rotation) to origin if not.
+        else if (MoveToPrevPoint && _icePercentage != zero && !_correctedPoint) // Cools down (reverse rotation) to origin if not.
         {
             // ##### Cancels if at the start.
-            if (transform.rotation == _descendRotation && ((HeatOnlyScale && _prevRotationPoint == _firstHeatPoint) || (_prevRotationPoint == _firstCoolPoint)))
+            if (transform.rotation == _descendRotation && _prevRotationPoint == _firstCoolPoint)
             {
                 MoveToPrevPoint = false;
-                AutoCoolOn = false;
                 return;
             }
 
@@ -317,67 +225,28 @@ public class GaugeIndicator : MonoBehaviour
 
             if (incPosRotation || incNegRotation)
             {
-                if (RunTimeReposition && !_runTimeRepositionStandby)
+                transform.Rotate(_rotationAxis, _heatingSpeed * Time.deltaTime * sign);
+                _currentRotationPoint += _heatingSpeed * Time.deltaTime * sign;
+
+                // ### Corrects rotation to default/end point. Needs to be this long because it won't get assigned quick enough in a local variable.
+                if (_nextRotationPoint == _finalHeatPoint && ((sign == pos && _currentRotationPoint > _finalHeatPoint - _smallIncrement) || (sign == neg && _currentRotationPoint < _finalHeatPoint + _smallIncrement)))
                 {
-                    UpdateRotationPoints(IncrementStatus.Transitioned);
-                    _runTimeRepositionStandby = true;
+                    CorrectPoint("MaxGauge", _heatIndex, _finalHeatIndex, "Next Point");
                 }
-
-                if (!InstantRotation)
+                else if (_nextRotationPoint == _initialHeatPoint && _remainingFireCalls == noCalls && ((sign == pos && _currentRotationPoint > _initialHeatPoint - _smallIncrement) || (sign == neg && _currentRotationPoint < _initialHeatPoint + _smallIncrement)))
                 {
-                    transform.Rotate(_rotationAxis, _heatingSpeed * Time.deltaTime * sign);
-                    _currentRotationPoint += _heatingSpeed * Time.deltaTime * sign;
-                    _currentStop = _currentRotationPoint;
-
-                    // ### Corrects rotation to default/end point. Needs to be this long because it won't get assigned quick enough in a local variable.
-                    if (_nextRotationPoint == _finalHeatPoint && ((sign == pos && _currentRotationPoint > _finalHeatPoint - _smallIncrement) || (sign == neg && _currentRotationPoint < _finalHeatPoint + _smallIncrement)))
-                    {
-                        CorrectPoint("MaxGauge", _heatIndex, _finalHeatIndex, "Next Point");
-                    }
-                    else if (_nextRotationPoint == _initialHeatPoint && _remainingFireCalls == noCalls && ((sign == pos && _currentRotationPoint > _initialHeatPoint - _smallIncrement) || (sign == neg && _currentRotationPoint < _initialHeatPoint + _smallIncrement)))
-                    {
-                        CorrectPoint("ResetGauge", _heatIndex, _firstHeatIndex, "Next Point");
-                    }
-                }
-                else
-                {
-                    JumpToNextRotationPoint();
-                    _lastMovement = "Next Point";
-
-                    // ##### Corrects rotation to default/end point.
-                    if (_nextRotationPoint == _finalHeatPoint)
-                    {
-                        CorrectPoint("MaxGauge", _heatIndex, _finalHeatIndex, "Next Point");
-                    }
-                    else if (_nextRotationPoint == _initialHeatPoint && _remainingFireCalls == noCalls)
-                    {
-                        CorrectPoint("ResetGauge", _heatIndex, _firstHeatIndex, "Next Point");
-                    }
+                    CorrectPoint("ResetGauge", _heatIndex, _firstHeatIndex, "Next Point");
                 }
                 _didForwardRot = true;
             }
             else if (completePosRotation || completeNegRotation)  // When the point is reached, rotation is disabled, and the next points (to rotate to) are assigned.
             {
                 JumpToNextRotationPoint(); // corrects the imprecision
-                _lastMovement = "Next Point";
 
-                // ##### Previous backward rotation check.
-                if (!_didBackRot || !HeatOnlyScale)
-                {
-                    MoveToNextPoint = false;
-                }
-                else
-                {
-                    _didBackRot = false;
-                    _remainingFireCalls++;
-                }
-
-                _runTimeRepositionStandby = !RunTimeReposition; // Allows the RunTimeReposition to happen again if enabled.
+                MoveToNextPoint = false;
 
                 _heatIndex += (_heatIndex < _finalHeatIndex) ? 1 : 0; // Increases _heatIndex unless end.
                 SetRotationPoints(_heatIndex, _coolIndex);
-
-                AutoCoolOn = false;
 
                 // ##### Repeated Increment calls.
                 if (_remainingFireCalls > noCalls)
@@ -389,14 +258,7 @@ public class GaugeIndicator : MonoBehaviour
                 {
                     CheckForDestination();
                     Invoke("SetFireCalls", _smallDelay);
-                    if (!HeatOnlyScale)
-                    {
-                        Invoke("SetIceCalls", _smallDelay);
-                    }
-                    if (AutoCoolTriggerOn)
-                    {
-                        Invoke("AwakenCoolDown", _autoCoolDelay);
-                    }
+                    Invoke("SetIceCalls", _smallDelay);
                 }
             }
         }
@@ -415,131 +277,42 @@ public class GaugeIndicator : MonoBehaviour
 
         if (decPosRotation || decNegRotation) // Active rotation towards the previous point.
         {
-            if (RunTimeReposition && !_runTimeRepositionStandby)
+            transform.Rotate(_rotationAxis, _coolingSpeed * Time.deltaTime * sign);
+            _currentRotationPoint += _coolingSpeed * Time.deltaTime * sign;
+
+            // ##### Corrects rotation to default/minimum. They need to be this long because it won't get assigned quick enough in a local variable.
+            if ((_prevRotationPoint == _firstCoolPoint) && ((sign == pos && _currentRotationPoint > _firstCoolPoint - _smallIncrement) || (sign == neg && _currentRotationPoint < _firstCoolPoint + _smallIncrement)))
             {
-                UpdateRotationPoints(IncrementStatus.Transitioned);
-                _runTimeRepositionStandby = true;
+                CorrectPoint("MinGauge", _coolIndex, _firstCoolIndex, "Previous Point");
             }
-
-            if (!InstantRotation)
+            else if ((_prevRotationPoint == _initialHeatPoint) && _remainingIceCalls == noCalls && ((sign == pos && _currentRotationPoint > _initialHeatPoint - _smallIncrement) || (sign == neg && _currentRotationPoint < _initialHeatPoint + _smallIncrement)))
             {
-                transform.Rotate(_rotationAxis, _coolingSpeed * Time.deltaTime * sign);
-                _currentRotationPoint += _coolingSpeed * Time.deltaTime * sign;
-                _currentStop = _currentRotationPoint;
-
-                // ##### Corrects rotation to default/minimum. They need to be this long because it won't get assigned quick enough in a local variable.
-                if (HeatOnlyScale)
-                {
-                    if ((_prevRotationPoint == _firstHeatPoint) && ((sign == pos && _currentRotationPoint > _firstHeatPoint - _smallIncrement) || (sign == neg && _currentRotationPoint < _firstHeatPoint + _smallIncrement)))
-                    {
-                        CorrectPoint("MinGauge", _heatIndex, _secondHeatIndex, "Previous Point");
-                    }
-                    else if ((_prevRotationPoint == _initialHeatPoint) && _remainingFireCalls == noCalls && ((sign == pos && _currentRotationPoint > _initialHeatPoint - _smallIncrement) || (sign == neg && _currentRotationPoint < _initialHeatPoint + _smallIncrement)))
-                    {
-                        CorrectPoint("ResetGauge", _heatIndex, _startHeatIndex, "Previous Point");
-                    }
-                }
-                else
-                {
-                    if ((_prevRotationPoint == _firstCoolPoint) && ((sign == pos && _currentRotationPoint > _firstCoolPoint - _smallIncrement) || (sign == neg && _currentRotationPoint < _firstCoolPoint + _smallIncrement)))
-                    {
-                        CorrectPoint("MinGauge", _coolIndex, _firstCoolIndex, "Previous Point");
-                    }
-                    else if ((_prevRotationPoint == _initialHeatPoint) && _remainingIceCalls == noCalls && ((sign == pos && _currentRotationPoint > _initialHeatPoint - _smallIncrement) || (sign == neg && _currentRotationPoint < _initialHeatPoint + _smallIncrement)))
-                    {
-                        CorrectPoint("ResetGauge", _coolIndex - 1, _startCoolIndex, "Previous Point");
-                    }
-                }
+                CorrectPoint("ResetGauge", _coolIndex - 1, _startCoolIndex, "Previous Point");
             }
-            else
-            {
-                JumpToPrevRotationPoint();
-                _lastMovement = "Previous Point";
-
-                // ##### Corrects rotation to default/minimum.
-                if (HeatOnlyScale)
-                {
-                    if (_prevRotationPoint == _firstHeatPoint)
-                    {
-                        CorrectPoint("MinGauge", _heatIndex, _secondHeatIndex, "Previous Point");
-                    }
-                    else if (_prevRotationPoint == _initialHeatPoint && _remainingFireCalls == noCalls)
-                    {
-                        CorrectPoint("ResetGauge", _heatIndex, _startHeatIndex, "Previous Point");
-                    }
-                }
-                else
-                {
-                    if (_prevRotationPoint == _firstCoolPoint)
-                    {
-                        CorrectPoint("MinGauge", _coolIndex, _firstCoolIndex, "Previous Point");
-                    }
-                    else if (_prevRotationPoint == _initialHeatPoint && _remainingIceCalls == noCalls)
-                    {
-                        CorrectPoint("ResetGauge", _coolIndex - 1, _startCoolIndex, "Previous Point");
-                    }
-                }
-            }
-
             _didBackRot = true;
         }
         else if (completePosRotation || completeNegRotation) // When the point is reached, rotation is disabled, and the next points (to rotate to) are assigned.
         {
             JumpToPrevRotationPoint(); // Corrects the imprecision.
-            _lastMovement = "Previous Point";
 
-            // ##### Previous forward rotation check.
-            if (_nextRotationPoint == _finalHeatPoint || !HeatOnlyScale)
-            {
-                MoveToPrevPoint = false;
-                _didForwardRot = false;
-            }
-            else if (!_didForwardRot)
-            {
-                MoveToPrevPoint = false;
-            }
-            else
-            {
-                _didForwardRot = false;
-                _remainingFireCalls++;
-            }
+            MoveToPrevPoint = false;
+            _didForwardRot = false;
 
-            _runTimeRepositionStandby = !RunTimeReposition; // Allows the RunTimeReposition to happen again if enabled.
-
-            if (HeatOnlyScale)
-            {
-                _heatIndex -= (_heatIndex > _secondHeatIndex) ? 1 : 0; // Decreases _heatIndex unless earliest.
-            }
             _coolIndex -= (_coolIndex > _firstCoolIndex) ? 1 : 0; // Decreases _coolIndex unless start.
             SetRotationPoints(_heatIndex, _coolIndex);
 
             // ##### Repeated Decrement calls.
-            if (HeatOnlyScale)
+
+            if (_remainingIceCalls > noCalls)
             {
-                if (_remainingFireCalls > noCalls)
-                {
-                    _remainingFireCalls--;
-                    MoveToPrevPoint = true;
-                }
-                else
-                {
-                    Invoke("SetFireCalls", _smallDelay);
-                }
+                _remainingIceCalls--;
+                MoveToPrevPoint = true;
             }
             else
             {
-
-                if (_remainingIceCalls > noCalls)
-                {
-                    _remainingIceCalls--;
-                    MoveToPrevPoint = true;
-                }
-                else
-                {
-                    CheckForDestination();
-                    Invoke("SetFireCalls", _smallDelay);
-                    Invoke("SetIceCalls", _smallDelay);
-                }
+                CheckForDestination();
+                Invoke("SetFireCalls", _smallDelay);
+                Invoke("SetIceCalls", _smallDelay);
             }
         }
     }
@@ -551,180 +324,76 @@ public class GaugeIndicator : MonoBehaviour
     {
         MoveToPrevPoint = true;
     }
-    public void AwakenCoolDown()
-    {
-        if (!MoveToNextPoint) // Sets the cooldown on if not moving.
-        {
-            AutoCoolOn = true;
-        }
-    }
     public void ResetGauge()
     {
-        if (RunTimeReposition)
-        {
-            UpdateRotationPoints(IncrementStatus.Set);
-        }
-
         // ##### Resets rotation.
         transform.rotation = _defaultRotation;
 
         // ##### Resets tracking-related variables
         _currentRotationPoint = _initialHeatPoint;
         _fixedCurrentRotationPoint = _currentRotationPoint;
-        _currentStop = _currentRotationPoint;
         _heatIndex = _startHeatIndex;
         _coolIndex = _startCoolIndex;
         SetRotationPoints(_heatIndex, _coolIndex);
         Invoke("SetFireCalls", _smallDelay);
-        if (!HeatOnlyScale)
-        {
-            Invoke("SetIceCalls", _smallDelay);
-        }
+        Invoke("SetIceCalls", _smallDelay);
         MoveToNextPoint = false;
         MoveToPrevPoint = false;
         _didForwardRot = false;
         _didBackRot = false;
         CheckForDestination();
         _correctedPoint = false;
-        _lastMovement = "Default Point";
     }
     public void MinGauge()
     {
-        if (RunTimeReposition)
-        {
-            UpdateRotationPoints(IncrementStatus.Set);
-        }
-
         // ##### Completes rotation.
         transform.rotation = _descendRotation;
 
         // ##### Sets tracking-related variables to minimum point.
-        _currentRotationPoint = HeatOnlyScale ? _firstHeatPoint : _firstCoolPoint;
+        _currentRotationPoint = _firstCoolPoint;
         _fixedCurrentRotationPoint = _currentRotationPoint;
-        _currentStop = _currentRotationPoint;
         _coolIndex = _firstCoolIndex;
-        _heatIndex = (_firstCoolPoint == _firstHeatPoint || HeatOnlyScale) ? _secondHeatIndex : _firstHeatIndex;
+        _heatIndex = _firstCoolPoint == _firstHeatPoint ? _secondHeatIndex : _firstHeatIndex;
         SetRotationPoints(_heatIndex, _coolIndex);
         Invoke("SetFireCalls", _smallDelay);
-        if (!HeatOnlyScale)
-        {
-            Invoke("SetIceCalls", _smallDelay);
-        }
+        Invoke("SetIceCalls", _smallDelay);
         MoveToNextPoint = false;
         MoveToPrevPoint = false;
         _didForwardRot = false;
         _didBackRot = false;
-        AutoCoolOn = false;
         CheckForDestination();
         _correctedPoint = false;
-        _lastMovement = "Min Point";
     }
     public void MaxGauge()
     {
-        if (RunTimeReposition)
-        {
-            UpdateRotationPoints(IncrementStatus.Set);
-        }
-
         // ##### Completes rotation.
         transform.rotation = _finalRotation;
 
         // ##### Sets tracking-related variables to final point.
         _currentRotationPoint = _finalHeatPoint;
         _fixedCurrentRotationPoint = _currentRotationPoint;
-        _currentStop = _currentRotationPoint;
         _nextRotationPoint = _currentRotationPoint;
         _heatIndex = _finalHeatIndex;
         _coolIndex = FindCoolIndex(_heatIndex);
         SetRotationPoints(_heatIndex, _coolIndex);
         Invoke("SetFireCalls", _smallDelay);
-        if (!HeatOnlyScale)
-        {
-            Invoke("SetIceCalls", _smallDelay);
-        }
+        Invoke("SetIceCalls", _smallDelay);
         MoveToNextPoint = false;
         MoveToPrevPoint = false;
         _didForwardRot = false;
         _didBackRot = false;
-        AutoCoolOn = false;
-        if (AutoCoolTriggerOn)
-        {
-            Invoke("AwakenCoolDown", _autoCoolDelay);
-        }
         CheckForDestination();
         _correctedPoint = false;
-        _lastMovement = "Final Point";
     }
 
     // ########## Functions that set the number of Fire/Ice Calls and calculates the next stop after successive calls.
     private void SetFireCalls()
     {
-        FireCalls = _customScale ? FireCalls : _firePercentage;
-        _remainingFireCalls = FireCalls - 1;
-        _nextStop = (_heatIndex + _remainingFireCalls) > _finalHeatIndex ? _finalHeatPoint : _heatRotationPoints[_heatIndex + _remainingFireCalls];
-        if (HeatOnlyScale)
-        {
-            _prevStop = (_heatIndex - 1 - _remainingFireCalls) < _firstHeatIndex ? _firstHeatPoint : _heatRotationPoints[_heatIndex - 1 - _remainingFireCalls];
-
-            // ##### Back/Forward Rotation Adjustments
-            _nextStop = (_nextStop != _finalHeatPoint && _didBackRot) ? _heatRotationPoints[_heatIndex + _remainingFireCalls + 1] : _nextStop;
-            _prevStop = (_prevStop != _firstHeatPoint && _didForwardRot) ? _heatRotationPoints[_heatIndex - 1 - _remainingFireCalls - 1] : _prevStop;
-        }
+        _remainingFireCalls = _firePercentage - 1;
     }
     private void SetIceCalls()
     {
-        IceCalls = _customScale ? IceCalls : _icePercentage;
-        _remainingIceCalls = IceCalls - 1;
-        _prevStop = (_coolIndex - _remainingIceCalls) < _firstCoolIndex ? _firstCoolPoint : _coolRotationPoints[_coolIndex - _remainingIceCalls];
-    }
-
-    //  ########## Function for Run-Time Reposition.
-    public enum IncrementStatus { Set, Transitioned };
-
-    private void UpdateRotationPoints(IncrementStatus status)
-    {
-        // ##### Sets Equal Points to rotate to.
-        SetEqualHeatPoints();
-        SetEqualCoolPoints();
-
-        // ##### Swaps Destination Points if the Maximum is less than Minimum.
-        SwapPointsForDestinations();
-
-        // ##### Sets Indexes of Array
-        _initialHeatIndex = GetInitialIndex();
-        _finalHeatIndex = _heatRotationPoints.Length - 1;
-        _finalCoolIndex = _coolRotationPoints.Length - 1;
-        _startHeatIndex = _initialHeatIndex != _finalHeatIndex ? _initialHeatIndex + 1 : _initialHeatIndex;
-
-        // ##### Sets Elements of Array
-        _firstHeatPoint = _heatRotationPoints[_firstHeatIndex];
-        _firstCoolPoint = _coolRotationPoints[_firstCoolIndex];
-        _initialHeatPoint = _heatRotationPoints[_initialHeatIndex];
-        _finalHeatPoint = _heatRotationPoints[_finalHeatIndex];
-        _finalCoolPoint = _coolRotationPoints[_finalCoolIndex];
-
-        // ##### Sets this Index using Prev/Current Rotation points.
-        _startCoolIndex = FindCoolIndex(_initialHeatIndex);
-
-        // ##### If out of bounds, sets to the last point. Minus one if it will be incremented afterwards.
-        if (_heatIndex > _finalHeatIndex)
-        {
-            bool isEndPoint = status == IncrementStatus.Set;
-            _heatIndex = (isEndPoint || _initialHeatIndex == _finalHeatIndex) ? _finalHeatIndex : _finalHeatIndex - 1;
-            _coolIndex = FindCoolIndex(_heatIndex);
-        }
-
-        // ##### Rotation Transforms.
-        _defaultRotation = _zeroRotation * Quaternion.Euler(_rotationAxis * _initialHeatPoint);
-        _finalRotation = _zeroRotation * Quaternion.Euler(_rotationAxis * _finalHeatPoint);
-        if (HeatOnlyScale)
-        {
-            _descendRotation = _zeroRotation * Quaternion.Euler(_rotationAxis * _firstHeatPoint);
-        }
-        else
-        {
-            _descendRotation = _zeroRotation * Quaternion.Euler(_rotationAxis * _firstCoolPoint);
-        }
+        _remainingIceCalls = _icePercentage - 1;
     }
 
     // ########## Function that updates the points to rotate to.
@@ -739,14 +408,14 @@ public class GaugeIndicator : MonoBehaviour
             return;
         }
 
-        if (!HeatOnlyScale && (j > newFinalCoolIndex || j < _firstCoolIndex))
+        if (j > newFinalCoolIndex || j < _firstCoolIndex)
         {
             MinGauge();
             return;
         }
 
         // ##### Permutations to set next rotation point.
-        if (HeatOnlyScale || _didForwardRot || _currentRotationPoint == _firstCoolPoint || _currentRotationPoint == _initialHeatPoint || _currentRotationPoint == _finalHeatPoint)
+        if (_didForwardRot || _currentRotationPoint == _firstCoolPoint || _currentRotationPoint == _initialHeatPoint || _currentRotationPoint == _finalHeatPoint)
         {
             _nextRotationPoint = _heatRotationPoints[i];
         }
@@ -757,11 +426,7 @@ public class GaugeIndicator : MonoBehaviour
         }
 
         // ##### Permutations to set previous rotation point.
-        if (HeatOnlyScale && i > 0)
-        {
-            _prevRotationPoint = _heatRotationPoints[i - 1];
-        }
-        else if ((_didBackRot && !_didForwardRot) || _currentRotationPoint == _firstCoolPoint || _currentRotationPoint == _initialHeatPoint || _currentRotationPoint == _finalHeatPoint)
+        if ((_didBackRot && !_didForwardRot) || _currentRotationPoint == _firstCoolPoint || _currentRotationPoint == _initialHeatPoint || _currentRotationPoint == _finalHeatPoint)
         {
             _prevRotationPoint = _coolRotationPoints[j];
         }
@@ -861,7 +526,6 @@ public class GaugeIndicator : MonoBehaviour
         transform.localRotation = RoundRotationPoint(transform.localRotation);
         _currentRotationPoint = _nextRotationPoint;
         _fixedCurrentRotationPoint = _currentRotationPoint;
-        _currentStop = _currentRotationPoint;
     }
     private void JumpToPrevRotationPoint()
     {
@@ -869,7 +533,6 @@ public class GaugeIndicator : MonoBehaviour
         transform.localRotation = RoundRotationPoint(transform.localRotation);
         _currentRotationPoint = _prevRotationPoint;
         _fixedCurrentRotationPoint = _currentRotationPoint;
-        _currentStop = _currentRotationPoint;
     }
     private Quaternion RoundRotationPoint(Quaternion RotationPoint)
     {
@@ -903,30 +566,10 @@ public class GaugeIndicator : MonoBehaviour
             {
                 JumpToPrevRotationPoint();
             }
-            _lastMovement = point;
         }
     }
 
-    // ########## Functions to handle the destination triggers.
-    private void SwapPointsForDestinations()
-    {
-        for (int i = 0; i < _destinations.Length; i++)
-        {
-            if (_destinations[i].minPosition > _destinations[i].maxPosition)
-            {
-                float tempMinPosition = _destinations[i].minPosition;
-                _destinations[i].minPosition = _destinations[i].maxPosition;
-                _destinations[i].maxPosition = tempMinPosition;
-            }
-        }
-    }
-    private void RecalcDestinations()
-    {
-        for (int i = 0; i < _destinations.Length; i++)
-        {
-            _destinations[i].Recalculate(_destinations[i].minPosition, _destinations[i].maxPosition);
-        }
-    }
+    // ########## Function to handle the destination triggers.
     private void CheckForDestination()
     {
         for (int i = 0; i < _destinations.Length; i++)
@@ -954,12 +597,8 @@ public class GaugeIndicator : MonoBehaviour
     {
         const int oneHundredPercent = 100, oneStartPoint = 1, nothing = 0;
 
-        // ##### Uses a unified percentage scale by default and calls x number of times for the 100 + 1 points.
-        if (!_customScale)
-        {
-            equalPoints = oneHundredPercent;
-            equalEndPoint = _maxDegrees;
-        }
+        equalPoints = oneHundredPercent;
+        equalEndPoint = _maxDegrees;
 
         // ##### Sets equidistant rotation points.
         int numberOfPoints = equalPoints + oneStartPoint;
@@ -972,57 +611,5 @@ public class GaugeIndicator : MonoBehaviour
                 rotationPoints[i] = i * (equalEndPoint / equalPoints) - _minDegreesBelowStart;
             }
         }
-    }
-
-    // ########## Function to prevent Min Degrees Below Start from reaching Max Degrees (or EndPoints) and adapts to Max Degrees changing.
-    private void MinDegreesAutoAdjustment()
-    {
-        const float zeroDegrees = 0f, oneDegree = 1f, threeSixtyDegrees = 360f;
-
-        // ##### Gives initial values.
-        _maxDegreesCopy = _maxDegreesCopy == zeroDegrees ? _maxDegrees : _maxDegreesCopy;
-        _equalHeatCopy = _equalHeatCopy == zeroDegrees ? _equalHeatEndPoint : _equalHeatCopy;
-        _equalCoolCopy = _equalCoolCopy == zeroDegrees ? _equalCoolEndPoint : _equalCoolCopy;
-
-        // ##### Applies changes if the Max degrees is exceeded or the Max degrees changes.
-        if (!_customScale)
-        {
-            if (_minDegreesBelowStart >= _maxDegrees)
-            {
-                _minDegreesBelowStart = _maxDegrees - oneDegree;
-            }
-            else if (_maxDegrees != _maxDegreesCopy && _maxDegreesCopy != zeroDegrees)
-            {
-                _minDegreesBelowStart += (_maxDegrees - _maxDegreesCopy);
-                _maxDegreesCopy = _maxDegrees;
-            }
-        }
-        else if (_customScale)
-        {
-            if (_minDegreesBelowStart >= _equalHeatEndPoint)
-            {
-                _minDegreesBelowStart = _equalHeatEndPoint - oneDegree;
-            }
-            else if (_equalHeatEndPoint != _equalHeatCopy && _equalHeatCopy != zeroDegrees)
-            {
-                _minDegreesBelowStart += (_equalHeatEndPoint - _equalHeatCopy);
-
-                _equalHeatCopy = _equalHeatEndPoint;
-
-            }
-            else if (_minDegreesBelowStart >= _equalCoolEndPoint)
-            {
-                _minDegreesBelowStart = _equalCoolEndPoint - oneDegree;
-            }
-            else if (_equalCoolEndPoint != _equalCoolCopy && _equalCoolCopy != zeroDegrees)
-            {
-                _minDegreesBelowStart += (_equalCoolEndPoint - _equalCoolCopy);
-                _equalCoolCopy = _equalCoolEndPoint;
-            }
-        }
-
-        // ##### Clamps to the 360 degree range.
-        _minDegreesBelowStart = _minDegreesBelowStart > threeSixtyDegrees ? (threeSixtyDegrees - oneDegree) : _minDegreesBelowStart;
-        _minDegreesBelowStart = _minDegreesBelowStart < zeroDegrees ? zeroDegrees : _minDegreesBelowStart;
     }
 }
