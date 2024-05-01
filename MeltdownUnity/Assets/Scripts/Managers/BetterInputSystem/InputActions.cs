@@ -31,7 +31,7 @@ public static class InputActions
 	public static KeyCode UIKey = KeyCode.Escape;
 
 	/// <summary>
-	/// the diffet actions the player can do.
+	/// the differnt actions the player can do.
 	/// </summary>
 	public enum KeyAction
 	{

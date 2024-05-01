@@ -146,21 +146,19 @@ public class PauseMenu : MonoBehaviour
 		SaveData.Current.Sensitivity = ControllerSenSlider.value;
 		SaveData.Current.ToggleCrouch = crouchToggle.isOn;
 		if (SaveManager.current != null) SaveManager.current.ForceSave();
-        print("This is working");
-    }
+	}
 
 	public void PauseSettingsLoad()
 	{
 		if (SaveManager.current != null)
 		{
-            SaveManager.current.ForceLoad();
-        }
+			SaveManager.current.ForceLoad();
+		}
 		if (SaveData.Current == null) return;
 		volumeSlider.value = SaveData.Current.MaxVolume;
 		ControllerSenSlider.value = SaveData.Current.Sensitivity;
 		crouchToggle.isOn = SaveData.Current.ToggleCrouch;
-        print("This is working");
-    }
+	}
 
 	public IEnumerator ConfirmationBox()
 	{

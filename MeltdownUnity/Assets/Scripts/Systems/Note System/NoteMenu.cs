@@ -51,7 +51,7 @@ public class NoteMenu : MonoBehaviour
 
 	void Update()
 	{
-		if (MenuOpen && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.F)))
+		if (MenuOpen && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.F)))
 		{
 			CloseAll();
 
@@ -122,6 +122,30 @@ public class NoteMenu : MonoBehaviour
 		if (page.TitleText.GetComponent<TMP_Text>() != null) page.TitleText.GetComponent<TMP_Text>().text = note.Title;
 
 		if (page.Text.GetComponent<TMP_Text>() != null) page.Text.GetComponent<TMP_Text>().text = note.Content;
+
+		MenuOpen = true;
+
+
+		PauseMenu.Overiding = true;
+		PauseMenu.Paused = false;
+
+		pmc.Locked = true;
+		mlc.Locked = true;
+	}
+
+	public void OpenNote(NoteUtil.NoteType pageType, string title, string content)
+	{
+		if (!UIExist(pageType))
+		{
+			Debug.LogError("UI Element does not exsist");
+			return;
+		}
+
+		PageType page = OpenUI(pageType);
+
+		if (page.TitleText.GetComponent<TMP_Text>() != null) page.TitleText.GetComponent<TMP_Text>().text = title;
+
+		if (page.Text.GetComponent<TMP_Text>() != null) page.Text.GetComponent<TMP_Text>().text = content;
 
 		MenuOpen = true;
 

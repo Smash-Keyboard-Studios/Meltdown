@@ -36,6 +36,11 @@ public class CheckpointManager : MonoBehaviour
 
 	private int buildIndex = -1;
 
+	public int FireAmmo = 0;
+	public int IceAmmo = 0;
+
+	public Quaternion RotationOfPlayer;
+
 	void Awake()
 	{
 		if (Current != null && Current != this)
@@ -110,7 +115,16 @@ public class CheckpointManager : MonoBehaviour
 
 		while (PlayerFinder.Current.GetPlayerTransform().position == null)
 		{
+			yield return null;
+		}
 
+		while (LevelLoading.Instance == null)
+		{
+			yield return null;
+		}
+
+		while (LevelLoading.Instance.loading)
+		{
 			yield return null;
 		}
 
@@ -126,11 +140,16 @@ public class CheckpointManager : MonoBehaviour
 			{
 				whileNotInSpot = false;
 			}
+
+			PlayerFinder.Current.GetPlayerTransform().GetComponent<AmmoController>().FireAmmo = FireAmmo;
+			PlayerFinder.Current.GetPlayerTransform().GetComponent<AmmoController>().IceAmmo = IceAmmo;
+
+			PlayerFinder.Current.GetPlayerTransform().rotation = RotationOfPlayer;
+
 			yield return null;
 		}
 
 		PauseMenu.Paused = false;
-		print(Time.timeScale);
 
 		yield return null;
 	}
