@@ -23,7 +23,14 @@ public class MainMenu : MonoBehaviour
 	[Header("Comfirmation")]
 	[SerializeField] private GameObject comfirmationPrompt = null;
 
-	void Start()
+	private AudioSource source;
+
+    private void Awake()
+    {
+       source = GetComponent<AudioSource>();
+    }
+
+    void Start()
 	{
 		if (MouseLockManager.Instance != null) MouseLockManager.Instance.MouseVisable = true;
 
@@ -110,6 +117,16 @@ public class MainMenu : MonoBehaviour
 		SaveData.Current.Sensitivity = ControllerSenSlider.value;
 		SaveData.Current.ToggleCrouch = crouchToggle.isOn;
 		if (SaveManager.current != null) SaveManager.current.ForceSave();
+	}
+
+	public void Credits()
+	{
+		source.Play();
+	}
+
+	public void ExitCredits()
+	{
+		source.Stop();
 	}
 
 	public void LoadSettings()
