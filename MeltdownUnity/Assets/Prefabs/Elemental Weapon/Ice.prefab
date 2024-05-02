@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4451787239166252335}
   m_Layer: 7
   m_Name: IceSource
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -144,7 +144,7 @@ GameObject:
   - component: {fileID: -3572797040398046440}
   m_Layer: 7
   m_Name: Ice
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -308,7 +308,7 @@ GameObject:
   - component: {fileID: 6948847250429170148}
   m_Layer: 0
   m_Name: Ice Glow
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -424,6 +424,10 @@ PrefabInstance:
     - target: {fileID: 1192932448715432503, guid: 71ccd657106884e4c9d98b0a8069287c, type: 3}
       propertyPath: m_Name
       value: Ice_Spike
+      objectReference: {fileID: 0}
+    - target: {fileID: 1192932448715432503, guid: 71ccd657106884e4c9d98b0a8069287c, type: 3}
+      propertyPath: m_TagString
+      value: Projectile
       objectReference: {fileID: 0}
     - target: {fileID: 2001275063940692109, guid: 71ccd657106884e4c9d98b0a8069287c, type: 3}
       propertyPath: m_LocalPosition.x

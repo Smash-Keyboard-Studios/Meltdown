@@ -251,11 +251,13 @@ MonoBehaviour:
   - {fileID: 6090704476750242290}
   LengthOfOneSegment: 2
   MaxExtents: 12
+  MinExtents: 0
   Extending: 0
   Loop: 0
   IsPaused: 0
   PauseTime: 1
-  NormalSpeed: 1
+  NormalExtendingSpeed: 1
+  NormalRetractingSpeed: 1
   SlowSpeed: 0.2
   FrozenDuration: 3
   IsForzen: 0
@@ -333,7 +335,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 640
   IgnoredTags:
-  - MoveableObject
+  - Projectile
   _velocity: {x: 0, y: 0, z: 0}
   _lastPos: {x: 0, y: 0, z: 0}
 --- !u!1 &8818873280431656236
