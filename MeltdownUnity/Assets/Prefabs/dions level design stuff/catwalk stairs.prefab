@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &7641069907558937161
 Transform:
@@ -48,7 +48,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 0
 --- !u!4 &4303493821976191287
 Transform:
@@ -137,6 +137,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: b8fec4a2a011f2b4b811234d1353e407, type: 3}
       propertyPath: m_Name
       value: 24_Staricase V7
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b8fec4a2a011f2b4b811234d1353e407, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -232,6 +236,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: a5c56340c002d484b99a4654937a0278, type: 3}
       propertyPath: m_Name
       value: 24_Stariway RAIL V4
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a5c56340c002d484b99a4654937a0278, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

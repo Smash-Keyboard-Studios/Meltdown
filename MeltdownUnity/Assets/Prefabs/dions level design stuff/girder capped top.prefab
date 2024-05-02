@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &6432386659594134880
 Transform:
@@ -146,6 +146,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 07119e0a9d0f44d42a6daee645feaa6f, type: 3}
       propertyPath: m_Name
       value: 24_Girdre Top v2fbx
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 07119e0a9d0f44d42a6daee645feaa6f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
