@@ -4656,6 +4656,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3789835901177312305}
   - component: {fileID: 8668506616974445524}
+  - component: {fileID: 4965706102490674815}
   m_Layer: 6
   m_Name: Book
   m_TagString: Untagged
@@ -4701,6 +4702,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4965706102490674815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5611601727738210245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27784b605e42e2c45aa5b2e1fd8a40ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isOpen: 0
 --- !u!1 &5645784098063531043
 GameObject:
   m_ObjectHideFlags: 0
