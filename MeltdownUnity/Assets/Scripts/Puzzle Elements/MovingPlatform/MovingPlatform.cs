@@ -78,7 +78,7 @@ public class MovingPlatform : MonoBehaviour
 		// get the percent value for the max distance given, Making sure that if the maxed extents is over max length, then defult to 1 otherwise get the percentage. (ternary operation)
 		_multForMaxLength = MaxExtents / (LengthOfOneSegment * Segments.Length);
 		_multForMinLength = MinExtents / (LengthOfOneSegment * Segments.Length);
-		// Fuck no, I will not make this into a if statement.
+		// Nah I'd not win, I will not make this into a if statement.
 
 		// if the moving platform is looping, not pause, extending and the time is greater than 1.
 		// Start the pause coroutine and set the bool extending to false.
@@ -107,7 +107,10 @@ public class MovingPlatform : MonoBehaviour
 		{
 			_speed = NormalRetractingSpeed;
 		}
-
+		else if (IsForzen)
+		{
+			_speed = SlowSpeed;
+		}
 		// if the time is less than 1 and is extending than increment the time.
 		if (_time <= 1 && Extending)
 		{

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3421941125148811256}
   m_Layer: 7
   m_Name: FireSource
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -141,7 +141,7 @@ GameObject:
   - component: {fileID: 8219886867080546419}
   m_Layer: 0
   m_Name: Fire Glow
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -260,7 +260,7 @@ GameObject:
   - component: {fileID: 2788275720694972531}
   m_Layer: 7
   m_Name: Fire
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -360,8 +360,6 @@ MonoBehaviour:
   Active: 0
   TravelSource: {fileID: 3421941125148811256}
   TravelClip: {fileID: 8300000, guid: 395f54acf0500ec4fb004765434c2378, type: 3}
-  ImpactSource: {fileID: 0}
-  ImpactClip: {fileID: 8300000, guid: 4eca492e818b4ed4faf7b8f949b0393f, type: 3}
 --- !u!1001 &640439742451544083
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -373,6 +371,10 @@ PrefabInstance:
     - target: {fileID: 6277572391847654985, guid: 23007585c554d4542a9a6b405987e204, type: 3}
       propertyPath: m_Name
       value: Fire_Ball
+      objectReference: {fileID: 0}
+    - target: {fileID: 6277572391847654985, guid: 23007585c554d4542a9a6b405987e204, type: 3}
+      propertyPath: m_TagString
+      value: Projectile
       objectReference: {fileID: 0}
     - target: {fileID: 6653429049224899827, guid: 23007585c554d4542a9a6b405987e204, type: 3}
       propertyPath: m_LocalScale.x
