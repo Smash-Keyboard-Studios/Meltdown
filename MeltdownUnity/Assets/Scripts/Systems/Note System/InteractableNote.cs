@@ -37,12 +37,7 @@ public class InteractableNote : MonoBehaviour, IInteractable
 	void IInteractable.Interact()
 	{
 
-		if (note == null)
-		{
-			Debug.LogError("Cannot open note UI with no note | NullRefernceExeption");
-			return;
-		}
-
+		
 		NoteMenu.Current.OpenNote(noteType, Title, Content);
 	}
 }
