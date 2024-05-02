@@ -80,6 +80,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: OreCrusherMain
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d804adc98697ea24b87e64af260a097b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 2029525369266837727, guid: d804adc98697ea24b87e64af260a097b, type: 3}
       propertyPath: m_LocalPosition.z
       value: 2.7
@@ -156,10 +160,40 @@ PrefabInstance:
     - {fileID: -7609145667655734672, guid: d804adc98697ea24b87e64af260a097b, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d804adc98697ea24b87e64af260a097b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -1387753519547355014}
     - targetCorrespondingSourceObject: {fileID: -8986971110954034376, guid: d804adc98697ea24b87e64af260a097b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8395502678328242556}
   m_SourcePrefab: {fileID: 100100000, guid: d804adc98697ea24b87e64af260a097b, type: 3}
+--- !u!1 &2790112937023370513 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d804adc98697ea24b87e64af260a097b, type: 3}
+  m_PrefabInstance: {fileID: 3060496384499304512}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &-1387753519547355014
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2790112937023370513}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!1 &2972037502414738296 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8986971110954034376, guid: d804adc98697ea24b87e64af260a097b, type: 3}
