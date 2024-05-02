@@ -12,6 +12,21 @@ PrefabInstance:
       propertyPath: note
       value: 
       objectReference: {fileID: 11400000, guid: 47de6a46272367649b43f19acae7272e, type: 2}
+    - target: {fileID: 2431670464437694050, guid: 2c03597062e7ce7419d52d313adf2345, type: 3}
+      propertyPath: Title
+      value: 'Nestrova testing log 224 '
+      objectReference: {fileID: 0}
+    - target: {fileID: 2431670464437694050, guid: 2c03597062e7ce7419d52d313adf2345, type: 3}
+      propertyPath: Content
+      value: "Elemental core test 1: core works to specifics, heat receptors fire
+        correctly.\r\nExpected: heat energy from the fire shot to tigger core.  \r\nResult
+        : pulse of energy that can power low power objects\r\n\r\nElemental core
+        test 2: core connected to lamp, set to heat=deactivate. \r\nExpected: fire
+        shot to deactivate lamp.\r\nResult: when fired with the fire it triggered
+        a binary switch tuning off the lamp \r\n\r\nconclusion : these cores since
+        working correctly can be used to activate or deactivate other objects as
+        needed. Need to pass to sato for ice testing\r\n"
+      objectReference: {fileID: 0}
     - target: {fileID: 3048864983412298586, guid: 2c03597062e7ce7419d52d313adf2345, type: 3}
       propertyPath: m_Name
       value: note (4)
@@ -70,11 +85,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8819566581149910480, guid: 2c03597062e7ce7419d52d313adf2345, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 44.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819566581149910480, guid: 2c03597062e7ce7419d52d313adf2345, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 8819566581149910480, guid: 2c03597062e7ce7419d52d313adf2345, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -4.7000003
       objectReference: {fileID: 0}
     - target: {fileID: 8819566581149910480, guid: 2c03597062e7ce7419d52d313adf2345, type: 3}
       propertyPath: m_LocalRotation.w
