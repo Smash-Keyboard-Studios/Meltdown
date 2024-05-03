@@ -28,7 +28,7 @@ public class SaveData
 	//public PlayerProfile Profile;
 
 	public float Sensitivity = 1f;
-	public float MaxVolume = 50f;
+	public float MaxVolume = 0.7f;
 	public bool ToggleCrouch = false;
 
 	// touch and die

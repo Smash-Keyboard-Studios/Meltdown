@@ -1901,7 +1901,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 528
+  m_VersionIndex: 339
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -4892,6 +4892,7 @@ GameObject:
   - component: {fileID: 536144497670877050}
   - component: {fileID: 8713699506423556439}
   - component: {fileID: 2856735968076678442}
+  - component: {fileID: 3124153739502526792}
   m_Layer: 0
   m_Name: PlayerUI
   m_TagString: Untagged
@@ -5013,6 +5014,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   display: {fileID: 6757077272887345402}
   displayTexts: []
+--- !u!65 &3124153739502526792
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5868639989951689221}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5956475705919386826
 GameObject:
   m_ObjectHideFlags: 0
@@ -5370,7 +5392,7 @@ CharacterController:
   m_Height: 1.7
   m_Radius: 0.25
   m_SlopeLimit: 45
-  m_StepOffset: 0.3
+  m_StepOffset: 0.5
   m_SkinWidth: 0.0001
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
@@ -5440,7 +5462,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 623535424c117184e8f65580ca786374, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InteractionDistance: 1.75
+  InteractionDistance: 2
   interactKeycode: 101
   Crosshair: {fileID: -529358106, guid: 02bf526f517fa4940b8be7b35e37f93f, type: 3}
   Crosshair2: {fileID: 190125756, guid: 2ae56bb316dfb0d47a90b8a54031564d, type: 3}
@@ -6921,9 +6943,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 3332281331723007867}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 100
+  m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 78
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
