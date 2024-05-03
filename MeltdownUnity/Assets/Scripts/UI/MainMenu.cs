@@ -25,12 +25,12 @@ public class MainMenu : MonoBehaviour
 
 	private AudioSource source;
 
-    private void Awake()
-    {
-       source = GetComponent<AudioSource>();
-    }
+	private void Awake()
+	{
+		source = GetComponent<AudioSource>();
+	}
 
-    void Start()
+	void Start()
 	{
 		if (MouseLockManager.Instance != null) MouseLockManager.Instance.MouseVisable = true;
 
@@ -42,8 +42,8 @@ public class MainMenu : MonoBehaviour
 
 	public void StartNewGame()
 	{
-        SaveData.Current.CurrentLevel = 2;
-        if (SaveManager.current != null) SaveManager.current.ForceSave();
+		SaveData.Current.CurrentLevel = 2;
+		if (SaveManager.current != null) SaveManager.current.ForceSave();
 		LoadGameDialogYes();
 
 	}
@@ -77,7 +77,7 @@ public class MainMenu : MonoBehaviour
 	{
 		//Saves the volume changes
 		PlayerPrefs.SetFloat("masterVolume", AudioListener.volume);
-		StartCoroutine(ConfirmationBox());
+		if (!comfirmationPrompt.activeSelf) StartCoroutine(ConfirmationBox());
 	}
 
 	public void SetControllerSen(float sensitivity)
@@ -142,7 +142,7 @@ public class MainMenu : MonoBehaviour
 	{
 		//Displays a confirmation window and starts a timer. Once that timer ends the window will vanish.
 		comfirmationPrompt.SetActive(true);
-		yield return new WaitForSeconds(2);
+		yield return new WaitForSeconds(1);
 		comfirmationPrompt.SetActive(false);
 	}
 

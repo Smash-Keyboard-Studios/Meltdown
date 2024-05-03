@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 8819566581149910480}
   - component: {fileID: 7720082803285440436}
   - component: {fileID: 8607086524151152364}
-  - component: {fileID: 1564468811073215117}
   - component: {fileID: 2431670464437694050}
+  - component: {fileID: 3116150804131758026}
   m_Layer: 0
   m_Name: note
   m_TagString: note (clue)
@@ -29,10 +29,11 @@ Transform:
   m_GameObject: {fileID: 6484206360000324796}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.001, z: 0}
   m_LocalScale: {x: 0.3, y: 0.01, z: 0.5}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4289549545332296065}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!33 &7720082803285440436
@@ -50,7 +51,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6484206360000324796}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -85,7 +86,31 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1564468811073215117
+--- !u!114 &2431670464437694050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6484206360000324796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12d0c1d46de496e47be6743f61e168f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  note: {fileID: 0}
+  ObjectName: Note
+  noteType: 0
+  Title: 'To: Dr Petrov'
+  Content: "Hakase petrov, \r\nI have the report for you. \r\n\r\nAfter testing the
+    cryonic blast is able to almost instantly freeze small bodies of water.the throughput
+    has improved significantly since Hayward-san changed the feed tube. Will continue
+    to test.  \r\n\r\nIt was also discovered by a volunteer tester that the cryonic
+    has an effect on some machinery. \r\n\r\nThe service lift was effected slowing
+    down its descent. I believe this would work on other such hydraulic or liquid
+    based machinery. This could be good for offensive use. Will have to test the
+    full capabilities of this.\r\n\r\nDr Hana sato\r\n"
+--- !u!65 &3116150804131758026
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -104,18 +129,108 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.8, y: 10, z: 0.7}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2431670464437694050
-MonoBehaviour:
+--- !u!1001 &6439533852122321082
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8819566581149910480}
+    m_Modifications:
+    - target: {fileID: 7123106357382928699, guid: affd37667f529ee4ba034c06a93cfe56, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 12.712408
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123106357382928699, guid: affd37667f529ee4ba034c06a93cfe56, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 635.62054
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123106357382928699, guid: affd37667f529ee4ba034c06a93cfe56, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 21.187346
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123106357382928699, guid: affd37667f529ee4ba034c06a93cfe56, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.01069923
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123106357382928699, guid: affd37667f529ee4ba034c06a93cfe56, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123106357382928699, guid: affd37667f529ee4ba034c06a93cfe56, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.013294089
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123106357382928699, guid: affd37667f529ee4ba034c06a93cfe56, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123106357382928699, guid: affd37667f529ee4ba034c06a93cfe56, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123106357382928699, guid: affd37667f529ee4ba034c06a93cfe56, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123106357382928699, guid: affd37667f529ee4ba034c06a93cfe56, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123106357382928699, guid: affd37667f529ee4ba034c06a93cfe56, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123106357382928699, guid: affd37667f529ee4ba034c06a93cfe56, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123106357382928699, guid: affd37667f529ee4ba034c06a93cfe56, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607014982274941825, guid: affd37667f529ee4ba034c06a93cfe56, type: 3}
+      propertyPath: m_Name
+      value: 28_paperwork2_v1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7607014982274941825, guid: affd37667f529ee4ba034c06a93cfe56, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 846383270261219303}
+  m_SourcePrefab: {fileID: 100100000, guid: affd37667f529ee4ba034c06a93cfe56, type: 3}
+--- !u!1 &3516284610017760059 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7607014982274941825, guid: affd37667f529ee4ba034c06a93cfe56, type: 3}
+  m_PrefabInstance: {fileID: 6439533852122321082}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &846383270261219303
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6484206360000324796}
+  m_GameObject: {fileID: 3516284610017760059}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12d0c1d46de496e47be6743f61e168f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  note: {fileID: 0}
+  serializedVersion: 3
+  m_Size: {x: 0.036113817, y: 0.0014364702, z: 0.027469503}
+  m_Center: {x: -0.00011503213, y: 0.0012781805, z: -0.00012138543}
+--- !u!4 &4289549545332296065 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7123106357382928699, guid: affd37667f529ee4ba034c06a93cfe56, type: 3}
+  m_PrefabInstance: {fileID: 6439533852122321082}
+  m_PrefabAsset: {fileID: 0}

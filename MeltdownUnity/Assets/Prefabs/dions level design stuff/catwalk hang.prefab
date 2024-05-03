@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &4754926617040583577
 Transform:
@@ -45,6 +45,10 @@ PrefabInstance:
     - target: {fileID: 8323039515014302543, guid: 1fa5b0673fc7e1045927c9ab4848b193, type: 3}
       propertyPath: m_Name
       value: 24_Catwalk Long V3 (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8323039515014302543, guid: 1fa5b0673fc7e1045927c9ab4848b193, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 8703963826045309429, guid: 1fa5b0673fc7e1045927c9ab4848b193, type: 3}
       propertyPath: m_LocalScale.x
@@ -108,9 +112,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4754926617040583577}
     m_Modifications:
+    - target: {fileID: 5027202091738508677, guid: af51205d2c3c7e24ea067091048c819b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 7598515519494997844, guid: af51205d2c3c7e24ea067091048c819b, type: 3}
       propertyPath: m_Name
       value: girder capped bottom  (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7598515519494997844, guid: af51205d2c3c7e24ea067091048c819b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 8120691936802999817, guid: af51205d2c3c7e24ea067091048c819b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -170,9 +182,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4754926617040583577}
     m_Modifications:
+    - target: {fileID: 5027202091738508677, guid: af51205d2c3c7e24ea067091048c819b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 7598515519494997844, guid: af51205d2c3c7e24ea067091048c819b, type: 3}
       propertyPath: m_Name
       value: 'girder capped bottom '
+      objectReference: {fileID: 0}
+    - target: {fileID: 7598515519494997844, guid: af51205d2c3c7e24ea067091048c819b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 8120691936802999817, guid: af51205d2c3c7e24ea067091048c819b, type: 3}
       propertyPath: m_LocalPosition.x
