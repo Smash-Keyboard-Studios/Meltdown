@@ -116,6 +116,8 @@ public class TriggerDetection : MonoBehaviour
 	{
 		try
 		{
+			if (CompareTag(other.transform)) return;
+
 			// can optimise this, I wont as time is a pain. :yes:
 			if (other.transform.parent == null)
 			{
@@ -202,7 +204,14 @@ public class TriggerDetection : MonoBehaviour
 				rb.angularDrag = 10000f;
 
 				// allows the player to go down on vertical moving platforms.
-				rb.velocity = new Vector3(_velocity.x, (rb.velocity.y < -2 ? -2 : rb.velocity.y), _velocity.z);
+
+				Vector3 velocityForEntity = new Vector3(_velocity.x, (rb.velocity.y < -2 ? -2 : rb.velocity.y), _velocity.z);
+
+				if (_velocity.x <= 0 && _velocity.x >= 0) velocityForEntity.x = 0;
+				if (_velocity.z <= 0 && _velocity.z >= 0) velocityForEntity.z = 0;
+
+
+				rb.velocity = velocityForEntity;
 			}
 		}
 
