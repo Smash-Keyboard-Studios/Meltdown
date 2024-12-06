@@ -33,7 +33,7 @@ MonoBehaviour:
   m_EnableLODCrossFade: 1
   m_LODCrossFadeDitheringType: 1
   m_ShEvalMode: 0
-  m_LightProbeSystem: 0
+  m_LightProbeSystem: 1
   m_ProbeVolumeMemoryBudget: 1024
   m_ProbeVolumeBlendingMemoryBudget: 128
   m_SupportProbeVolumeStreaming: 0
@@ -95,14 +95,30 @@ MonoBehaviour:
       bounds:
         m_Center: {x: 0, y: 0, z: 0}
         m_Extent: {x: 81, y: 81, z: 81}
+    - sceneGUID: 908c78f48249de341a76b34ab11790fc
+      bounds:
+        m_Center: {x: 40.5, y: 0, z: 0}
+        m_Extent: {x: 121.5, y: 81, z: 162}
+    - sceneGUID: fce30048b45f7564da1dcf31136d54a4
+      bounds:
+        m_Center: {x: 0, y: 0, z: 0}
+        m_Extent: {x: 81, y: 81, z: 81}
+    - sceneGUID: cedff5f4fe69a4a48a5c39fe56705e8c
+      bounds:
+        m_Center: {x: 40.5, y: 0, z: 0}
+        m_Extent: {x: 40.5, y: 81, z: 81}
     serializedHasVolumes:
     - sceneGUID: c4e22d76931989c49932e29fd9c87a21
       hasProbeVolumes: 0
     - sceneGUID: 908c78f48249de341a76b34ab11790fc
-      hasProbeVolumes: 0
+      hasProbeVolumes: 1
+    - sceneGUID: fce30048b45f7564da1dcf31136d54a4
+      hasProbeVolumes: 1
+    - sceneGUID: cedff5f4fe69a4a48a5c39fe56705e8c
+      hasProbeVolumes: 1
     bakingSets:
+    - {fileID: 11400000, guid: 21874e73ea3dbd344b2495c3f75d7cd0, type: 2}
     - {fileID: 11400000, guid: dc2acb7db2a57f9458392dfd7c842e22, type: 2}
-    - {fileID: 0}
     m_LightingScenario: Default
   m_PrefilteringModeMainLightShadows: 3
   m_PrefilteringModeAdditionalLight: 3
